@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Authorities } from 'src/app/model/authorities.model';
 import { Utilisateur } from 'src/app/model/utilisateur.model';
-import { Observable, Subscription, map, startWith } from 'rxjs';
+import { EMPTY, Observable, Subscription, catchError, map, startWith, switchMap, tap } from 'rxjs';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { NotificationService } from 'src/app/services/notification.service';
 import { UtilisateurService } from 'src/app/services/utilisateur.service';
@@ -76,6 +76,7 @@ export class UtilisateurAjouterComponent implements OnInit, OnDestroy {
     this.listeFonctions();
     this.listeAgents();
     this.listeAuthorities();
+    this.listeUtilisateurs();
 
     this.filteredAgents = this.control.valueChanges.pipe(
       startWith(''),
@@ -184,6 +185,24 @@ export class UtilisateurAjouterComponent implements OnInit, OnDestroy {
   // ---------------------------------------------------------------------------------------------------------------------
 
 
+  // ---------------------------------------------------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------------------------------------------------
+  public listeUtilisateurs(): void {
+
+    const subscription = this.utilisateurService.listeUsers().subscribe({
+      next: (response: Utilisateur[]) => {
+        this.utilisateurs = response;
+      },
+      error: (errorResponse: HttpErrorResponse) => {
+        // console.log(errorResponse);
+      },
+    });
+
+    this.subscriptions.push(subscription);
+  }
+  // ---------------------------------------------------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------------------------------------------------
+
 
   popupFermer(): void {
     this.dialogRef.close();
@@ -207,73 +226,65 @@ export class UtilisateurAjouterComponent implements OnInit, OnDestroy {
     this.clickButton('utilisateur-form')
   }
 
+
+
+  // Méthode pour ajouter un utilisateur
   public ajouterUtilisateur(UtilisateurForm: NgForm): void {
 
     this.condition = true;
-
     this.utilisateur = new Utilisateur();
+
+    // Nettoyer les abonnements précédents
+    // this.subscriptions.forEach(sub => sub.unsubscribe());
+    // this.subscriptions = [];
+
+    let agent1: Agent | null = this.agents.find(agent => agent.matriculeAgent === this.agent.matriculeAgent) ?? null;
+
+    // console.log(agent1, this.agent);
     
-    // console.log(this.utilisateur);
 
-    // ------------------------------------------------------------------------------------------------------
-    this.subscriptions.push(this.agentService.recupererAgentById(this.agent.matriculeAgent).subscribe({
-      next: (response: Agent) => {
-        console.log(response);
-        this.agent = response;
+    if (!agent1) {
+      this.condition = false;
+      this.sendNotification(NotificationType.ERROR, `Cet agent n'existe pas`);
+      return;
+    }
 
-        if (!this.agent) {
-          this.condition = false;
-          this.sendNotification(NotificationType.ERROR, `Cet agent n'existe pas`);
+    this.utilisateur.codeFonction = UtilisateurForm.value.codeFonction;
+    this.utilisateur.userName = this.agent.matriculeAgent;
+    this.utilisateur.authorities = [UtilisateurForm.value.authorities];
+    this.utilisateur.matriculeAgent = this.agent;
+    this.utilisateur.joinDate = null;
+    this.utilisateur.lastLoginDate = null;
+    this.utilisateur.lastLoginDateDisplay = null;
+    this.utilisateur.motDePasse = null;
+
+    let utilisateur1: Utilisateur | null = this.utilisateurs.find(utilisateur => utilisateur.userName === this.utilisateur.userName) ?? null;
+
+    if (utilisateur1) {
+      this.condition = false;
+      this.sendNotification(NotificationType.ERROR, `Cet utilisateur existe déjà`);
+      return;
+    }
+
+    if (this.condition) {
+
+      console.log(this.utilisateur);
+
+      this.subscriptions.push(this.utilisateurService.ajouterUser(this.utilisateur).subscribe({
+        next: () => {
+          this.popupFermer();
+          this.sendNotification(NotificationType.SUCCESS, `Ajout réussi du utilisateur`);
+        },
+        error: (errorResponse: HttpErrorResponse) => {
+          // Gérer les erreurs ici
         }
+      }));
 
-        this.utilisateur.codeFonction = UtilisateurForm.value.codeFonction;
-        this.utilisateur.userName = this.agent.matriculeAgent;
+    }
 
-        // ------------------------------------------------------------------------------------------------------
-        this.subscriptions.push(this.utilisateurService.recupererUserByUserName(this.utilisateur.userName).subscribe({
-          next: (response: Utilisateur) => {
-
-            if (response) {
-              this.condition = false;
-              this.sendNotification(NotificationType.ERROR, `Cet utilisateur existe déjà`);
-            }
-
-            // ------------------------------------------------------------------------------------------------------
-            if (this.condition) {
-              this.utilisateur.authorities = [UtilisateurForm.value.authorities];
-
-              console.log(this.utilisateur);
-
-              // pas sa place
-              setTimeout(() => {
-                this.popupFermer();
-                this.sendNotification(NotificationType.SUCCESS, `Ajout réussi du utilisateur`);
-              }, 2500);
-
-              this.subscriptions.push(this.utilisateurService.ajouterUser(this.utilisateur).subscribe({
-                next: (response: Utilisateur) => {
-                  // console.log(response);
-                  // this.popupFermer();
-                  // this.sendNotification(NotificationType.SUCCESS, `Ajout réussi du utilisateur`);
-                },
-                error: (errorResponse: HttpErrorResponse) => {
-
-                }
-              }));
-            }
-          },
-          error: (errorResponse: HttpErrorResponse) => {
-
-          }
-        }));
-
-      },
-      error: (errorResponse: HttpErrorResponse) => {
-
-      }
-    }));
 
   }
+
 
 
 

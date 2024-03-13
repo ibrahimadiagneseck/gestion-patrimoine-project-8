@@ -76,7 +76,7 @@ export class UniteDouaniereService {
   }
 
   public supprimerUniteDouaniere(codeUniteDouaniere: string): Observable<CustomHttpRespone> {
-    return this.httpClient.delete<CustomHttpRespone>(`${this.urlServeur}/SupprimerUniteDouaniereByUniteDouaniereId/${codeUniteDouaniere}`, { withCredentials: true });
+    return this.httpClient.delete<CustomHttpRespone>(`${this.urlServeur}/SupprimerUniteDouaniereById/${codeUniteDouaniere}`, { withCredentials: true });
   }
 
   public recupererUniteDouaniereById(codeUniteDouaniere: string): Observable<UniteDouaniere> {

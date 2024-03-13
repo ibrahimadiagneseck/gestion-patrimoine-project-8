@@ -12,6 +12,10 @@ public interface AuthorityService {
     void deleteAuthority(Authorities c);
     void deleteAuthorityById(Integer id);
     Authorities getAuthorityById(Integer id);
+
+//    Authorities getAuthorityByNameAuthority(String nameAuthority);
+
+
     List<Authorities> getAllAuthorities();
 
 

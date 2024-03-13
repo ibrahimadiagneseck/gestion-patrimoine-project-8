@@ -9,6 +9,7 @@ import { FonctionService } from 'src/app/services/fonction.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { SecteurActiviteService } from 'src/app/services/secteur-activite.service';
 import { SectionsService } from 'src/app/services/sections.service';
+import { UniteDouaniereService } from 'src/app/services/unite-douaniere.service';
 // import { UtilisateurService } from 'src/app/services/utilisateur.service';
 
 @Component({
@@ -28,8 +29,8 @@ export class PopupConfirmationSupprimerComponent implements OnInit, OnDestroy {
     private agentService: AgentService,
     private secteurActiviteService: SecteurActiviteService,
     private sectionsService: SectionsService,
+    private uniteDouaniereService: UniteDouaniereService,
     private fonctionService: FonctionService
-
   ) { }
 
 
@@ -103,6 +104,20 @@ export class PopupConfirmationSupprimerComponent implements OnInit, OnDestroy {
             })
           );
           break;
+
+          case "uniteDouaniere":
+            this.subscriptions.push(
+              this.uniteDouaniereService.supprimerUniteDouaniere(id).subscribe({
+                next: (response: CustomHttpRespone) => {
+                  this.popupFermer();
+                  this.sendNotification(NotificationType.SUCCESS, response.message);
+                },
+                error: (erreurs: HttpErrorResponse) => {
+                  console.log(erreurs);
+                }
+              })
+            );
+            break;
 
 
       default:

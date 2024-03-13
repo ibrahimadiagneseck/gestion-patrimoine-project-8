@@ -51,10 +51,7 @@ export class UniteDouaniereDetailComponent implements OnInit, OnDestroy  {
   }
 
   ngOnInit(): void {
-
     this.listeTypeUniteDouanieres();
-
-
   }
 
 
@@ -181,5 +178,6 @@ export class UniteDouaniereDetailComponent implements OnInit, OnDestroy  {
     );
   }
 
+  
 
 }

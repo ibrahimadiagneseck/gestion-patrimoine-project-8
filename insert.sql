@@ -19,7 +19,9 @@ INSERT INTO "sections" ("code_section", "libelle_section", "code_unite_douaniere
 INSERT INTO "agent" ("matricule_agent", "email_agent", "nom_agent", "numero_sommier", "numero_telephone_agent", "prenom_agent", "code_section", "code_unite_douaniere") VALUES
 ('613693H', 'IBRAHIMA@ESP.SN',  'SECK', 'D3485',    773456789,  'IBRAHIMA DIAGNE',  'SG',   '06K'),
 ('506234B', 'OUMOU@ESP.SN',  'DIALLO',   'D2273',    777654321,  'OUMOU HAWA',   'SG',   '06K'),
-('622543E', 'ADMIN@ESP.SN', 'ADMIN',    'D2814',    775555555,  'ADMINISTRATEUR',   'SG',   '06K');
+('622545C', 'ADMIN1@ESP.SN', 'ADMIN1',    'D281t',    675555555,  'ADMINISTRATEUR1',   'SG',   '06K'),
+('622549D', 'ADMIN2@ESP.SN', 'ADMIN2',    'D281b',    975555555,  'ADMINISTRATEUR2',   'SG',   '06K'),
+('622543E', 'ADMIN3@ESP.SN', 'ADMIN3',    'D281a',    175555555,  'ADMINISTRATEUR3',   'SG',   '06K');
 
 
 

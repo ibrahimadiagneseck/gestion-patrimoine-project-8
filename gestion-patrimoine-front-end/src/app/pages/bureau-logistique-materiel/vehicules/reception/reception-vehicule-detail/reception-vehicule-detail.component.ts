@@ -43,7 +43,7 @@ export class ReceptionVehiculeDetailComponent implements OnInit, OnDestroy {
   public prestataire: Prestataires = new Prestataires();
 
   public bonEntrees: BonEntree[] = [];
-  public bonEntree: BonEntree | undefined;
+  public bonEntree: BonEntree = new BonEntree();
 
   public articleBonEntrees: ArticleBonEntree[] = [];
   public articleBonEntree: ArticleBonEntree | undefined;
@@ -147,7 +147,7 @@ export class ReceptionVehiculeDetailComponent implements OnInit, OnDestroy {
           this.listeVehicules();
         },
         error: (errorResponse: HttpErrorResponse) => {
-
+          // this.router.navigate(['/accueil']);
         }
       }));
     }
@@ -216,10 +216,9 @@ export class ReceptionVehiculeDetailComponent implements OnInit, OnDestroy {
           this.filtreVehiculeBonEntree(this.vehicules, this.bonEntree);
         } else {
           console.error('bonEntree is undefined');
+          // this.router.navigate(['/accueil']);
         }
-
-
-
+        
       },
       error: (errorResponse: HttpErrorResponse) => {
         // console.log(errorResponse);
@@ -285,7 +284,7 @@ export class ReceptionVehiculeDetailComponent implements OnInit, OnDestroy {
 
 
 
-  popupAjouterArticle(bonEntree: BonEntree | undefined): void {
+  popupAjouterArticle(bonEntree: BonEntree): void {
     const dialogRef = this.matDialog.open(
       ReceptionVehiculeAjouterArticleComponent,
       {
@@ -301,7 +300,7 @@ export class ReceptionVehiculeDetailComponent implements OnInit, OnDestroy {
     });
   }
 
-  popupModifierBonEntree(bonEntree: BonEntree | undefined): void {
+  popupModifierBonEntree(bonEntree: BonEntree): void {
     const dialogRef = this.matDialog.open(
       ReceptionVehiculeModifierBonEntreeComponent,
       {

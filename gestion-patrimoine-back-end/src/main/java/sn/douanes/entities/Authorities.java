@@ -28,7 +28,7 @@ public class Authorities {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO,generator="native")
     @GenericGenerator(name = "native",strategy = "native")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "CODE_AUTHORITY", nullable = false, updatable = false, length = 25)
     private Integer codeAuthority;
 

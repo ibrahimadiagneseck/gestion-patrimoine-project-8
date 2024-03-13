@@ -42,6 +42,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { DotationVehiculeAjouterComponent } from './vehicules/dotation/dotation-vehicule-ajouter/dotation-vehicule-ajouter.component';
+import { DotationVehiculeDetailComponent } from './vehicules/dotation/dotation-vehicule-detail/dotation-vehicule-detail.component';
 
 // Enregistrer les données de localisation française
 registerLocaleData(localeFr);
@@ -64,7 +65,8 @@ registerLocaleData(localeFr);
     DotationVehiculeListeComponent,
     DotationVehiculeAjouterBonSortieComponent,
     DotationVehiculeDetailBonSortieComponent,
-    DotationVehiculeAjouterComponent
+    DotationVehiculeAjouterComponent,
+    DotationVehiculeDetailComponent
   ],
   imports: [
     BrowserModule,

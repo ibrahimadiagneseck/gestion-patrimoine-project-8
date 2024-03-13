@@ -19,11 +19,16 @@ import { UniteDouaniereService } from 'src/app/services/unite-douaniere.service'
 import { DotationVehicule } from 'src/app/model/dotation-vehicule.model';
 
 
-import {startWith, map, switchMap} from 'rxjs/operators';
-import {AsyncPipe} from '@angular/common';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { startWith, map, switchMap } from 'rxjs/operators';
+import { AsyncPipe } from '@angular/common';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { DotationVehiculeService } from 'src/app/services/dotation-vehicule.service';
+import { ArticleBonSortie } from 'src/app/model/article-bon-sortie.model';
+import { BonPour } from 'src/app/model/bon-pour.model';
+import { BonSortieService } from 'src/app/services/bon-sortie.service';
+import { BonSortie } from 'src/app/model/bon-sortie.model';
 
 @Component({
   selector: 'app-consultation-vehicule-liste',
@@ -34,17 +39,32 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 })
 export class ConsultationVehiculeListeComponent implements OnInit, OnDestroy {
 
+
   public control = new FormControl('');
-  public filteredUniteDouanieres: Observable<UniteDouaniere[]> | undefined;
+  public filteredUniteDouanieres: Observable<UniteDouaniere[]> | undefined;
 
   public vehicules: Vehicule[] = [];
-  public vehicule: Vehicule | undefined;
+  public vehicule: Vehicule = new Vehicule();
+
+  public bonSorties: BonSortie[] = [];
+  public bonSortie: BonSortie = new BonSortie();
+
+  // public bonSorties: BonSortie[] = [];
+  // public bonSortie: BonSortie = new BonSortie();
 
   public uniteDouanieres: UniteDouaniere[] = [];
   public uniteDouaniere: UniteDouaniere | undefined;
 
   public lieuStockageVehicules: LieuStockageVehicule[] = [];
   public lieuStockageVehicule: LieuStockageVehicule | undefined;
+
+  public dotationVehicules: DotationVehicule[] = [];
+  public dotationVehicule: DotationVehicule | undefined;
+
+  public articleBonSorties: ArticleBonSortie[] = [];
+  public articleBonSortie: ArticleBonSortie | undefined;
+
+
 
   private subscriptions: Subscription[] = [];
 
@@ -103,7 +123,7 @@ export class ConsultationVehiculeListeComponent implements OnInit, OnDestroy {
     // "numeroCarteGrise",
     // "dateMiseEnCirculation",
     // "rowTypeVehicule",
-    // "rowUniteDouaniere"
+    // "rowNomUniteDouaniere"
   ];
   dataSource = new MatTableDataSource<Vehicule>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -111,9 +131,10 @@ export class ConsultationVehiculeListeComponent implements OnInit, OnDestroy {
     "rowNumber",
     "rowLibelleArticleBonEntree",
     "rowLieuStockageVehicule",
-    "numeroSerie",
+    // "numeroSerie",
     // "rowEtat",
     "rowTypeEnergie",
+    // "rowNomUniteDouaniere",
     "rowNombreAgeVehicule"
   ];
   displayedColumnsCustom: string[] = [
@@ -122,6 +143,7 @@ export class ConsultationVehiculeListeComponent implements OnInit, OnDestroy {
     "Lieu stockage vehicule",
     // "Etat vehicule",
     "Type energie",
+    // "Nom unité",
     "Age (années)"
 
 
@@ -133,6 +155,9 @@ export class ConsultationVehiculeListeComponent implements OnInit, OnDestroy {
     private lieuStockageVehiculeService: LieuStockageVehiculeService,
     private uniteDouaniereService: UniteDouaniereService,
     private matDialog: MatDialog,
+    private dotationVehiculeService: DotationVehiculeService,
+    private bonSortieService: BonSortieService,
+
   ) { }
 
   ngOnDestroy(): void {
@@ -143,12 +168,14 @@ export class ConsultationVehiculeListeComponent implements OnInit, OnDestroy {
 
     this.filteredUniteDouanieres = this.control.valueChanges.pipe(
       startWith(''),
-      map(value => this._filter(value || '')),
-    );
+      map(value => this._filter(value || '')),
+    );
 
-    this.listeVehicules();
+    this.listeDotationVehicule();
+    // this.listeVehicules();
     this.listeLieuStockageVehicules();
     this.listeUniteDouanieres();
+    this.listeBonSorties();
 
 
     /* ----------------------------------------------------------------------------------------- */
@@ -250,8 +277,8 @@ export class ConsultationVehiculeListeComponent implements OnInit, OnDestroy {
   }
 
   private _normalizeValue(value: string): string {
-    return value.toLowerCase().replace(/\s/g, '');
-  }
+    return value.toLowerCase().replace(/\s/g, '');
+  }
   // -------------------------------------------------------------------------------------------
   // -------------------------------------------------------------------------------------------
 
@@ -342,9 +369,12 @@ export class ConsultationVehiculeListeComponent implements OnInit, OnDestroy {
           rowLibelleArticleBonEntree: item.codeArticleBonEntree.libelleArticleBonEntree,
           rowLieuStockageVehicule: item.codeArticleBonEntree.codeLieuVH.libellleLieuVH,
           rowNombreAgeVehicule: this.calculerAgeVehicule(new Date(item.dateMiseEnCirculation.toString())),
+          rowNomUniteDouaniere: this.identifiantBonSortieByDotationVehicules(item, this.dotationVehicules),
           rowNumber: this.rowNumber++,
         })));
 
+
+        console.log(this.dataSource);
 
         // console.log(this.dataSource.data);
         this.dataSource.paginator = this.paginator;
@@ -357,6 +387,33 @@ export class ConsultationVehiculeListeComponent implements OnInit, OnDestroy {
     this.subscriptions.push(subscription);
   }
 
+
+  identifiantBonSortieByDotationVehicules(vehicule: Vehicule, dotationVehicules: DotationVehicule[]): string {
+
+    let identifiantBonSortie = "";
+
+    for (let dotationVehicule of dotationVehicules) {
+
+      if (vehicule.numeroSerie === dotationVehicule.numeroSerie.numeroSerie) {
+        identifiantBonSortie = dotationVehicule.codeArticleBonSortie.identifiantBonSortie;
+        return this.identifiantBonPourByIdentifiantBonSortie(identifiantBonSortie);
+      }
+    }
+
+    return "";
+  }
+
+  identifiantBonPourByIdentifiantBonSortie(identifiantBonSortie: string): string {
+
+    let bonSortie: BonSortie | undefined;
+
+    // console.log(this.bonSorties);
+
+    bonSortie = this.bonSorties.find(bonSortie => bonSortie.identifiantBonSortie === identifiantBonSortie);
+
+    return bonSortie? bonSortie.identifiantBonPour.codeUniteDouaniere.nomUniteDouaniere : "";
+  }
+
   public listeLieuStockageVehicules(): void {
 
     const subscription = this.lieuStockageVehiculeService.listeLieuStockageVehicules().subscribe({
@@ -364,6 +421,22 @@ export class ConsultationVehiculeListeComponent implements OnInit, OnDestroy {
         this.lieuStockageVehicules = response;
         // console.log(this.secteurActivites);
 
+      },
+      error: (errorResponse: HttpErrorResponse) => {
+        // console.log(errorResponse);
+      },
+    });
+
+    this.subscriptions.push(subscription);
+  }
+
+  public listeBonSorties(): void {
+
+    const subscription = this.bonSortieService.listeBonSorties().subscribe({
+      next: (response: BonSortie[]) => {
+        this.bonSorties = response;
+        // console.log(this.bonSorties);
+        this.listeVehicules();
       },
       error: (errorResponse: HttpErrorResponse) => {
         // console.log(errorResponse);
@@ -390,7 +463,21 @@ export class ConsultationVehiculeListeComponent implements OnInit, OnDestroy {
     this.subscriptions.push(subscription);
   }
 
+  public listeDotationVehicule(): void {
 
+    const subscription = this.dotationVehiculeService.listeDotationVehicules().subscribe({
+      next: (response: DotationVehicule[]) => {
+        this.dotationVehicules = response;
+        this.listeBonSorties();
+
+      },
+      error: (errorResponse: HttpErrorResponse) => {
+        // console.log(errorResponse);
+      },
+    });
+
+    this.subscriptions.push(subscription);
+  }
 
 
   popupDetail(vehicule: Vehicule): void {
@@ -427,12 +514,12 @@ export class ConsultationVehiculeListeComponent implements OnInit, OnDestroy {
   }
 
 
-//   libelleUniteDouaniere(vehicule: Vehicule, dotationVehiculeVehicules: DotationVehiculeVehicule[]): string {
-//     const dotation = dotationVehiculeVehicules.find(dotation => dotation.numeroSerie.numeroSerie === vehicule.numeroSerie);
-//     console.log(dotation);
+  //   libelleUniteDouaniere(vehicule: Vehicule, dotationVehiculeVehicules: DotationVehiculeVehicule[]): string {
+  //     const dotation = dotationVehiculeVehicules.find(dotation => dotation.numeroSerie.numeroSerie === vehicule.numeroSerie);
+  //     console.log(dotation);
 
-//     return dotation ? dotation.identifiantDV.identifiantBS.identifiantBS.identifiantBP.codeUniteDouaniere.nomUniteDouaniere : '';
-// }
+  //     return dotation ? dotation.identifiantDV.identifiantBS.identifiantBS.identifiantBP.codeUniteDouaniere.nomUniteDouaniere : '';
+  // }
 
 
 

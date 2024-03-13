@@ -97,7 +97,6 @@ export class ReceptionVehiculeAjouterBonEntreeComponent implements OnInit, OnDes
     this.listeAgent();
     this.listeSections();
     this.listeBordereauLivraisons();
-
   }
 
 
@@ -109,7 +108,6 @@ export class ReceptionVehiculeAjouterBonEntreeComponent implements OnInit, OnDes
       next: (response: BordereauLivraison[]) => {
         this.bordereauLivraisons = response;
         // console.log(this.bordereauLivraisons);
-
       },
       error: (errorResponse: HttpErrorResponse) => {
         // console.log(errorResponse);
@@ -121,6 +119,7 @@ export class ReceptionVehiculeAjouterBonEntreeComponent implements OnInit, OnDes
   // ---------------------------------------------------------------------------------------------------------------------
   // ---------------------------------------------------------------------------------------------------------------------
 
+
   // ---------------------------------------------------------------------------------------------------------------------
   // ---------------------------------------------------------------------------------------------------------------------
   public listeAgents(): void {
@@ -129,7 +128,6 @@ export class ReceptionVehiculeAjouterBonEntreeComponent implements OnInit, OnDes
       next: (response: Agent[]) => {
         this.agents = response;
         // console.log(this.agents);
-
       },
       error: (errorResponse: HttpErrorResponse) => {
         // console.log(errorResponse);
@@ -162,6 +160,7 @@ export class ReceptionVehiculeAjouterBonEntreeComponent implements OnInit, OnDes
   // ---------------------------------------------------------------------------------------------------------------------
   // ---------------------------------------------------------------------------------------------------------------------
 
+
   // ---------------------------------------------------------------------------------------------------------------------
   // ---------------------------------------------------------------------------------------------------------------------
   public listeSections(): void {
@@ -190,7 +189,6 @@ export class ReceptionVehiculeAjouterBonEntreeComponent implements OnInit, OnDes
       next: (response: Agent[]) => {
         this.agents = response;
         // console.log(this.prestataires);
-
       },
       error: (errorResponse: HttpErrorResponse) => {
         // console.log(errorResponse);
@@ -209,17 +207,17 @@ export class ReceptionVehiculeAjouterBonEntreeComponent implements OnInit, OnDes
     document.getElementById(buttonId)?.click();
   }
 
+
   // pour envoyer tous les formulaires
   public submitForm(): void {
     this.submitBordereauLivraisonForm();
   }
 
 
-
   // --------------------------------------------------------------------------
   // pour executer ajouterBordereauLivraison
   public submitBordereauLivraisonForm(): void {
-    this.clickButton('bordereau-livraison-form')
+    this.clickButton('bordereau-livraison-form');
   }
 
   public ajouterBordereauLivraison(BordereauLivraisonForm: NgForm): void {

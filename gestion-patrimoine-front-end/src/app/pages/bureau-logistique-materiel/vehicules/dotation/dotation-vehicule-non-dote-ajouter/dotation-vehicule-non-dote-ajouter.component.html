@@ -1,0 +1,44 @@
+<div class="card shadow">
+
+  <div class="card-header text-center fw-bold bg-myprimary fs-5">
+      Détail
+  </div>
+
+  <div class="card-body">
+
+          <!-- ------------------Véhicule-------------------------------------------------------- -->
+          <div class="text-center fw-bolder bg-myprimary mt-1" role="alert">
+              Véhicule
+          </div>
+
+          <div class="container px-3 py-2">
+              <app-vehicule-detail #dataVehicule></app-vehicule-detail>
+          </div>
+
+
+   </div>
+
+
+      <!-- -------------------------------------------------------------------------- -->
+      <div class="container px-3 py-2">
+          <div class="row">
+              <div class="col-12 text-end">
+                  <!-- <button (click)="supprimerVehiculeById(data.vehicule.numeroSerie)"  type="button" class="btn btn-mybrown fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour supprimer">
+                      Supprimer
+                  </button>
+
+                  <button  type="button" class="btn btn-myprimary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
+                      Modifier
+                  </button> -->
+
+                  <button (click)="popupFermer()" type="button" class="btn btn-mysecondary fw-bold mx-2"
+                      data-bs-toggle="tooltip" title="cliquer ici pour retourner">
+                      Retour
+                  </button>
+              </div>
+          </div>
+      </div>
+  </div>
+
+
+

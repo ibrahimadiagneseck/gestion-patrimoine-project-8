@@ -189,8 +189,13 @@ export class UtilisateurListeComponent implements OnInit, OnDestroy {
       item.matriculeAgent.numeroTelephoneAgent,
       item.matriculeAgent.codeSection.libelleSection,
       item.matriculeAgent.codeUniteDouaniere.nomUniteDouaniere,
-      `${new Date(item.joinDate.toString()).getDate()} ${months[new Date(item.joinDate.toString()).getMonth()]} ${new Date(item.joinDate.toString()).getFullYear() % 100}`,
-      `${new Date(item.lastLoginDateDisplay.toString()).getDate()} ${months[new Date(item.lastLoginDateDisplay.toString()).getMonth()]} ${new Date(item.lastLoginDateDisplay.toString()).getFullYear() % 100}`,
+      // `${new Date(item.joinDate.toString()).getDate()} ${months[new Date(item.joinDate.toString()).getMonth()]} ${new Date(item.joinDate.toString()).getFullYear() % 100}`,
+      // `${new Date(item.lastLoginDateDisplay.toString()).getDate()} ${months[new Date(item.lastLoginDateDisplay.toString()).getMonth()]} ${new Date(item.lastLoginDateDisplay.toString()).getFullYear() % 100}`,
+      
+      `${item.joinDate ? new Date(item.joinDate.toString()).getDate() + ' ' + months[new Date(item.joinDate.toString()).getMonth()] + ' ' + new Date(item.joinDate.toString()).getFullYear() % 100 : ''}`,
+      `${item.lastLoginDateDisplay ? new Date(item.lastLoginDateDisplay.toString()).getDate() + ' ' + months[new Date(item.lastLoginDateDisplay.toString()).getMonth()] + ' ' + new Date(item.lastLoginDateDisplay.toString()).getFullYear() % 100 : ''}`,
+
+
       item.active,
       item.notLocked,
       item.codeFonction.libelleFonction,

@@ -27,7 +27,6 @@ export class UtilisateurDetailComponent implements OnInit, OnDestroy  {
 
   afficherPopupDetail: boolean = true;
 
-
   public fonctions: Fonction[] = [];
   public fonction: Fonction = new Fonction();
 
@@ -173,25 +172,28 @@ export class UtilisateurDetailComponent implements OnInit, OnDestroy  {
 
     // console.log(UtilisateurForm.value);
 
-    UtilisateurForm.value.codeFonction = this.fonctions.find(fonction => fonction.libelleFonction === UtilisateurForm.value.codeFonction) ?? new Fonction();
-    UtilisateurForm.value.authorities = [this.authorities.find(authority => authority.nameAuthority === UtilisateurForm.value.authorities) ?? new Authorities()];
-    UtilisateurForm.value.userName = this.utilisateur.userName;
-    UtilisateurForm.value.matriculeAgent = this.utilisateur.matriculeAgent;
+    let utilisateur1: Utilisateur = new Utilisateur();
 
-    UtilisateurForm.value.active = !UtilisateurForm.value.active;
-    UtilisateurForm.value.notLocked = !UtilisateurForm.value.notLocked;
+    utilisateur1.codeFonction = this.fonctions.find(fonction => fonction.libelleFonction === UtilisateurForm.value.codeFonction) ?? new Fonction();
+    utilisateur1.authorities = [this.authorities.find(authority => authority.nameAuthority === UtilisateurForm.value.authorities) ?? new Authorities()];
+    utilisateur1.userName = this.utilisateur.userName;
+    utilisateur1.matriculeAgent = this.utilisateur.matriculeAgent;
 
-    UtilisateurForm.value.joinDate = this.utilisateur.joinDate;
-    UtilisateurForm.value.lastLoginDate = this.utilisateur.lastLoginDate;
-    UtilisateurForm.value.lastLoginDateDisplay = this.utilisateur.lastLoginDateDisplay;
+    utilisateur1.active = !UtilisateurForm.value.active;
+    utilisateur1.notLocked = !UtilisateurForm.value.notLocked;
 
-    UtilisateurForm.value.utilisateurID = this.utilisateur.utilisateurID;
+    utilisateur1.joinDate = this.utilisateur.joinDate;
+    utilisateur1.lastLoginDate = this.utilisateur.lastLoginDate;
+    utilisateur1.lastLoginDateDisplay = this.utilisateur.lastLoginDateDisplay;
 
-    console.log(UtilisateurForm.value);
+    utilisateur1.utilisateurID = this.utilisateur.utilisateurID;
+
+    console.log(utilisateur1);
   
-    this.subscriptions.push(this.utilisateurService.modifierUser(UtilisateurForm.value).subscribe({
+    this.subscriptions.push(this.utilisateurService.modifierUser(utilisateur1).subscribe({
         next: (response: Utilisateur) => {
           console.log(response);
+          this.utilisateur = response;
           this.popupFermer();
           this.sendNotification(NotificationType.SUCCESS, `Modification réussie de l'utilisateur`);
         },

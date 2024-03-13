@@ -2,6 +2,14 @@ E7C133  aedd71
 
 F5E0A7  aedd71
 
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+L'imbrication excessive de subscribe() dans votre code peut rendre la gestion des erreurs et le suivi des flux de données plus difficile à gérer. Pour simplifier cela, vous pouvez utiliser des opérateurs de transformation tels que switchMap, mergeMap, ou concatMap
+
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
 
 
 ng serve --port 4500
@@ -23,6 +31,7 @@ To change the default port, locate the serve object within the architect object.
 
 
 
+------------------------------------------------------------------------------------------------------------------------------------------
 
 
 isActive: Cet attribut indique si le compte de l'utilisateur est actif ou non. Un compte utilisateur peut être désactivé pour diverses raisons, par exemple s'il a été suspendu ou s'il n'est plus autorisé à se connecter à l'application.
@@ -30,6 +39,7 @@ isActive: Cet attribut indique si le compte de l'utilisateur est actif ou non. U
 isNotLocked: Cet attribut indique si le compte de l'utilisateur est verrouillé ou non. Un compte peut être verrouillé après un certain nombre de tentatives de connexion infructueuses, comme une mesure de sécurité pour protéger le compte contre les tentatives d'intrusion.
 
 
+------------------------------------------------------------------------------------------------------------------------------------------
 
 
 netstat -ano | findstr :8081
@@ -51,6 +61,8 @@ ndour2021
 1514 kare
 1537 (bureau)
 
+
+------------------------------------------------------------------------------------------------------------------------------------------
 
 http://localhost:8081/swagger-ui/index.html
 

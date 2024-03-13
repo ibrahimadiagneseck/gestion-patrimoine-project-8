@@ -2,7 +2,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Inject } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { VehiculeAjouterDotationComponent } from 'src/app/composants/vehicule/vehicule-ajouter-dotation/vehicule-ajouter-dotation.component';
 import { ArticleBonPour } from 'src/app/model/article-bon-pour.model';
 import { ArticleBonSortie } from 'src/app/model/article-bon-sortie.model';
 import { BonSortie } from 'src/app/model/bon-sortie.model';
@@ -76,7 +75,7 @@ export class DotationVehiculeAjouterComponent {
 
   popupVehicule( articleBonPour: ArticleBonPour, articleBonSortie: ArticleBonSortie): void {
     const dialogRef = this.matDialog.open(
-      VehiculeAjouterDotationComponent,
+      DotationVehiculeAjouterComponent,
       {
         width: '80%',
         // height: '80%',
@@ -101,8 +100,6 @@ export class DotationVehiculeAjouterComponent {
       this.ngOnInit();
     });
   }
-
-
 
 
 }

@@ -5,13 +5,13 @@ import { Agent } from "./agent.model";
 
 export class Utilisateur {
 
-  public utilisateurID: number;
+  public utilisateurID: number | null;
   public matriculeAgent: Agent;
   public userName: string;
-  public joinDate: MyDate;
-  public lastLoginDate: MyDate;
-  public lastLoginDateDisplay: MyDate;
-  public motDePasse: string;
+  public joinDate: MyDate | null;
+  public lastLoginDate: MyDate | null;
+  public lastLoginDateDisplay: MyDate | null;
+  public motDePasse: string | null;
   public active: boolean;
   public notLocked: boolean;
   public authorities: Authorities[];
@@ -27,12 +27,12 @@ export class Utilisateur {
     active?: boolean, notLocked?: boolean, authorities?: [], codeFonction?: Fonction,
     statusCd?: string, statusMsg?: string, authStatus?: string
   ) {
-        this.utilisateurID = utilisateurID || 0;
+        this.utilisateurID = utilisateurID || null;
         this.matriculeAgent = matriculeAgent || new Agent();
         this.userName = userName || '';
-        this.joinDate = new MyDate();
-        this.lastLoginDate = new MyDate();
-        this.lastLoginDateDisplay = new MyDate();
+        this.joinDate = joinDate || null;
+        this.lastLoginDate = lastLoginDate || null;
+        this.lastLoginDateDisplay = lastLoginDateDisplay || null;
         this.motDePasse = motDePasse || '';
         this.active = active || false;
         this.notLocked = notLocked || false;

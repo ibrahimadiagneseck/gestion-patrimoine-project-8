@@ -125,8 +125,8 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         user.setAuthorities(utilisateur.getAuthorities());
         user.setCodeFonction(utilisateur.getCodeFonction());
 
-        user.setActive(utilisateur.getActive());
-        user.setNotLocked(utilisateur.getNotLocked());
+        user.setActive(true);
+        user.setNotLocked(true);
 
         utilisateurRepository.save(user);
         // saveProfileImage(user, profileImage);
@@ -147,6 +147,9 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         // user.setUtilisateurID(utilisateur.getUtilisateurID());
         user.setAuthorities(utilisateur.getAuthorities());
         user.setCodeFonction(utilisateur.getCodeFonction());
+
+        user.setActive(utilisateur.getActive());
+        user.setNotLocked(utilisateur.getNotLocked());
 
         return utilisateurRepository.save(user);
     }

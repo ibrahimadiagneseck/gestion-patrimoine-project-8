@@ -34,6 +34,8 @@ import { ReceptionVehiculeListeDetailComponent } from '../reception-vehicule-lis
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { LieuStockageVehicule } from 'src/app/model/lieu-stockage-vehicule.model';
 import { LieuStockageVehiculeService } from 'src/app/services/lieu-stockage-vehicule.service';
+import { NotificationType } from 'src/app/enum/notification-type.enum';
+import { NotificationService } from 'src/app/services/notification.service';
 
 
 @Component({
@@ -170,8 +172,19 @@ export class ReceptionVehiculeAjouterArticleComponent implements OnInit, OnDestr
     private route: ActivatedRoute,
     private securiteService: SecuriteService,
     @Inject(MAT_DIALOG_DATA) public bonEntree: BonEntree,
+    private notificationService: NotificationService,
     public dialogRef: MatDialogRef<ReceptionVehiculeAjouterArticleComponent>
   ) { }
+
+
+  private sendNotification(type: NotificationType, message: string, titre?: string): void {
+    if (message) {
+      this.notificationService.showAlert(type, message, titre);
+    } else {
+      this.notificationService.showAlert(type, 'Une erreur s\'est produite. Veuillez réessayer.', titre);
+    }
+  }
+  
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(sub => sub.unsubscribe());
@@ -396,8 +409,6 @@ export class ReceptionVehiculeAjouterArticleComponent implements OnInit, OnDestr
   }
 
 
-  
-
 
   // --------------------------------------------------------------------------
   private clickButton(buttonId: string): void {
@@ -483,7 +494,9 @@ export class ReceptionVehiculeAjouterArticleComponent implements OnInit, OnDestr
       next: (response: Vehicule) => {
         console.log(response);
         // VehiculeForm.reset();
-        window.location.reload();
+        // window.location.reload();
+        this.popupFermer();
+        this.sendNotification(NotificationType.SUCCESS, `Ajout réussi`);
       },
       error: (errorResponse: HttpErrorResponse) => {
 

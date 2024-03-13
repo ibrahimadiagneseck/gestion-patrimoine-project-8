@@ -121,14 +121,14 @@
                             <div class="col-3 mx-auto">
                                 <span class="fw-bold">Join le</span>
                                 <div class="text-input text-uppercase">
-                                    {{ myDateStringFormatter(utilisateur.joinDate) }}
+                                    {{ myDateStringFormatter(utilisateur.joinDate ?? '') }}
                                 </div>
                             </div>
 
                             <div class="col-3 mx-auto">
                                 <span class="fw-bold">Connecté le</span>
                                 <div class="text-input text-uppercase">
-                                    {{ myDateStringFormatter(utilisateur.lastLoginDateDisplay) }}
+                                    {{ myDateStringFormatter(utilisateur.lastLoginDateDisplay ?? '') != '' ? myDateStringFormatter(utilisateur.lastLoginDateDisplay ?? '') :  'Pas Encore' }}
                                 </div>
                             </div>
 
@@ -151,7 +151,7 @@
                                 <span class="fw-bold">Blocké</span>
                                 <div class="text-input text-uppercase">
                                     <!-- {{ utilisateur.isNotLocked ? 'oui' : 'non' }} -->
-                                    <span [hidden]="!utilisateur.notLocked" class="badge bg-mygreen">Débloqué</span>
+                                    <span [hidden]="!utilisateur.notLocked" class="badge bg-mygreen">Non Bloqué</span>
                                     <span [hidden]="utilisateur.notLocked" class="badge bg-mybrown">Bloqué</span>
                                 </div>
                             </div>

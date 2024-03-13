@@ -84,6 +84,8 @@ export class VehiculeService {
     return this.httpClient.delete<CustomHttpRespone>(`${this.urlServeur}/SupprimerVehiculeById/${numeroSerie}`, { withCredentials: true });
   }
 
+  
+
 
 
   public formatterMyDate(myDate: MyDate): string  {

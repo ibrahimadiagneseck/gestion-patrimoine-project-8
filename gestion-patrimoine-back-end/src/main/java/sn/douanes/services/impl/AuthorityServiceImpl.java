@@ -40,6 +40,13 @@ public class AuthorityServiceImpl implements AuthorityService {
         return authoritiesRepository.findById(id).isPresent() ? authoritiesRepository.findById(id).get() : null;
     }
 
+//    @Override
+//    public Authorities getAuthorityByNameAuthority(String nameAuthority) {
+//        return authoritiesRepository.findByNameAuthority(nameAuthority);
+//    }
+
+
+
     @Override
     public List<Authorities> getAllAuthorities() {
         return authoritiesRepository.findAll();

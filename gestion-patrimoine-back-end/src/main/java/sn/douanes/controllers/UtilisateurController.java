@@ -94,34 +94,56 @@ public class UtilisateurController {
 
     @PostMapping("/AjouterUser")
     @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
-    public ResponseEntity<String> ajouterUser(@RequestBody Utilisateur utilisateur) {
+    public Utilisateur ajouterUser(@RequestBody Utilisateur utilisateur) {
 
         Utilisateur savedUtilisateur = null;
-
         ResponseEntity response = null;
 
         try {
-
             savedUtilisateur = utilisateurService.addNewUser(utilisateur);
 
             if (savedUtilisateur.getUtilisateurID() > 0) {
 
-                response = ResponseEntity
-                        .status(HttpStatus.CREATED)
-                        .body("Given user details are successfully registered");
+                return savedUtilisateur;
             }
         } catch (Exception ex) {
             response = ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("An exception occured due to " + ex.getMessage());
         }
-        return response;
+        return savedUtilisateur;
     }
+
+
+
+//    @PostMapping("/AjouterUser")
+//    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+//    public ResponseEntity<String> ajouterUser(@RequestBody Utilisateur utilisateur) {
+//
+//        Utilisateur savedUtilisateur = null;
+//        ResponseEntity response = null;
+//
+//        try {
+//            savedUtilisateur = utilisateurService.addNewUser(utilisateur);
+//
+//            if (savedUtilisateur.getUtilisateurID() > 0) {
+//
+//                response = ResponseEntity
+//                        .status(HttpStatus.CREATED)
+//                        .body("Given user details are successfully registered");
+//            }
+//        } catch (Exception ex) {
+//            response = ResponseEntity
+//                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                    .body("An exception occured due to " + ex.getMessage());
+//        }
+//        return response;
+//    }
 
 
     @PutMapping("/ModifierUser")
     @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
-    public ResponseEntity<String> modifierUser(@RequestBody Utilisateur utilisateur) {
+    public Utilisateur modifierUser(@RequestBody Utilisateur utilisateur) {
 
         Utilisateur updateUtilisateur = null;
 
@@ -133,15 +155,14 @@ public class UtilisateurController {
 
             if (updateUtilisateur.getUtilisateurID() > 0) {
 
-                response = ResponseEntity
-                        .status(HttpStatus.CREATED)
-                        .body("Given user details are successfully updated");
+               // response = ResponseEntity.status(HttpStatus.CREATED).body("Given user details are successfully updated");
+                return updateUtilisateur;
             }
         } catch (Exception ex) {
             response = ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("An exception occured due to " + ex.getMessage());
         }
-        return response;
+        return updateUtilisateur;
     }
 }

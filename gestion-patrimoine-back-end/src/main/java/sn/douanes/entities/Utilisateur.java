@@ -23,8 +23,8 @@ import lombok.NoArgsConstructor;
 public class Utilisateur {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO,generator = "native")
-    @GenericGenerator(name = "native",strategy = "native")
+    @GeneratedValue(strategy = GenerationType.IDENTITY,generator = "native")
+//    @GenericGenerator(name = "native",strategy = "native")
     // @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "UTILISATEUR_ID", nullable = false, updatable = false, length = 25)
     private Integer utilisateurID;
