@@ -222,11 +222,11 @@ export class ReceptionVehiculeAjouterBonEntreeComponent implements OnInit, OnDes
 
   public ajouterBordereauLivraison(BordereauLivraisonForm: NgForm): void {
 
-    const dateBordereauLivraison: MyDate = BordereauLivraisonForm.value.dateBordereauLivraison;
+    const dateBordereauLivraison: MyDate = BordereauLivraisonForm.value.dateBL;
     const formattedDate = this.bordereauLivraisonService.formatterMyDate(dateBordereauLivraison);
 
     if (formattedDate) {
-      BordereauLivraisonForm.value.dateBordereauLivraison = formattedDate;
+      BordereauLivraisonForm.value.dateBL = formattedDate;
     }
 
     // SECTION ET AGENT
@@ -265,10 +265,9 @@ export class ReceptionVehiculeAjouterBonEntreeComponent implements OnInit, OnDes
     }
 
     // BORDEREAU LIVRAISON
-    BonEntreeForm.value.identifiantBordereauLivraison = this.bordereauLivraison;
+    BonEntreeForm.value.identifiantBL = this.bordereauLivraison;
 
      console.log(BonEntreeForm.value);
-
 
     this.subscriptions.push(this.bonEntreeService.ajouterBonEntree(BonEntreeForm.value).subscribe({
         next: (response: BonEntree) => {
@@ -306,7 +305,7 @@ export class ReceptionVehiculeAjouterBonEntreeComponent implements OnInit, OnDes
 
 
   goToAjouterArticle(bonEntree: BonEntree): void {
-    const id = bonEntree.identifiantBonEntree;
+    const id = bonEntree.identifiantBE;
     const encrypt = this.securiteService.encryptUsingAES256(id);
     this.router.navigate(['/reception-vehicule-detail', encrypt]);
   }

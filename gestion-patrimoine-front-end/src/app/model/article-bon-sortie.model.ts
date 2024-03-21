@@ -8,7 +8,7 @@ export class ArticleBonSortie {
   public codeArticleBonSortie: number;
   public identifiantBonSortie: string;
   public libelleArticleBonSortie: string;
-  public dateArticleBonSortie: MyDate;
+  public dateArticleBonSortie: MyDate | null;
   public quantiteAccordee: number;
   public matriculeAgent: Agent;
 
@@ -24,7 +24,7 @@ export class ArticleBonSortie {
     this.codeArticleBonSortie = codeArticleBonSortie;
     this.identifiantBonSortie = identifiantBonSortie;
     this.libelleArticleBonSortie = libelleArticleBonSortie;
-    this.dateArticleBonSortie = dateArticleBonSortie;
+    this.dateArticleBonSortie = dateArticleBonSortie || null;
     this.quantiteAccordee = quantiteAccordee;
     this.matriculeAgent = matriculeAgent;
   }

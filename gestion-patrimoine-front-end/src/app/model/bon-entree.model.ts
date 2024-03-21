@@ -3,27 +3,27 @@ import { MyDate } from "./my-date.model";
 
 export class BonEntree {
 
-  public identifiantBonEntree: string;
-  public numeroBonEntree: string;
+  public identifiantBE: string;
+  public numeroBE: string;
   public dateBonEntree: MyDate;
-  public identifiantBordereauLivraison: BordereauLivraison;
+  public identifiantBL: BordereauLivraison;
   public libelleBonEntree:string;
   public observationBonEntree:string;
 
 
   constructor(
-    identifiantBonEntree = '',
-    numeroBonEntree = '',
+    identifiantBE = '',
+    numeroBE = '',
     dateBonEntree = new MyDate(),
-    identifiantBordereauLivraison = new BordereauLivraison(),
+    identifiantBL = new BordereauLivraison(),
     libelleBonEntree = '',
     observationBonEntree = '',
 
   ) {
-    this.identifiantBonEntree = identifiantBonEntree;
-    this.numeroBonEntree = numeroBonEntree;
+    this.identifiantBE = identifiantBE;
+    this.numeroBE = numeroBE;
     this.dateBonEntree = dateBonEntree;
-    this.identifiantBordereauLivraison = identifiantBordereauLivraison;
+    this.identifiantBL = identifiantBL;
     this.libelleBonEntree = libelleBonEntree;
     this.observationBonEntree = observationBonEntree;
 

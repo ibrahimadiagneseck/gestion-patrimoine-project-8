@@ -1,31 +1,28 @@
-import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Observable, Subject, Subscription, debounceTime, distinctUntilChanged, of, switchMap } from 'rxjs';
-import { Authorities } from 'src/app/model/authorities.model';
-import { Fonction } from 'src/app/model/fonction.model';
-import { SecuriteService } from 'src/app/services/securite.service';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
-import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
 import { HttpErrorResponse } from '@angular/common/http';
-import { FonctionDetailComponent } from '../fonction-detail/fonction-detail.component';
-import { FonctionAjouterComponent } from '../fonction-ajouter/fonction-ajouter.component';
-import { FonctionService } from 'src/app/services/fonction.service';
+import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { Observable, Subject, Subscription, debounceTime, distinctUntilChanged, of, switchMap } from 'rxjs';
+import { TypeUniteDouaniere } from 'src/app/model/type-unite-douaniere.model';
+import { TypeUniteDouaniereService } from 'src/app/services/type-unite-douaniere.service';
+import { TypeUniteDouaniereAjouterComponent } from '../type-unite-douaniere-ajouter/type-unite-douaniere-ajouter.component';
+import { TypeUniteDouaniereDetailComponent } from '../type-unite-douaniere-detail/type-unite-douaniere-detail.component';
 
 @Component({
-  selector: 'app-fonction-liste',
+  selector: 'app-type-unite-douaniere-liste',
   // standalone: true,
   // imports: [],
-  templateUrl: './fonction-liste.component.html',
-  styleUrl: './fonction-liste.component.css'
+  templateUrl: './type-unite-douaniere-liste.component.html',
+  styleUrl: './type-unite-douaniere-liste.component.css'
 })
-export class FonctionListeComponent implements OnInit, OnDestroy {
+export class TypeUniteDouaniereListeComponent implements OnInit, OnDestroy {
 
 
-  public fonctions: Fonction[] = [];
-  public fonction: Fonction  | undefined;
+  public typeUniteDouanieres: TypeUniteDouaniere[] = [];
+  public typeUniteDouaniere: TypeUniteDouaniere = new TypeUniteDouaniere();
 
 
 
@@ -60,11 +57,11 @@ export class FonctionListeComponent implements OnInit, OnDestroy {
  @ViewChild('myInputSearch') myInputSearch!: ElementRef;
  // rechercher
  searchTerms = new Subject<string>();
- fonctions$: Observable<Fonction[]> = of();
+ fonctions$: Observable<TypeUniteDouaniere[]> = of();
  // recherche custom
- searchTermsFilterDoubleCodeFonctionLibelleFonction = new Subject<string>();
- termeRechercheCodeFonctionLibelleFonction: string = "";
- fonctionFilterDoubleCodeFonctionLibelleFonction$: Observable<Fonction[]> = of();
+ searchTermsFilterDoubleCodeTypeUniteDouaniere = new Subject<string>();
+ termeRechercheCodeTypeUniteDouaniere: string = "";
+ typeFilterDoubleCodeTypeUniteDouaniere$: Observable<TypeUniteDouaniere[]> = of();
  /* ----------------------------------------------------------------------------------------- */
 
 
@@ -78,24 +75,22 @@ export class FonctionListeComponent implements OnInit, OnDestroy {
    // "nombreMateriel"
 
  ];
- dataSource = new MatTableDataSource<Fonction>();
+ dataSource = new MatTableDataSource<TypeUniteDouaniere>();
  @ViewChild(MatPaginator) paginator!: MatPaginator;
  displayedColumns: string[] = [
-   "codeFonction",
-   "libelleFonction"
+   "codeTypeUniteDouaniere",
+   "libelleTypeUniteDouaniere"
 
  ];
  displayedColumnsCustom: string[] = [
    "Code",
-   "libellé fonction"
+   "libellé type"
 
  ];
  /* ----------------------------------------------------------------------------------------- */
 
  constructor(
-   private router: Router,
-   private securiteService: SecuriteService,
-   private fonctionService: FonctionService,
+   private typeUniteDouaniereService: TypeUniteDouaniereService,
    private matDialog: MatDialog,
  ) { }
 
@@ -105,7 +100,7 @@ export class FonctionListeComponent implements OnInit, OnDestroy {
 
  ngOnInit(): void {
    // this.listeVehicules();
-   this.listeFonctions();
+   this.listeTypeUniteDouanieres();
    // this.listeBonEntrees();
 
    /* ----------------------------------------------------------------------------------------- */
@@ -116,16 +111,16 @@ export class FonctionListeComponent implements OnInit, OnDestroy {
      // {......"ab"...."ab"...."abc"......}
      distinctUntilChanged(),
      // {......"ab"..........."abc"......}
-     switchMap((term) => this.fonctionService.searchFonctionList(term, this.fonctions))
+     switchMap((term) => this.typeUniteDouaniereService.searchTypeUniteDouaniereList(term, this.typeUniteDouanieres))
      // {.....List(ab)............List(abc)......}
    );
-   this.fonctionFilterDoubleCodeFonctionLibelleFonction$ = this.searchTermsFilterDoubleCodeFonctionLibelleFonction.pipe(
+   this.typeFilterDoubleCodeTypeUniteDouaniere$ = this.searchTermsFilterDoubleCodeTypeUniteDouaniere.pipe(
      // {...."ab"..."abz"."ab"...."abc"......}
      debounceTime(300),
      // {......"ab"...."ab"...."abc"......}
      distinctUntilChanged(),
      // {......"ab"..........."abc"......}
-     switchMap((term) => this.fonctionService.searchFonctionListFilterDouble(term, this.fonctions))
+     switchMap((term) => this.typeUniteDouaniereService.searchTypeUniteDouaniereListFilterDouble(term, this.typeUniteDouanieres))
      // {.....List(ab)............List(abc)......}
    );
    /* ----------------------------------------------------------------------------------------- */
@@ -134,17 +129,18 @@ export class FonctionListeComponent implements OnInit, OnDestroy {
 
  generatePDF(): void {
 
-   const data: Fonction[] = this.dataSource.filteredData;
+   const data: TypeUniteDouaniere[] = this.dataSource.filteredData;
    // console.log(data);
+
 
   //  const months = ['JANV.', 'FÉVR.', 'MARS', 'AVR.', 'MAI', 'JUIN', 'JUIL.', 'AOÛT', 'SEPT.', 'OCT.', 'NOV.', 'DÉC.'];
 
    const doc = new jsPDF();
 
    // Créez un tableau de données pour autoTable
-   const tableData = data.map((item: Fonction) => [
-     item.codeFonction,
-     item.libelleFonction,
+   const tableData = data.map((item: TypeUniteDouaniere) => [
+     item.codeTypeUniteDouaniere,
+     item.libelleTypeUniteDouaniere,
     //  `${new Date(item.dateBonEntree.toString()).getDate()} ${months[new Date(item.dateBonEntree.toString()).getMonth()]} ${new Date(item.dateBonEntree.toString()).getFullYear() % 100}`,
     //  item.observationBonEntree,
     //  item.rowNombreArticleBonEntree
@@ -162,7 +158,7 @@ export class FonctionListeComponent implements OnInit, OnDestroy {
      head: [
        [
          { content: 'Code', styles: { fontSize: 6 } },
-         { content: 'Libelle fonction', styles: { fontSize: 6 } },
+         { content: 'Libellé type', styles: { fontSize: 6 } },
         //  { content: 'Date bon d\'entrée', styles: { fontSize: 6 } },
         //  { content: 'Observation bon d\'entrée', styles: { fontSize: 6 } },
         //  { content: 'Articles', styles: { fontSize: 6 } }
@@ -173,14 +169,14 @@ export class FonctionListeComponent implements OnInit, OnDestroy {
      theme: 'plain'
    });
 
-   doc.save('fonction-liste.pdf');
+   doc.save('type-unite-douaniere-liste.pdf');
  }
 
 
  search(term: string): void {
-   this.termeRechercheCodeFonctionLibelleFonction = term;
+   this.termeRechercheCodeTypeUniteDouaniere = term;
    this.searchTerms.next(term);
-   this.searchTermsFilterDoubleCodeFonctionLibelleFonction.next(term);
+   this.searchTermsFilterDoubleCodeTypeUniteDouaniere.next(term);
  }
 
  applyFilter(event: Event): void {
@@ -189,26 +185,28 @@ export class FonctionListeComponent implements OnInit, OnDestroy {
  }
 
 
- FilterDoubleCodeFonctionLibelleFonction(termeRechercheCodeFonctionLibelleFonction: string) {
-   this.termeRechercheCodeFonctionLibelleFonction = termeRechercheCodeFonctionLibelleFonction;
-   this.myInputSearch.nativeElement.value = termeRechercheCodeFonctionLibelleFonction;
-   this.dataSource.filter = termeRechercheCodeFonctionLibelleFonction.trim().toLowerCase(); // supprimer les espaces vide et mettre minuscule
+ FilterDoubleCodeTypeUniteDouaniere(termeRechercheCodeTypeUniteDouaniere: string) {
+   this.termeRechercheCodeTypeUniteDouaniere = termeRechercheCodeTypeUniteDouaniere;
+   this.myInputSearch.nativeElement.value = termeRechercheCodeTypeUniteDouaniere;
+   this.dataSource.filter = termeRechercheCodeTypeUniteDouaniere.trim().toLowerCase(); // supprimer les espaces vide et mettre minuscule
    this.focusOnInput = false;
  }
 
 
- isNumber(termeRechercheCodeFonctionLibelleFonction: string): boolean {
-   return !isNaN(Number(termeRechercheCodeFonctionLibelleFonction))
+ isNumber(termeRechercheCodeTypeUniteDouaniere: string): boolean {
+   return !isNaN(Number(termeRechercheCodeTypeUniteDouaniere))
  }
 
 
- public listeFonctions(): void {
 
-   const subscription = this.fonctionService.listeFonctions().subscribe({
-     next: (response: Fonction[]) => {
-       this.fonctions = response;
 
-       this.dataSource = new MatTableDataSource<Fonction>(this.fonctions.map((item) => ({
+ public listeTypeUniteDouanieres(): void {
+
+   const subscription = this.typeUniteDouaniereService.listeTypeUniteDouanieres().subscribe({
+     next: (response: TypeUniteDouaniere[]) => {
+       this.typeUniteDouanieres = response;
+
+       this.dataSource = new MatTableDataSource<TypeUniteDouaniere>(this.typeUniteDouanieres.map((item) => ({
          ...item
        })));
 
@@ -222,13 +220,11 @@ export class FonctionListeComponent implements OnInit, OnDestroy {
 
    this.subscriptions.push(subscription);
  }
- // ---------------------------------------------------------------------------------------------------------------------
- // ---------------------------------------------------------------------------------------------------------------------
 
 
- popupAjouterFonction(): void {
+ popupAjouterTypeUniteDouaniere(): void {
    const dialogRef = this.matDialog.open(
-    FonctionAjouterComponent,
+    TypeUniteDouaniereAjouterComponent,
      {
        width: '80%',
        enterAnimationDuration: '100ms',
@@ -242,14 +238,14 @@ export class FonctionListeComponent implements OnInit, OnDestroy {
  }
 
 
- goToDetail(fonction: Fonction): void {
+ goToDetail(typeUniteDouaniere: TypeUniteDouaniere): void {
    const dialogRef = this.matDialog.open(
-    FonctionDetailComponent,
+    TypeUniteDouaniereDetailComponent,
      {
        width: '80%',
        enterAnimationDuration: '100ms',
        exitAnimationDuration: '100ms',
-       data: fonction
+       data: typeUniteDouaniere
      }
    );
 
@@ -257,5 +253,6 @@ export class FonctionListeComponent implements OnInit, OnDestroy {
      this.ngOnInit();
    });
  }
+
 
 }

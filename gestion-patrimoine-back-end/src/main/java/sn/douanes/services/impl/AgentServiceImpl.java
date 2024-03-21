@@ -68,7 +68,7 @@ public class AgentServiceImpl implements AgentService {
         Agent agent = new Agent();
 
         agent.setMatriculeAgent(matriculeAgent);
-        agent.setNumeroSommier(codeAgent);
+        agent.setCodeAgent(codeAgent);
         agent.setNomAgent(nomAgent);
         agent.setPrenomAgent(prenomAgent);
         agent.setNumeroTelephoneAgent(numeroTelephoneAgent);

@@ -36,7 +36,7 @@ public class BordereauLivraisonController {
     public BordereauLivraison AjouterBordereauLivraison(@RequestBody BordereauLivraison bordereauLivraison) {
 
         // return bordereauLivraisonService.saveBordereauLivraison(bordereauLivraison);
-        return bordereauLivraisonService.ajouterBordereauLivraison(bordereauLivraison.getNumeroBordereauLivraison(),bordereauLivraison.getDateBordereauLivraison(), bordereauLivraison.getDescriptionBordereauLivraison(), bordereauLivraison.getLieuDeLivraison(),bordereauLivraison.getRepresentantPrestataire(),bordereauLivraison.getCodeSection(),bordereauLivraison.getConformiteBordereauLivraison() ,bordereauLivraison.getMatriculeAgent(), bordereauLivraison.getNinea());
+        return bordereauLivraisonService.ajouterBordereauLivraison(bordereauLivraison.getNumeroBL(),bordereauLivraison.getDateBL(), bordereauLivraison.getDescriptionBL(), bordereauLivraison.getLieuDeLivraison(),bordereauLivraison.getRepresentantPrestataire(),bordereauLivraison.getCodeSection(),bordereauLivraison.getConformiteBL() ,bordereauLivraison.getMatriculeAgent(), bordereauLivraison.getNinea());
     }
 
 

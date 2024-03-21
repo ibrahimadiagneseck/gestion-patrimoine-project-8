@@ -39,7 +39,7 @@ public class BonEntreeController {
     @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public BonEntree AjouterBonEntree(@RequestBody BonEntree bonEntree) {
         // return bonEntreeService.saveBonEntree(bonEntree);
-        return bonEntreeService.ajouterBonEntree(bonEntree.getNumeroBonEntree(), bonEntree.getDateBonEntree(), bonEntree.getIdentifiantBordereauLivraison(), bonEntree.getLibelleBonEntree(), bonEntree.getObservationBonEntree());
+        return bonEntreeService.ajouterBonEntree(bonEntree.getNumeroBE(), bonEntree.getDateBonEntree(), bonEntree.getIdentifiantBL(), bonEntree.getLibelleBonEntree(), bonEntree.getObservationBonEntree());
     }
 
 

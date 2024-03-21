@@ -32,7 +32,7 @@ public class Vehicule {
 
     @ManyToOne
     @JoinColumns({
-            @JoinColumn(name = "IDENTIFIANT_BON_ENTREE", referencedColumnName = "IDENTIFIANT_BON_ENTREE"),
+            @JoinColumn(name = "IDENTIFIANT_B_E", referencedColumnName = "IDENTIFIANT_B_E"),
             @JoinColumn(name = "CODE_ARTICLE_BON_ENTREE", referencedColumnName = "CODE_ARTICLE_BON_ENTREE")
     })
     private ArticleBonEntree codeArticleBonEntree;
@@ -72,10 +72,6 @@ public class Vehicule {
     @Column(name = "DATE_MISE_EN_CIRCULATION")
     private Date dateMiseEnCirculation;
 
-
-//    @ManyToOne
-//    @JoinColumn(name = "IDENTIFIANT_D_V")
-//    private DotationVehicule identifiantDV;
 
 
 }

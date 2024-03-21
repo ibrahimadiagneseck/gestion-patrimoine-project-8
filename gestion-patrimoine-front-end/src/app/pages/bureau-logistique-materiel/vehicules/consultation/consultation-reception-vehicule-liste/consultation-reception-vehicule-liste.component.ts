@@ -71,9 +71,9 @@ export class ConsultationReceptionVehiculeListeComponent implements OnInit, OnDe
   searchTerms = new Subject<string>();
   bonEntrees$: Observable<BonEntree[]> = of();
   // recherche custom
-  searchTermsFilterDoubleNumeroBonEntreeLibelleBonEntree = new Subject<string>();
-  termeRechercheNumeroBonEntreeLibelleBonEntree: string = "";
-  bonEntreeFilterDoubleNumeroBonEntreeLibelleBonEntree$: Observable<BonEntree[]> = of();
+  searchTermsFilterDoublenumeroBELibelleBonEntree = new Subject<string>();
+  termeRecherchenumeroBELibelleBonEntree: string = "";
+  bonEntreeFilterDoublenumeroBELibelleBonEntree$: Observable<BonEntree[]> = of();
   /* ----------------------------------------------------------------------------------------- */
 
 
@@ -85,7 +85,7 @@ export class ConsultationReceptionVehiculeListeComponent implements OnInit, OnDe
   ];
   columnsToHide: string[] = [
     "observationBonEntree",
-    "identifiantBordereauLivraison"
+    "identifiantBL"
     // "dateEnregistrement",
     // "matriculeAgent",
     // "codeSection"
@@ -93,7 +93,7 @@ export class ConsultationReceptionVehiculeListeComponent implements OnInit, OnDe
   dataSource = new MatTableDataSource<BonEntree>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   displayedColumns: string[] = [
-    "numeroBonEntree",
+    "numeroBE",
     "libelleBonEntree",
     "dateBonEntree",
     "observationBonEntree",
@@ -137,7 +137,7 @@ export class ConsultationReceptionVehiculeListeComponent implements OnInit, OnDe
       switchMap((term) => this.bonEntreeService.searchBonEntreeList(term, this.bonEntrees))
       // {.....List(ab)............List(abc)......}
     );
-    this.bonEntreeFilterDoubleNumeroBonEntreeLibelleBonEntree$ = this.searchTermsFilterDoubleNumeroBonEntreeLibelleBonEntree.pipe(
+    this.bonEntreeFilterDoublenumeroBELibelleBonEntree$ = this.searchTermsFilterDoublenumeroBELibelleBonEntree.pipe(
       // {...."ab"..."abz"."ab"...."abc"......}
       debounceTime(300),
       // {......"ab"...."ab"...."abc"......}
@@ -197,9 +197,9 @@ export class ConsultationReceptionVehiculeListeComponent implements OnInit, OnDe
 
 
   search(term: string): void {
-    this.termeRechercheNumeroBonEntreeLibelleBonEntree = term;
+    this.termeRecherchenumeroBELibelleBonEntree = term;
     this.searchTerms.next(term);
-    this.searchTermsFilterDoubleNumeroBonEntreeLibelleBonEntree.next(term);
+    this.searchTermsFilterDoublenumeroBELibelleBonEntree.next(term);
   }
 
   applyFilter(event: Event): void {
@@ -208,16 +208,16 @@ export class ConsultationReceptionVehiculeListeComponent implements OnInit, OnDe
   }
 
 
-  FilterDoubleNumeroBonEntreeLibelleBonEntree(termeRechercheNumeroBonEntreeLibelleBonEntree: string) {
-    this.termeRechercheNumeroBonEntreeLibelleBonEntree = termeRechercheNumeroBonEntreeLibelleBonEntree;
-    this.myInputSearch.nativeElement.value = termeRechercheNumeroBonEntreeLibelleBonEntree;
-    this.dataSource.filter = termeRechercheNumeroBonEntreeLibelleBonEntree.trim().toLowerCase(); // supprimer les espaces vide et mettre minuscule
+  FilterDoublenumeroBELibelleBonEntree(termeRecherchenumeroBELibelleBonEntree: string) {
+    this.termeRecherchenumeroBELibelleBonEntree = termeRecherchenumeroBELibelleBonEntree;
+    this.myInputSearch.nativeElement.value = termeRecherchenumeroBELibelleBonEntree;
+    this.dataSource.filter = termeRecherchenumeroBELibelleBonEntree.trim().toLowerCase(); // supprimer les espaces vide et mettre minuscule
     this.focusOnInput = false;
   }
 
 
-  isNumber(termeRechercheNumeroBonEntreeLibelleBonEntree: string): boolean {
-    return !isNaN(Number(termeRechercheNumeroBonEntreeLibelleBonEntree))
+  isNumber(termeRecherchenumeroBELibelleBonEntree: string): boolean {
+    return !isNaN(Number(termeRecherchenumeroBELibelleBonEntree))
   }
 
   // ---------------------------------------------------------------------------------------------------------------------
@@ -281,7 +281,7 @@ export class ConsultationReceptionVehiculeListeComponent implements OnInit, OnDe
 
         this.dataSource = new MatTableDataSource<BonEntree>(this.bonEntrees.map((item) => ({
           ...item,
-          raisonSociale: item.identifiantBordereauLivraison.ninea ? item.identifiantBordereauLivraison.ninea.raisonSociale : '---',
+          raisonSociale: item.identifiantBL.ninea ? item.identifiantBL.ninea.raisonSociale : '---',
           rowNombreArticleBonEntree: this.nombreArticleBonEntree(item, this.articleBonEntrees)
         })).sort((a, b) => a.rowNombreArticleBonEntree - b.rowNombreArticleBonEntree));
 
@@ -316,7 +316,7 @@ export class ConsultationReceptionVehiculeListeComponent implements OnInit, OnDe
 
 
   goToDetail(bonEntree: BonEntree): void {
-    const id = bonEntree.identifiantBonEntree;
+    const id = bonEntree.identifiantBE;
     const encrypt = this.securiteService.encryptUsingAES256(id);
     this.router.navigate(['/consultation-reception-vehicule-detail', encrypt]);
   }
@@ -327,16 +327,16 @@ export class ConsultationReceptionVehiculeListeComponent implements OnInit, OnDe
   // filtreBonEntreeVehicule(vehicules: Vehicule[], articleBonEntrees: ArticleBonEntree[]): void {
 
 
-  //   const listeBonEntree: BonEntree[] = vehicules.map((vehicule: Vehicule) => vehicule.identifiantBonEntree.identifiantBonEntree);
-  //   // Supprimer les doublons en se basant sur la propriété identifiantBonEntree
+  //   const listeBonEntree: BonEntree[] = vehicules.map((vehicule: Vehicule) => vehicule.identifiantBE.identifiantBE);
+  //   // Supprimer les doublons en se basant sur la propriété identifiantBE
   //   // const listeBonEntreeUnique: BonEntree[] = listeBonEntree.filter(
   //   //   (value, index, self) =>
-  //   //     self.findIndex((item) => item.identifiantBonEntree === value.identifiantBonEntree) === index
+  //   //     self.findIndex((item) => item.identifiantBE === value.identifiantBE) === index
   //   // );
 
   //   const listeBonEntreeUnique: BonEntree[] = listeBonEntree.filter(
   //     (elementActuel, indexActuel, tableauOriginal) =>
-  //       tableauOriginal.findIndex((elementPrecedent) => elementPrecedent.identifiantBonEntree === elementActuel.identifiantBonEntree) === indexActuel
+  //       tableauOriginal.findIndex((elementPrecedent) => elementPrecedent.identifiantBE === elementActuel.identifiantBE) === indexActuel
   //   );
 
 
@@ -355,7 +355,7 @@ export class ConsultationReceptionVehiculeListeComponent implements OnInit, OnDe
 
     for (const articleBonEntree of articleBonEntrees) {
       // Comparer les bonEntree ici (assurez-vous d'implémenter une méthode de comparaison dans la classe BonEntree)
-      if (bonEntree && articleBonEntree.identifiantBonEntree && bonEntree.identifiantBonEntree === articleBonEntree.identifiantBonEntree) {
+      if (bonEntree && articleBonEntree.identifiantBE && bonEntree.identifiantBE === articleBonEntree.identifiantBE) {
         nombreArticleBonEntree++;
       }
     }

@@ -45,13 +45,13 @@
                     <div class="row g-4 mb-3">
                         <div class="col-3 mx-auto">
                             <span class="fw-bold">N° bon entrée</span>
-                            <div class="text-input text-uppercase"> {{ bonEntree.numeroBonEntree }} </div>
+                            <div class="text-input text-uppercase"> {{ bonEntree.numeroBE }} </div>
                         </div>
 
                         <div class="col-3 mx-auto">
                             <span class="fw-bold">Date bon entree</span>
                             <div class="text-input text-uppercase"> 
-                                <!-- {{ bonEntree.dateBonEntree | date: 'dd MMMM yyyy' | uppercase }}  -->
+                                {{ myDateStringFormatter(bonEntree.dateBonEntree) }} 
                             </div>
                         </div>
 
@@ -76,19 +76,19 @@
                     <div class="row g-4 mb-3">
                         <div class="col-3 mx-auto">
                             <span class="fw-bold">N° bordereau</span>
-                            <div class="text-input text-uppercase"> {{ bonEntree.identifiantBordereauLivraison.numeroBordereauLivraison }} </div>
+                            <div class="text-input text-uppercase"> {{ bonEntree.identifiantBL.numeroBL }} </div>
                         </div>
 
                         <div class="col-3 mx-auto">
                             <span class="fw-bold">Date Bordereau</span>
                             <div class="text-input text-uppercase"> 
-                                <!-- {{ bonEntree.identifiantBordereauLivraison.dateBordereauLivraison | date: 'dd MMMM yyyy' | uppercase }} -->
+                                {{ myDateStringFormatter(bonEntree.identifiantBL.dateBL) }}
                             </div>
                         </div>
 
                         <div class="col-3 mx-auto">
                             <span class="fw-bold">Lieu de livraison</span>
-                            <div class="text-input text-uppercase"> {{ bonEntree.identifiantBordereauLivraison.lieuDeLivraison }} </div>
+                            <div class="text-input text-uppercase"> {{ bonEntree.identifiantBL.lieuDeLivraison }} </div>
                         </div>
 
                         <div class="col-3 mx-auto">
@@ -108,7 +108,7 @@
                     <div class="row g-4 mb-3">
                         <div class="col-12 mx-auto">
                             <span class="fw-bold">Prestataire</span>
-                            <div class="text-input text-uppercase"> {{ bonEntree.identifiantBordereauLivraison.ninea.raisonSociale }} </div>
+                            <div class="text-input text-uppercase"> {{ bonEntree.identifiantBL.ninea ? bonEntree.identifiantBL.ninea.raisonSociale : '---' }} </div>
                         </div>
                     </div>
                 </form>

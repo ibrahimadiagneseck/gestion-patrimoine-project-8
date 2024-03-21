@@ -18,9 +18,9 @@ const routes: Routes = [
 
   { path: 'consultation-reception-vehicule', component: ConsultationReceptionVehiculeListeComponent, canActivate: [AuthActivateRouteGuard]},
 
-  { path: 'reception-vehicule-detail/:identifiantBonEntree', component: ReceptionVehiculeDetailComponent, canActivate: [AuthActivateRouteGuard]},
+  { path: 'reception-vehicule-detail/:identifiantBE', component: ReceptionVehiculeDetailComponent, canActivate: [AuthActivateRouteGuard]},
 
-  { path: 'consultation-reception-vehicule-detail/:identifiantBonEntree', component: ConsultationReceptionVehiculeDetailComponent, canActivate: [AuthActivateRouteGuard]},
+  { path: 'consultation-reception-vehicule-detail/:identifiantBE', component: ConsultationReceptionVehiculeDetailComponent, canActivate: [AuthActivateRouteGuard]},
 
 
   { path: 'affectation-vehicule', component: DotationVehiculeListeComponent, canActivate: [AuthActivateRouteGuard]},

@@ -61,11 +61,11 @@ public class BonEntreeServiceImpl implements BonEntreeService {
     ) {
 
         BonEntree bonEntree = new BonEntree();
-        bonEntree.setIdentifiantBonEntree(genererIdentifiantBonEntree(identifiantBordereauLivraison.getCodeSection().getCodeSection(), genererDateEnregistrement(identifiantBordereauLivraison.getDateEnregistrement())));
+        bonEntree.setIdentifiantBE(genererIdentifiantBonEntree(identifiantBordereauLivraison.getCodeSection().getCodeSection(), genererDateEnregistrement(identifiantBordereauLivraison.getDateEnregistrement())));
 
-        bonEntree.setNumeroBonEntree(numeroBonEntree);
+        bonEntree.setNumeroBE(numeroBonEntree);
         bonEntree.setDateBonEntree(dateBonEntree);
-        bonEntree.setIdentifiantBordereauLivraison(identifiantBordereauLivraison);
+        bonEntree.setIdentifiantBL(identifiantBordereauLivraison);
         bonEntree.setLibelleBonEntree(libelleBonEntree);
         bonEntree.setObservationBonEntree(observationBonEntree);
 

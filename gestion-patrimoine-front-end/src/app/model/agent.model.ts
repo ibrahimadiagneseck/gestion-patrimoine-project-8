@@ -4,7 +4,7 @@ import { Sections } from "./sections.model";
 export class Agent {
 
   public matriculeAgent: string;
-  public numeroSommier: string;
+  public codeAgent: string;
   public nomAgent: string;
   public emailAgent: string;
   public prenomAgent: string;
@@ -16,9 +16,9 @@ export class Agent {
 
 
 
-  constructor(matriculeAgent?: string, numeroSommier?: string, nomAgent?: string, prenomAgent?: string, numeroTelephoneAgent?: number, emailAgent?: string, codeUniteDouaniere?: UniteDouaniere, codeSection?: Sections) {
+  constructor(matriculeAgent?: string, codeAgent?: string, nomAgent?: string, prenomAgent?: string, numeroTelephoneAgent?: number, emailAgent?: string, codeUniteDouaniere?: UniteDouaniere, codeSection?: Sections) {
       this.matriculeAgent = matriculeAgent || '';
-      this.numeroSommier = numeroSommier || '';
+      this.codeAgent = codeAgent || '';
       this.nomAgent = nomAgent || '';
       this.emailAgent = emailAgent || '';
       this.prenomAgent = prenomAgent || '';

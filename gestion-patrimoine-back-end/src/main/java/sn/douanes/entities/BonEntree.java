@@ -22,19 +22,19 @@ import java.sql.Date;
 public class BonEntree {
 
     @Id
-    @Column(name = "IDENTIFIANT_BON_ENTREE", length = 25, nullable = false)
-    private String identifiantBonEntree;
+    @Column(name = "IDENTIFIANT_B_E", length = 25, nullable = false)
+    private String identifiantBE;
 
-    @Column(name = "NUMERO_BON_ENTREE", unique = true)
-    private String numeroBonEntree;
+    @Column(name = "NUMERO_B_E", unique = true)
+    private String numeroBE;
 
 
     @Column(name = "DATE_BON_ENTREE")
     private Date dateBonEntree;
 
     @OneToOne
-    @JoinColumn(name = "IDENTIFIANT_BORDEREAU_LIVRAISON")
-    private BordereauLivraison identifiantBordereauLivraison;
+    @JoinColumn(name = "IDENTIFIANT_B_L")
+    private BordereauLivraison identifiantBL;
 
 
     @Column(name = "LIBELLE_BON_ENTREE")

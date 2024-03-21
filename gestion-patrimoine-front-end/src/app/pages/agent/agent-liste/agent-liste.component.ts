@@ -159,7 +159,7 @@ export class AgentListeComponent implements OnInit, OnDestroy {
     // Créez un tableau de données pour autoTable
     const tableData = data.map((item: Agent) => [
       item.matriculeAgent,
-      item.numeroSommier,
+      item.codeAgent,
       item.nomAgent,
       item.prenomAgent,
       item.numeroTelephoneAgent,

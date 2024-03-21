@@ -13,6 +13,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { UniteDouaniereAjouterComponent } from '../unite-douaniere-ajouter/unite-douaniere-ajouter.component';
 import { UniteDouaniereDetailComponent } from '../unite-douaniere-detail/unite-douaniere-detail.component';
 import { TypeUniteDouaniereService } from 'src/app/services/type-unite-douaniere.service';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 @Component({
   selector: 'app-unite-douaniere-liste',
@@ -90,7 +92,7 @@ export class UniteDouaniereListeComponent implements OnInit, OnDestroy {
     "codeUniteDouaniere",
     "nomUniteDouaniere",
     "effectifUniteDouaniere",
-    "rowTypeUniteDouaniere"
+    "rowCodeTypeUniteDouaniere"
   ];
   displayedColumnsCustom: string[] = [
     "Code unité",
@@ -141,50 +143,50 @@ export class UniteDouaniereListeComponent implements OnInit, OnDestroy {
   }
 
 
-  // generatePDF(): void {
+  generatePDF(): void {
 
-  //   const data: BonEntree[] = this.dataSource.filteredData;
-  //   // console.log(data);
+    const data: UniteDouaniere[] = this.dataSource.filteredData;
+    // console.log(data);
 
 
-  //   const months = ['JANV.', 'FÉVR.', 'MARS', 'AVR.', 'MAI', 'JUIN', 'JUIL.', 'AOÛT', 'SEPT.', 'OCT.', 'NOV.', 'DÉC.'];
+    // const months = ['JANV.', 'FÉVR.', 'MARS', 'AVR.', 'MAI', 'JUIN', 'JUIL.', 'AOÛT', 'SEPT.', 'OCT.', 'NOV.', 'DÉC.'];
 
-  //   const doc = new jsPDF();
+    const doc = new jsPDF();
 
-  //   // Créez un tableau de données pour autoTable
-  //   const tableData = data.map((item: BonEntree) => [
-  //     item.numeroBE,
-  //     item.libelleBonEntree,
-  //     `${new Date(item.dateBonEntree.toString()).getDate()} ${months[new Date(item.dateBonEntree.toString()).getMonth()]} ${new Date(item.dateBonEntree.toString()).getFullYear() % 100}`,
-  //     item.observationBonEntree,
-  //     item.rowNombreArticleBonEntree
-  //   ]);
+    // Créez un tableau de données pour autoTable
+    const tableData = data.map((item: UniteDouaniere) => [
+      item.codeUniteDouaniere,
+      item.nomUniteDouaniere,
+      // `${new Date(item.dateBonEntree.toString()).getDate()} ${months[new Date(item.dateBonEntree.toString()).getMonth()]} ${new Date(item.dateBonEntree.toString()).getFullYear() % 100}`,
+      item.effectifUniteDouaniere,
+      // item.rowCodeTypeUniteDouaniere
+    ]);
 
-  //   // Configuration pour le PDF avec une taille de page personnalisée
+    // Configuration pour le PDF avec une taille de page personnalisée
 
-  //   const marginLeft = 10;
-  //   const marginTop = 10;
-  //   const marginRight = 10;
-  //   const marginBottom = 10;
+    const marginLeft = 10;
+    const marginTop = 10;
+    const marginRight = 10;
+    const marginBottom = 10;
 
-  //   // Générer le tableau dans le PDF avec des styles de texte personnalisés
-  //   autoTable(doc, {
-  //     head: [
-  //       [
-  //         { content: 'N° bon d\'entrée', styles: { fontSize: 6 } },
-  //         { content: 'Libelle bon d\'entrée', styles: { fontSize: 6 } },
-  //         { content: 'Date bon d\'entrée', styles: { fontSize: 6 } },
-  //         { content: 'Observation bon d\'entrée', styles: { fontSize: 6 } },
-  //         { content: 'Articles', styles: { fontSize: 6 } }
-  //       ]
-  //     ],
-  //     body: tableData.map(row => row.map(cell => ({ content: cell.toString(), styles: { fontSize: 6 } }))),
-  //     margin: { top: marginTop, right: marginRight, bottom: marginBottom, left: marginLeft },
-  //     theme: 'plain'
-  //   });
+    // Générer le tableau dans le PDF avec des styles de texte personnalisés
+    autoTable(doc, {
+      head: [
+        [
+          { content: 'Code', styles: { fontSize: 6 } },
+          { content: 'Nom Unité', styles: { fontSize: 6 } },
+          { content: 'Effectif', styles: { fontSize: 6 } },
+          // { content: 'Type Unité', styles: { fontSize: 6 } },
+          // { content: 'Articles', styles: { fontSize: 6 } }
+        ]
+      ],
+      body: tableData.map(row => row.map(cell => ({ content: cell.toString(), styles: { fontSize: 6 } }))),
+      margin: { top: marginTop, right: marginRight, bottom: marginBottom, left: marginLeft },
+      theme: 'plain'
+    });
 
-  //   doc.save('bon-entree-liste.pdf');
-  // }
+    doc.save('unite-douaniere-liste.pdf');
+  }
 
 
   search(term: string): void {
@@ -211,48 +213,6 @@ export class UniteDouaniereListeComponent implements OnInit, OnDestroy {
     return !isNaN(Number(termeRechercheNumeroBELibelleBonEntree))
   }
 
-  // ---------------------------------------------------------------------------------------------------------------------
-  // ---------------------------------------------------------------------------------------------------------------------
-  // public listeVehicules(): void {
-
-  //   const subscription = this.vehiculeService.listeVehicules().subscribe({
-  //     next: (response: Vehicule[]) => {
-
-  //       this.vehicules = response;
-  //       // this.vehicules = response.sort((a, b) => parseInt(a.numeroImmatriculation) - parseInt(b.numeroImmatriculation));
-  //       // this.vehicules = response.sort((a, b) => Number(a.numeroImmatriculation) - Number(b.numeroImmatriculation));
-  //       // this.vehicules = response.sort((a, b) => a.numeroImmatriculation.localeCompare(b.numeroImmatriculation));
-  //       // this.vehicules = response.sort((a, b) => a.numeroChassis - b.numeroChassis);
-  //       // this.vehicules = response.sort((a, b) => new Date(b.dateModification).getTime() - new Date(a.dateModification).getTime());
-
-  //       // recuperer la liste des bon entrees qui se trouvent dans la liste de vehicules
-  //       this.filtreBonEntreeVehicule(this.vehicules, this.articleBonEntrees);
-
-  //     },
-  //     error: (errorResponse: HttpErrorResponse) => {
-  //       // console.log(errorResponse);
-  //     },
-  //   });
-
-  //   this.subscriptions.push(subscription);
-  // }
-  // ---------------------------------------------------------------------------------------------------------------------
-  // ---------------------------------------------------------------------------------------------------------------------
-
-
-  // ---------------------------------------------------------------------------------------------------------------------
-  // ---------------------------------------------------------------------------------------------------------------------
-
-  // ---------------------------------------------------------------------------------------------------------------------
-  // ---------------------------------------------------------------------------------------------------------------------
-
-
-
-  // ---------------------------------------------------------------------------------------------------------------------
-  // ---------------------------------------------------------------------------------------------------------------------
-
-
-
 
   public listeUniteDouanieres(): void {
 
@@ -262,7 +222,7 @@ export class UniteDouaniereListeComponent implements OnInit, OnDestroy {
 
         this.dataSource = new MatTableDataSource<UniteDouaniere>(this.uniteDouanieres.map((item) => ({
           ...item,
-          rowTypeUniteDouaniere: item.codeTypeUniteDouaniere.libelleTypeUniteDouaniere
+          rowCodeTypeUniteDouaniere: item.codeTypeUniteDouaniere.libelleTypeUniteDouaniere
 
         })));
 

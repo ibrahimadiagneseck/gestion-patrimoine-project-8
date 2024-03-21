@@ -404,7 +404,7 @@ export class ReceptionVehiculeAjouterArticleComponent implements OnInit, OnDestr
   // }
 
   nombreArticleBonEntree(bonEntree: BonEntree, articleBonEntrees: ArticleBonEntree[]): number {
-      const matchingArticles = articleBonEntrees.filter(article => bonEntree && article.codeArticleBonEntree && bonEntree.identifiantBonEntree === article.identifiantBonEntree);
+      const matchingArticles = articleBonEntrees.filter(article => bonEntree && article.codeArticleBonEntree && bonEntree.identifiantBE === article.identifiantBE);
       return matchingArticles.length + 1;
   }
 
@@ -456,7 +456,7 @@ export class ReceptionVehiculeAjouterArticleComponent implements OnInit, OnDestr
     this.articleBonEntree = ArticleBonEntreeForm.value;
 
     // BON ENTREE
-    this.articleBonEntree.identifiantBonEntree = this.bonEntree.identifiantBonEntree;
+    this.articleBonEntree.identifiantBE = this.bonEntree.identifiantBE;
 
     console.log(ArticleBonEntreeForm.value);
 

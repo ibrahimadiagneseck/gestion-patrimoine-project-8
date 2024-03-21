@@ -85,14 +85,14 @@ export class UtilisateurListeComponent implements OnInit, OnDestroy {
     "lastLoginDateDisplay",
     "active",
     "notLocked",
-    "rowNumeroSommier",
+    "rowcodeAgent",
     "rowEmailAgent",
   ];
   dataSource = new MatTableDataSource<Utilisateur>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   displayedColumns: string[] = [
     "rowMatriculeAgent",
-    "rowNumeroSommier",
+    "rowcodeAgent",
     "rowPrenomAgent",
     "rowNomAgent",
     "rowEmailAgent",
@@ -110,7 +110,7 @@ export class UtilisateurListeComponent implements OnInit, OnDestroy {
   ];
   displayedColumnsCustom: string[] = [
     "N° matricule",
-    "N° sommier",
+    "N° code",
     "Prénom",
     "Nom",
     "Email",
@@ -182,7 +182,7 @@ export class UtilisateurListeComponent implements OnInit, OnDestroy {
     const tableData = data.map((item: Utilisateur) => [
 
       item.matriculeAgent.matriculeAgent,
-      item.matriculeAgent.numeroSommier,
+      item.matriculeAgent.codeAgent,
       item.matriculeAgent.prenomAgent,
       item.matriculeAgent.nomAgent,
       item.matriculeAgent.emailAgent,
@@ -276,7 +276,7 @@ export class UtilisateurListeComponent implements OnInit, OnDestroy {
           ...item,
 
           rowMatriculeAgent: item.matriculeAgent.matriculeAgent,
-          rowNumeroSommier: item.matriculeAgent.numeroSommier,
+          rowcodeAgent: item.matriculeAgent.codeAgent,
           rowPrenomAgent: item.matriculeAgent.prenomAgent,
           rowNomAgent: item.matriculeAgent.nomAgent,
           rowEmailAgent: item.matriculeAgent.emailAgent,

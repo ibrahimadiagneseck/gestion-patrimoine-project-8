@@ -26,13 +26,13 @@ export class BonEntreeService {
 
     // Filtrer la liste de bonEntrees en fonction du terme de recherche
     const filteredBonEntrees: BonEntree[] = listeBonEntrees.filter((bonEntree) =>
-      bonEntree.numeroBonEntree.toString().includes(term.toLowerCase()) || bonEntree.libelleBonEntree.toLowerCase().includes(term.toLowerCase())
+      bonEntree.numeroBE.toString().includes(term.toLowerCase()) || bonEntree.libelleBonEntree.toLowerCase().includes(term.toLowerCase())
     );
 
     // Utilisation de la méthode filter() pour éliminer les doublons
     const filteredBonEntrees1: BonEntree[] = filteredBonEntrees.filter((item, index, self) =>
       index === self.findIndex((t) => (
-        t.libelleBonEntree === item.libelleBonEntree || t.numeroBonEntree === item.numeroBonEntree
+        t.libelleBonEntree === item.libelleBonEntree || t.numeroBE === item.numeroBE
       ))
     );
 
@@ -57,7 +57,7 @@ export class BonEntreeService {
     // Vérifier si le terme de recherche correspond à n'importe lequel des attributs du bonEntree
     const termLowerCase = term.toLowerCase();
     return (
-      bonEntree.numeroBonEntree.toString().includes(termLowerCase) || bonEntree.libelleBonEntree.toLowerCase().includes(termLowerCase)
+      bonEntree.numeroBE.toString().includes(termLowerCase) || bonEntree.libelleBonEntree.toLowerCase().includes(termLowerCase)
       // Ajoutez d'autres attributs à vérifier si nécessaire
     );
   }
@@ -87,8 +87,8 @@ export class BonEntreeService {
     return this.httpClient.delete<CustomHttpRespone>(`${this.urlServeur}/SupprimerBonEntreeById/${identifiantBonEntree}`, { withCredentials: true });
   }
 
-  public recupererBonEntreeById(identifiantBonEntree: string): Observable<BonEntree> {
-    return this.httpClient.get<BonEntree>(`${this.urlServeur}/RecupererBonEntreeById/${identifiantBonEntree}`, { withCredentials: true });
+  public recupererBonEntreeById(identifiantBE: string): Observable<BonEntree> {
+    return this.httpClient.get<BonEntree>(`${this.urlServeur}/RecupererBonEntreeById/${identifiantBE}`, { withCredentials: true });
   }
 
 

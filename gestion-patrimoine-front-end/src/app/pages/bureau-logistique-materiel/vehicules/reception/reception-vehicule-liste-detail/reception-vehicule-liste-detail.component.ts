@@ -25,7 +25,7 @@ export class ReceptionVehiculeListeDetailComponent implements OnInit, OnDestroy,
   public bonEntrees: BonEntree[] = [];
   public bonEntree: BonEntree = new BonEntree();
 
-  // public numeroBonEntree: string = '';
+  // public numeroBE: string = '';
   // public dateBonEntree: string = '';
   // public raisonSociale: any = '';
   // public dateBordereauLivraison: string = '';
@@ -43,17 +43,19 @@ export class ReceptionVehiculeListeDetailComponent implements OnInit, OnDestroy,
     
     // Vous pouvez maintenant accéder aux propriétés du composant enfant
     if (this.data) {
-      // this.numeroBonEntree = this.data.vehicule.codeArticleBonEntree.identifiantBonEntree.numeroBonEntree;
-      // this.dateBonEntree = this.data.vehicule.codeArticleBonEntree.identifiantBonEntree.dateBonEntree;
-      // this.raisonSociale = this.data.vehicule.codeArticleBonEntree.identifiantBonEntree.identifiantBordereauLivraison.ninea.raisonSociale;
-      // this.dateBordereauLivraison = this.data.vehicule.codeArticleBonEntree.identifiantBonEntree.identifiantBordereauLivraison.dateBordereauLivraison;
-      // this.numeroBordereauLivraison = this.data.vehicule.codeArticleBonEntree.identifiantBonEntree.identifiantBordereauLivraison.numeroBordereauLivraison;
-      // this.lieuDeLivraison = this.data.vehicule.codeArticleBonEntree.identifiantBonEntree.identifiantBordereauLivraison.lieuDeLivraison;
+      // this.numeroBE = this.data.vehicule.codeArticleBonEntree.identifiantBE.numeroBE;
+      // this.dateBonEntree = this.data.vehicule.codeArticleBonEntree.identifiantBE.dateBonEntree;
+      // this.raisonSociale = this.data.vehicule.codeArticleBonEntree.identifiantBE.identifiantBordereauLivraison.ninea.raisonSociale;
+      // this.dateBordereauLivraison = this.data.vehicule.codeArticleBonEntree.identifiantBE.identifiantBordereauLivraison.dateBordereauLivraison;
+      // this.numeroBordereauLivraison = this.data.vehicule.codeArticleBonEntree.identifiantBE.identifiantBordereauLivraison.numeroBordereauLivraison;
+      // this.lieuDeLivraison = this.data.vehicule.codeArticleBonEntree.identifiantBE.identifiantBordereauLivraison.lieuDeLivraison;
 
       this.numeroSerie = this.data.vehicule.numeroSerie;
       this.libelleArticleBonEntree = this.data.vehicule.codeArticleBonEntree.libelleArticleBonEntree;
 
-      this.recupererBonEntreeById(this.data.vehicule.codeArticleBonEntree.identifiantBonEntree);
+      console.log(this.data.vehicule.codeArticleBonEntree.identifiantBE);
+      
+      this.recupererBonEntreeById(this.data.vehicule.codeArticleBonEntree.identifiantBE);
 
       // Déclencher manuellement la détection des changements si nécessaire
       this.cdr.detectChanges();
@@ -73,9 +75,9 @@ export class ReceptionVehiculeListeDetailComponent implements OnInit, OnDestroy,
   ngOnInit(): void {
     // console.log(this.vehicule);
 
-    // this.recupererBonEntreeById(this.data.vehicule.codeArticleBonEntree.identifiantBonEntree);
+    // this.recupererBonEntreeById(this.data.vehicule.codeArticleBonEntree.identifiantBE);
 
-    // this.recupererArticleBonEntreeById(this.data.vehicule.codeArticleBonEntree.codeArticleBonEntree, this.data.vehicule.codeArticleBonEntree.identifiantBonEntree)
+    // this.recupererArticleBonEntreeById(this.data.vehicule.codeArticleBonEntree.codeArticleBonEntree, this.data.vehicule.codeArticleBonEntree.identifiantBE)
   }
   
 
@@ -86,9 +88,9 @@ export class ReceptionVehiculeListeDetailComponent implements OnInit, OnDestroy,
 
    // ---------------------------------------------------------------------------------------------------------------------
   // ---------------------------------------------------------------------------------------------------------------------
-  // public recupererArticleBonEntreeById(codeArticleBonEntree: number, identifiantBonEntree: string): void {
+  // public recupererArticleBonEntreeById(codeArticleBonEntree: number, identifiantBE: string): void {
 
-  //   const subscription = this.articleBonEntreeService.recupererArticleBonEntreeById(codeArticleBonEntree, identifiantBonEntree).subscribe({
+  //   const subscription = this.articleBonEntreeService.recupererArticleBonEntreeById(codeArticleBonEntree, identifiantBE).subscribe({
   //     next: (response: ArticleBonEntree) => {
   //       this.articleBonEntree = response;
   //       // console.log(this.prestataires);
@@ -106,9 +108,9 @@ export class ReceptionVehiculeListeDetailComponent implements OnInit, OnDestroy,
 
   // ---------------------------------------------------------------------------------------------------------------------
   // ---------------------------------------------------------------------------------------------------------------------
-  public recupererBonEntreeById(identifiantBonEntree: string): void {
+  public recupererBonEntreeById(identifiantBE: string): void {
 
-    const subscription = this.bonEntreeService.recupererBonEntreeById(identifiantBonEntree).subscribe({
+    const subscription = this.bonEntreeService.recupererBonEntreeById(identifiantBE).subscribe({
       next: (response: BonEntree) => {
         this.bonEntree = response;
         // console.log(this.bonEntree);

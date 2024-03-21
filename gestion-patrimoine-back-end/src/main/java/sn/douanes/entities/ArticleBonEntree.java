@@ -29,8 +29,8 @@ public class ArticleBonEntree {
     private Integer codeArticleBonEntree;
 
     @Id
-    @Column(name = "IDENTIFIANT_BON_ENTREE", nullable = false)
-    private String identifiantBonEntree;
+    @Column(name = "IDENTIFIANT_B_E", nullable = false)
+    private String identifiantBE;
 
 
     @Column(name = "LIBELLE_ARTICLE_BON_ENTREE")

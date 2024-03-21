@@ -32,7 +32,7 @@ public class ArticleBonEntreeController {
     @PostMapping("/AjouterArticleBonEntree")
     @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ArticleBonEntree AjouterArticleBonEntree(@RequestBody ArticleBonEntree articleBonEntree) {
-        return articleBonEntreeService.ajouterArticleBonEntree(articleBonEntree.getCodeArticleBonEntree(),articleBonEntree.getIdentifiantBonEntree(), articleBonEntree.getLibelleArticleBonEntree(),articleBonEntree.getCodeLieuVH(), articleBonEntree.getQuantiteEntree(), articleBonEntree.getCodeTypeObjet(), articleBonEntree.getMatriculeAgent());
+        return articleBonEntreeService.ajouterArticleBonEntree(articleBonEntree.getCodeArticleBonEntree(),articleBonEntree.getIdentifiantBE(), articleBonEntree.getLibelleArticleBonEntree(),articleBonEntree.getCodeLieuVH(), articleBonEntree.getQuantiteEntree(), articleBonEntree.getCodeTypeObjet(), articleBonEntree.getMatriculeAgent());
     }
 
 

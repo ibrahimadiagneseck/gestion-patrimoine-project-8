@@ -1,19 +1,17 @@
 package sn.douanes.entities.keys;
 
-import sn.douanes.entities.BonEntree;
-
 import java.io.Serializable;
 
 public class ArticleBonEntreeId implements Serializable {
 
     private Integer codeArticleBonEntree;
-    private String identifiantBonEntree;
+    private String identifiantBE;
 
     public ArticleBonEntreeId() {
     }
 
-    public ArticleBonEntreeId(Integer codeArticleBonEntree, String identifiantBonEntree) {
+    public ArticleBonEntreeId(Integer codeArticleBonEntree, String identifiantBE) {
         this.codeArticleBonEntree = codeArticleBonEntree;
-        this.identifiantBonEntree = identifiantBonEntree;
+        this.identifiantBE = identifiantBE;
     }
 }

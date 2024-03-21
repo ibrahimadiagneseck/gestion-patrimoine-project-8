@@ -26,8 +26,8 @@ export class ArticleBonSortieService {
     return this.httpClient.get<ArticleBonSortie[]>(`${this.urlServeur}/ArticleBonSorties`, { withCredentials: true });
   }
 
-  public ajouterArticleBonSortie(articleBonSortie: ArticleBonSortie): Observable<string> {
-    return this.httpClient.post<string>(`${this.urlServeur}/AjouterArticleBonSortie`, articleBonSortie, { withCredentials: true });
+  public ajouterArticleBonSortie(articleBonSortie: ArticleBonSortie): Observable<ArticleBonSortie> {
+    return this.httpClient.post<ArticleBonSortie>(`${this.urlServeur}/AjouterArticleBonSortie`, articleBonSortie, { withCredentials: true });
   }
 
 

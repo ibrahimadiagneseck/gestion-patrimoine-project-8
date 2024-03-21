@@ -6,40 +6,40 @@ import { Sections } from "./sections.model";
 
 export class BordereauLivraison {
 
-  public identifiantBordereauLivraison: string;
-  public numeroBordereauLivraison: string;
-  public dateBordereauLivraison: MyDate;
-  public descriptionBordereauLivraison: string;
+  public identifiantBL: string;
+  public numeroBL: string;
+  public dateBL: MyDate;
+  public descriptionBL: string;
   public lieuDeLivraison: string;
   public representantPrestataire: string;
   public codeSection: Sections;
-  public conformiteBordereauLivraison: string;
+  public conformiteBL: string;
   public matriculeAgent: Agent;
   public dateEnregistrement: MyDate;
   public ninea: Prestataires;
 
 
   constructor(
-    identifiantBordereauLivraison: string = '',
-    numeroBordereauLivraison: string = '',
-    dateBordereauLivraison: MyDate = new MyDate(),
-    descriptionBordereauLivraison: string = '',
+    identifiantBL: string = '',
+    numeroBL: string = '',
+    dateBL: MyDate = new MyDate(),
+    descriptionBL: string = '',
     lieuDeLivraison: string = '',
     representantPrestataire: string = '',
     codeSection: Sections = new Sections(),
-    conformiteBordereauLivraison: string = '',
+    conformiteBL: string = '',
     matriculeAgent: Agent = new Agent(),
     dateEnregistrement: MyDate = new MyDate(),
     ninea: Prestataires = new Prestataires()
   ) {
-    this.identifiantBordereauLivraison = identifiantBordereauLivraison;
-    this.numeroBordereauLivraison = numeroBordereauLivraison;
-    this.dateBordereauLivraison = dateBordereauLivraison;
-    this.descriptionBordereauLivraison = descriptionBordereauLivraison;
+    this.identifiantBL = identifiantBL;
+    this.numeroBL = numeroBL;
+    this.dateBL = dateBL;
+    this.descriptionBL = descriptionBL;
     this.lieuDeLivraison = lieuDeLivraison;
     this.representantPrestataire = representantPrestataire;
     this.codeSection = codeSection;
-    this.conformiteBordereauLivraison = conformiteBordereauLivraison;
+    this.conformiteBL = conformiteBL;
     this.matriculeAgent = matriculeAgent;
     this.dateEnregistrement = dateEnregistrement;
     this.ninea = ninea;

@@ -106,8 +106,8 @@ export class ReceptionVehiculeModifierBonEntreeComponent implements OnInit, OnDe
   }
 
   ngOnInit(): void {
-    const dateBordereauLivraison = this.bonEntree.identifiantBordereauLivraison.dateBordereauLivraison.toString();
-    this.modelDate1 = this.formatterStringToNgbDateStruct(dateBordereauLivraison);
+    const dateBL = this.bonEntree.identifiantBL.dateBL.toString();
+    this.modelDate1 = this.formatterStringToNgbDateStruct(dateBL);
 
     const dateBonEntree = this.bonEntree.dateBonEntree.toString();
     this.modelDate2 = this.formatterStringToNgbDateStruct(dateBonEntree);
@@ -266,8 +266,8 @@ export class ReceptionVehiculeModifierBonEntreeComponent implements OnInit, OnDe
     // );
 
     // -------------------------------------------------------------------------- METHODE 2
-    const dateBordereauLivraison: MyDate = BordereauLivraisonForm.value.dateBordereauLivraison;
-    const formattedDate = this.bordereauLivraisonService.formatterMyDate(dateBordereauLivraison);
+    const dateBL: MyDate = BordereauLivraisonForm.value.dateBL;
+    const formattedDate = this.bordereauLivraisonService.formatterMyDate(dateBL);
 
     // const bordereauLivraisonForm1: NgForm = BordereauLivraisonForm;
     // BordereauLivraisonForm.control.get('dateBL')?.patchValue(formattedDate);
@@ -275,10 +275,10 @@ export class ReceptionVehiculeModifierBonEntreeComponent implements OnInit, OnDe
 
 
     if (formattedDate) {
-      BordereauLivraisonForm.value.dateBordereauLivraison = formattedDate;
+      BordereauLivraisonForm.value.dateBL = formattedDate;
     }
 
-    BordereauLivraisonForm.value.identifiantBordereauLivraison = this.bonEntree.identifiantBordereauLivraison.identifiantBordereauLivraison;
+    BordereauLivraisonForm.value.identifiantBL = this.bonEntree.identifiantBL.identifiantBL;
     // BordereauLivraisonForm.value.matriculeAgent = this.bonEntree.identifiantBL.;
 
     // SECTION ET AGENT
@@ -353,10 +353,10 @@ export class ReceptionVehiculeModifierBonEntreeComponent implements OnInit, OnDe
       bonEntreeForm.value.dateBonEntree = formattedDate;
     }
 
-    bonEntreeForm.value.identifiantBonEntree = this.bonEntree.identifiantBonEntree;
+    bonEntreeForm.value.identifiantBE = this.bonEntree.identifiantBE;
 
     // BORDEREAU LIVRAISON
-    bonEntreeForm.value.identifiantBordereauLivraison = this.bordereauLivraison;
+    bonEntreeForm.value.identifiantBL = this.bordereauLivraison;
 
     console.log(bonEntreeForm.value);
 
@@ -364,9 +364,9 @@ export class ReceptionVehiculeModifierBonEntreeComponent implements OnInit, OnDe
     this.subscriptions.push(this.bonEntreeService.modifierBonEntree(bonEntreeForm.value).subscribe({
         next: (response: BonEntree) => {
           this.bonEntree = response;
-          console.log(this.bonEntree);
+          // console.log(this.bonEntree);
           this.popupFermer();
-          this.goToAjouterArticle(this.bonEntree)
+          // this.goToAjouterArticle(this.bonEntree)
           // this.sendNotification(NotificationType.SUCCESS, `Ajout réussie de ${response.ninea}`);
           this.sendNotification(NotificationType.SUCCESS, `Modification réussie`);
         },
@@ -396,11 +396,11 @@ export class ReceptionVehiculeModifierBonEntreeComponent implements OnInit, OnDe
 
 
 
-  goToAjouterArticle(bonEntree: BonEntree): void {
-    const id = bonEntree.identifiantBonEntree;
-    const encrypt = this.securiteService.encryptUsingAES256(id);
-    this.router.navigate(['/reception-vehicule-detail', encrypt]);
-  }
+  // goToAjouterArticle(bonEntree: BonEntree): void {
+  //   const id = bonEntree.identifiantBE;
+  //   const encrypt = this.securiteService.encryptUsingAES256(id);
+  //   this.router.navigate(['/reception-vehicule-detail', encrypt]);
+  // }
 
 
 

@@ -69,15 +69,15 @@ public class BordereauLivraisonServiceImpl implements BordereauLivraisonService 
         BordereauLivraison bordereauLivraison = new BordereauLivraison();
 
         bordereauLivraison.setDateEnregistrement(new Timestamp(System.currentTimeMillis()));
-        bordereauLivraison.setIdentifiantBordereauLivraison(genererIdentifiantBordereauLivraison(codeSection.getCodeSection(), genererDateEnregistrement(bordereauLivraison.getDateEnregistrement())));
+        bordereauLivraison.setIdentifiantBL(genererIdentifiantBordereauLivraison(codeSection.getCodeSection(), genererDateEnregistrement(bordereauLivraison.getDateEnregistrement())));
 
-        bordereauLivraison.setNumeroBordereauLivraison(numeroBordereauLivraison);
-        bordereauLivraison.setDateBordereauLivraison(dateBordereauLivraison);
-        bordereauLivraison.setDescriptionBordereauLivraison(descriptionBordereauLivraison);
+        bordereauLivraison.setNumeroBL(numeroBordereauLivraison);
+        bordereauLivraison.setDateBL(dateBordereauLivraison);
+        bordereauLivraison.setDescriptionBL(descriptionBordereauLivraison);
         bordereauLivraison.setLieuDeLivraison(lieuDeLivraison);
         bordereauLivraison.setRepresentantPrestataire(representantPrestataire);
         bordereauLivraison.setCodeSection(codeSection);
-        bordereauLivraison.setConformiteBordereauLivraison(conformiteBordereauLivraison);
+        bordereauLivraison.setConformiteBL(conformiteBordereauLivraison);
         bordereauLivraison.setMatriculeAgent(matriculeAgent);
         bordereauLivraison.setNinea(ninea);
 

@@ -131,7 +131,7 @@ export class ReceptionVehiculeDetailComponent implements OnInit, OnDestroy {
     this.listeArticles();
 
     // --------------------------------------------------------------------------------
-    const id = this.route.snapshot.paramMap.get('identifiantBonEntree') ?? '';
+    const id = this.route.snapshot.paramMap.get('identifiantBE') ?? '';
 
     const decrypt = this.securiteService.decryptUsingAES256(id);
 
@@ -237,7 +237,7 @@ export class ReceptionVehiculeDetailComponent implements OnInit, OnDestroy {
 
   //   for (const articleBonEntree of articleBonEntrees) {
   //     // Comparer les bonEntree ici (assurez-vous d'implémenter une méthode de comparaison dans la classe BonEntree)
-  //     if (bonEntree && articleBonEntree.identifiantBonEntree && bonEntree.identifiantBonEntree === articleBonEntree.identifiantBonEntree) {
+  //     if (bonEntree && articleBonEntree.identifiantBE && bonEntree.identifiantBE === articleBonEntree.identifiantBE) {
   //       nombreArticleBonEntree++;
   //     }
   //   }
@@ -246,7 +246,7 @@ export class ReceptionVehiculeDetailComponent implements OnInit, OnDestroy {
   // }
 
   nombreArticleBonEntree(bonEntree: BonEntree, articleBonEntrees: ArticleBonEntree[]): number {
-    return articleBonEntrees.filter(article => bonEntree && article.identifiantBonEntree && bonEntree.identifiantBonEntree === article.identifiantBonEntree).length;
+    return articleBonEntrees.filter(article => bonEntree && article.identifiantBE && bonEntree.identifiantBE === article.identifiantBE).length;
   }
 
 
@@ -256,7 +256,7 @@ export class ReceptionVehiculeDetailComponent implements OnInit, OnDestroy {
     this.rowNumber = 1;
 
     vehicules = vehicules.filter((vehicule: Vehicule) => {
-      return vehicule.codeArticleBonEntree && bonEntree.identifiantBonEntree && vehicule.codeArticleBonEntree.identifiantBonEntree === bonEntree.identifiantBonEntree;
+      return vehicule.codeArticleBonEntree && bonEntree.identifiantBE && vehicule.codeArticleBonEntree.identifiantBE === bonEntree.identifiantBE;
     });
 
 

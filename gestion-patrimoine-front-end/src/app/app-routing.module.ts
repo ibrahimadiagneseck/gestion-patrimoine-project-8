@@ -14,6 +14,7 @@ import { UniteDouaniereListeComponent } from './pages/unite-douaniere/unite-doua
 import { PrestataireSecteurListeComponent } from './pages/prestataire/prestataire-secteur-liste/prestataire-secteur-liste.component';
 import { SectionsListeComponent } from './pages/sections/sections-liste/sections-liste.component';
 import { SecteurActiviteListeComponent } from './pages/secteur-activite/secteur-activite-liste/secteur-activite-liste.component';
+import { TypeUniteDouaniereListeComponent } from './pages/type-unite-douaniere/type-unite-douaniere-liste/type-unite-douaniere-liste.component';
 
 
 const routes: Routes = [
@@ -28,6 +29,8 @@ const routes: Routes = [
   { path: 'utilisateur-liste', component: UtilisateurListeComponent, canActivate: [AuthActivateRouteGuard]},
 
   { path: 'unite-douaniere', component: UniteDouaniereListeComponent, canActivate: [AuthActivateRouteGuard]},
+
+  { path: 'type-unite-douaniere', component: TypeUniteDouaniereListeComponent, canActivate: [AuthActivateRouteGuard]},
 
   { path: 'prestataire', component: PrestataireSecteurListeComponent, canActivate: [AuthActivateRouteGuard]},
 

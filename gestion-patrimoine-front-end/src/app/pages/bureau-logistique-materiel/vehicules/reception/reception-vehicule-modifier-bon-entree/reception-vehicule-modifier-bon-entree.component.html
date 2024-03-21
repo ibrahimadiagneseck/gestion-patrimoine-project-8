@@ -15,27 +15,27 @@
 
                 <div class="row g-4 mb-3">
                     <div class="col-3 mx-auto form-group">
-                        <label for="numeroBordereauLivraison" class="form-label fw-bold">N° bordereau livraison</label>
-                        <input id="numeroBordereauLivraison" type="text" name="numeroBordereauLivraison" required [(ngModel)]="bonEntree!.identifiantBordereauLivraison.numeroBordereauLivraison" class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                        <label for="numeroBL" class="form-label fw-bold">N° bordereau livraison</label>
+                        <input id="numeroBL" type="text" name="numeroBL" required [(ngModel)]="bonEntree!.identifiantBL.numeroBL" class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
                     </div>
 
 
                     <div class="col-3 mx-auto form-group">
-                        <label for="dateBordereauLivraison" class="form-label fw-bold">Date bordereau livraison</label>
-                        <input type="text" name="dateBordereauLivraison" id="dateBordereauLivraison" autocomplete="off" ngbDatepicker #dp1="ngbDatepicker" (click)="dp1.toggle()" required [(ngModel)]="modelDate1" [value]="formatterNgbDateStructToString(modelDate1)" class="text-input form-control bg-mywhite border border-myprimary px-1 text-uppercase">
+                        <label for="dateBL" class="form-label fw-bold">Date bordereau livraison</label>
+                        <input type="text" name="dateBL" id="dateBL" autocomplete="off" ngbDatepicker #dp1="ngbDatepicker" (click)="dp1.toggle()" required [(ngModel)]="modelDate1" [value]="formatterNgbDateStructToString(modelDate1)" class="text-input form-control bg-mywhite border border-myprimary px-1 text-uppercase">
                     </div>
 
 
                     <div class="col-3 mx-auto form-group">
                         <label for="lieuDeLivraison" class="form-label fw-bold">Lieu de livraison</label>
-                        <input type="text" name="lieuDeLivraison" id="lieuDeLivraison" required [(ngModel)]="bonEntree!.identifiantBordereauLivraison.lieuDeLivraison" class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                        <input type="text" name="lieuDeLivraison" id="lieuDeLivraison" required [(ngModel)]="bonEntree!.identifiantBL.lieuDeLivraison" class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
                     </div>
                 </div>
 
                 <div class="row g-4 mb-3">
                     <div class="col-3 mx-auto form-group d-none">
-                        <label for="conformiteBordereauLivraison" class="form-label fw-bold">Conformite bordereau livraison</label>
-                        <select name="conformiteBordereauLivraison" id="conformiteBordereauLivraison" required [(ngModel)]="selectedValueConformiteBL" class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                        <label for="conformiteBL" class="form-label fw-bold">Conformite bordereau livraison</label>
+                        <select name="conformiteBL" id="conformiteBL" required [(ngModel)]="selectedValueConformiteBL" class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
                             <option value="OUI">OUI</option>
                             <option value="NON">NON</option>
                         </select>
@@ -45,10 +45,10 @@
 
 
 
-                    <ng-container *ngIf="bonEntree!.identifiantBordereauLivraison.ninea; else pasDePrestataires">
+                    <ng-container *ngIf="bonEntree!.identifiantBL.ninea; else pasDePrestataires">
                         <div class="col-7 mx-auto form-group">
                             <label for="ninea" class="form-label fw-bold">Prestataire</label>
-                            <select name="ninea" id="ninea" required [(ngModel)]="bonEntree!.identifiantBordereauLivraison.ninea.raisonSociale" class="form-select text-input form-control bg-mywhite border border-myprimary px-1 text-uppercase">
+                            <select name="ninea" id="ninea" required [(ngModel)]="bonEntree!.identifiantBL.ninea.raisonSociale" class="form-select text-input form-control bg-mywhite border border-myprimary px-1 text-uppercase">
                                 <option *ngFor="let prestataire of prestataires" [ngValue]="prestataire.raisonSociale">
                                     {{ prestataire.raisonSociale }}
                                 </option>
@@ -69,15 +69,15 @@
 
                     <div class="col-3 mx-auto form-group">
                       <label for="representantPrestataire" class="form-label fw-bold">Représentant prestataire</label>
-                      <input type="text" name="representantPrestataire" id="representantPrestataire" required [(ngModel)]="bonEntree!.identifiantBordereauLivraison.representantPrestataire" class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                      <input type="text" name="representantPrestataire" id="representantPrestataire" required [(ngModel)]="bonEntree!.identifiantBL.representantPrestataire" class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
                    </div>
 
                 </div>
 
                 <div class="row g-4">
                     <div class="col-11 mx-auto form-group">
-                        <label for="descriptionBordereauLivraison" class="form-label fw-bold">Description bordereau livraison</label>
-                        <textarea name="descriptionBordereauLivraison" id="descriptionBordereauLivraison" rows="2" required [(ngModel)]="bonEntree!.identifiantBordereauLivraison.descriptionBordereauLivraison" class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase" style="resize: none;"></textarea>
+                        <label for="descriptionBL" class="form-label fw-bold">Description bordereau livraison</label>
+                        <textarea name="descriptionBL" id="descriptionBL" rows="2" required [(ngModel)]="bonEntree!.identifiantBL.descriptionBL" class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase" style="resize: none;"></textarea>
                     </div>
                 </div>
 
@@ -103,15 +103,14 @@
 
                 <div class="row g-4 mb-3">
                     <div class="col-3 mx-auto form-group">
-                        <label for="numeroBonEntree" class="form-label fw-bold">N° bon d'entrée</label>
-                        <input id="numeroBonEntree" type="text" name="numeroBonEntree" required [(ngModel)]="bonEntree!.numeroBonEntree" class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                        <label for="numeroBE" class="form-label fw-bold">N° bon d'entrée</label>
+                        <input id="numeroBE" type="text" name="numeroBE" required [(ngModel)]="bonEntree!.numeroBE" class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
                     </div>
 
                     <div class="col-3 mx-auto form-group">
                         <label for="dateBonEntree" class="form-label fw-bold">Date bon d'entrée</label>
                         <input type="text" name="dateBonEntree" id="dateBonEntree" autocomplete="off" ngbDatepicker #dp2="ngbDatepicker" (click)="dp2.toggle()" required [(ngModel)]="modelDate2" [value]="formatterNgbDateStructToString(modelDate2)" class="text-input form-control bg-mywhite border border-myprimary px-1 text-uppercase">
                     </div>
-
 
 
                     <div class="col-3 mx-auto form-group">

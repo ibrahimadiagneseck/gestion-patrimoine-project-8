@@ -66,7 +66,7 @@ public class ArticleBonEntreeServiceImpl implements ArticleBonEntreeService {
         articleBonEntree.setDateEnregistrement(new Timestamp(System.currentTimeMillis()));
 
         articleBonEntree.setCodeArticleBonEntree(codeArticleBonEntree);
-        articleBonEntree.setIdentifiantBonEntree(identifiantBonEntree);
+        articleBonEntree.setIdentifiantBE(identifiantBonEntree);
         articleBonEntree.setLibelleArticleBonEntree(libelleArticleBonEntree);
         articleBonEntree.setCodeLieuVH(codeLieuVH);
         articleBonEntree.setQuantiteEntree(quantiteEntree);

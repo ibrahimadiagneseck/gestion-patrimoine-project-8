@@ -39,19 +39,19 @@
 
                   <div *ngIf="focusOnInput" style="position: absolute; background-color: #e7e7e7;">
 
-                      <ng-container *ngFor="let bonEntree of bonEntreeFilterDoubleNumeroBonEntreeLibelleBonEntree$ | async;" style="cursor: pointer; display: block; color: gray; background-color: #fff; margin: 5px; text-decoration: none;">
+                      <ng-container *ngFor="let bonEntree of bonEntreeFilterDoublenumeroBELibelleBonEntree$ | async;" style="cursor: pointer; display: block; color: gray; background-color: #fff; margin: 5px; text-decoration: none;">
                           <!-- {{ bonEntree | json }}  -->
-                          <ng-container *ngIf="isNumber(termeRechercheNumeroBonEntreeLibelleBonEntree); else nonNumeric">
-                              <ng-container *ngIf="bonEntree?.numeroBonEntree as numeroBonEntree;">
-                                  <a (click)="FilterDoubleNumeroBonEntreeLibelleBonEntree(numeroBonEntree)"
+                          <ng-container *ngIf="isNumber(termeRecherchenumeroBELibelleBonEntree); else nonNumeric">
+                              <ng-container *ngIf="bonEntree?.numeroBE as numeroBE;">
+                                  <a (click)="FilterDoublenumeroBELibelleBonEntree(numeroBE)"
                                       style="cursor: pointer; display: block; color: gray; background-color: #fff; margin: 5px; text-decoration: none;">
-                                      {{ numeroBonEntree }}
+                                      {{ numeroBE }}
                                   </a>
                               </ng-container>
                           </ng-container>
                           <ng-template #nonNumeric>
                               <ng-container *ngIf="bonEntree?.libelleBonEntree as libelleBonEntree;">
-                                  <a (click)="FilterDoubleNumeroBonEntreeLibelleBonEntree(libelleBonEntree)"
+                                  <a (click)="FilterDoublenumeroBELibelleBonEntree(libelleBonEntree)"
                                       style="cursor: pointer; display: block; color: gray; background-color: #fff; margin: 5px; text-decoration: none;">
                                       {{ libelleBonEntree }}
                                   </a>

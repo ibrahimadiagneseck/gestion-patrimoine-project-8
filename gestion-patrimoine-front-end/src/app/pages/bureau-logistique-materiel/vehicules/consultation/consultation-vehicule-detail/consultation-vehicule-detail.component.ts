@@ -42,15 +42,15 @@ export class ConsultationVehiculeDetailComponent implements OnInit, OnDestroy, A
     if (this.data) {
       // this.numeroBonEntree = this.data.vehicule.codeArticleBonEntree.identifiantBonEntree.numeroBonEntree;
       // this.dateBonEntree = this.data.vehicule.codeArticleBonEntree.identifiantBonEntree.dateBonEntree;
-      // this.raisonSociale = this.data.vehicule.codeArticleBonEntree.identifiantBonEntree.identifiantBordereauLivraison.ninea.raisonSociale;
-      // this.dateBordereauLivraison = this.data.vehicule.codeArticleBonEntree.identifiantBonEntree.identifiantBordereauLivraison.dateBordereauLivraison;
-      // this.numeroBordereauLivraison = this.data.vehicule.codeArticleBonEntree.identifiantBonEntree.identifiantBordereauLivraison.numeroBordereauLivraison;
-      // this.lieuDeLivraison = this.data.vehicule.codeArticleBonEntree.identifiantBonEntree.identifiantBordereauLivraison.lieuDeLivraison;
+      // this.raisonSociale = this.data.vehicule.codeArticleBonEntree.identifiantBonEntree.identifiantBL.ninea.raisonSociale;
+      // this.dateBordereauLivraison = this.data.vehicule.codeArticleBonEntree.identifiantBonEntree.identifiantBL.dateBordereauLivraison;
+      // this.numeroBordereauLivraison = this.data.vehicule.codeArticleBonEntree.identifiantBonEntree.identifiantBL.numeroBordereauLivraison;
+      // this.lieuDeLivraison = this.data.vehicule.codeArticleBonEntree.identifiantBonEntree.identifiantBL.lieuDeLivraison;
 
       this.numeroSerie = this.data.vehicule.numeroSerie;
       this.libelleArticleBonEntree = this.data.vehicule.codeArticleBonEntree.libelleArticleBonEntree;
 
-      this.recupererBonEntreeById(this.data.vehicule.codeArticleBonEntree.identifiantBonEntree);
+      this.recupererBonEntreeById(this.data.vehicule.codeArticleBonEntree.identifiantBE);
 
       // Déclencher manuellement la détection des changements si nécessaire
       this.cdr.detectChanges();

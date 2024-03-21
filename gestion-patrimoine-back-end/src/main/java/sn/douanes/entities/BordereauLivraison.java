@@ -23,18 +23,19 @@ import lombok.NoArgsConstructor;
 public class BordereauLivraison {
 
     @Id
-    @Column(name = "IDENTIFIANT_BORDEREAU_LIVRAISON", length = 25, nullable = false)
-    private String identifiantBordereauLivraison;
-
-    @Column(name = "NUMERO_BORDEREAU_LIVRAISON", length = 100, unique = true)
-    private String numeroBordereauLivraison;
-
-    @Column(name = "DATE_BORDEREAU_LIVRAISON")
-    private Date dateBordereauLivraison;
+    @Column(name = "IDENTIFIANT_B_L", length = 25, nullable = false)
+    private String identifiantBL;
 
 
-    @Column(name = "DESCRIPTION_BORDEREAU_LIVRAISON", length = 512)
-    private String descriptionBordereauLivraison;
+    @Column(name = "NUMERO_B_L", length = 100, unique = true)
+    private String numeroBL;
+
+
+    @Column(name = "DATE_B_L")
+    private Date dateBL;
+
+    @Column(name = "DESCRIPTION_B_L", length = 512)
+    private String descriptionBL;
 
     @Column(name = "LIEU_DE_LIVRAISON")
     private String lieuDeLivraison;
@@ -47,8 +48,8 @@ public class BordereauLivraison {
     private Sections codeSection;
 
 
-    @Column(name = "CONFORMITE_BORDEREAU_LIVRAISON", length = 3)
-    private String conformiteBordereauLivraison;
+    @Column(name = "CONFORMITE_B_L", length = 3)
+    private String conformiteBL;
 
     @ManyToOne
     @JoinColumn(name = "MATRICULE_AGENT")

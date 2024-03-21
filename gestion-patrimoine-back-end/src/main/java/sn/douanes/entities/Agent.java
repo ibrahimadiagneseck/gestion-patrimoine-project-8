@@ -22,8 +22,8 @@ public class Agent {
     @Column(name = "MATRICULE_AGENT", length = 7, nullable = false)
     private String matriculeAgent;
 
-    @Column(name = "NUMERO_SOMMIER", unique = true)
-    private String numeroSommier;
+    @Column(name = "CODE_AGENT", length = 5, unique = true)
+    private String codeAgent;
 
 
     @Column(name = "NOM_AGENT", length = 100)

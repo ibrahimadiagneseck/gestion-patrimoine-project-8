@@ -16,12 +16,12 @@ INSERT INTO "sections" ("code_section", "libelle_section", "code_unite_douaniere
 
 
 
-INSERT INTO "agent" ("matricule_agent", "email_agent", "nom_agent", "numero_sommier", "numero_telephone_agent", "prenom_agent", "code_section", "code_unite_douaniere") VALUES
+INSERT INTO "agent" ("matricule_agent", "email_agent", "nom_agent", "code_agent", "numero_telephone_agent", "prenom_agent", "code_section", "code_unite_douaniere") VALUES
 ('613693H', 'IBRAHIMA@ESP.SN',  'SECK', 'D3485',    773456789,  'IBRAHIMA DIAGNE',  'SG',   '06K'),
 ('506234B', 'OUMOU@ESP.SN',  'DIALLO',   'D2273',    777654321,  'OUMOU HAWA',   'SG',   '06K'),
-('622545C', 'ADMIN1@ESP.SN', 'ADMIN1',    'D281t',    675555555,  'ADMINISTRATEUR1',   'SG',   '06K'),
-('622549D', 'ADMIN2@ESP.SN', 'ADMIN2',    'D281b',    975555555,  'ADMINISTRATEUR2',   'SG',   '06K'),
-('622543E', 'ADMIN3@ESP.SN', 'ADMIN3',    'D281a',    175555555,  'ADMINISTRATEUR3',   'SG',   '06K');
+('622545C', 'ADMIN1@ESP.SN', 'ADMIN1',    'D281T',    675555555,  'ADMINISTRATEUR1',   'SG',   '06K'),
+('622549D', 'ADMIN2@ESP.SN', 'ADMIN2',    'D281B',    975555555,  'ADMINISTRATEUR2',   'SG',   '06K'),
+('622543E', 'ADMIN3@ESP.SN', 'ADMIN3',    'D281A',    175555555,  'ADMINISTRATEUR3',   'SG',   '06K');
 
 
 
@@ -32,7 +32,7 @@ INSERT INTO "prestataires" ("ninea", "adresse", "adresse_email", "numero_telepho
 
 
 
-INSERT INTO "bordereau_livraison" ("identifiant_bordereau_livraison", "conformite_bordereau_livraison", "date_bordereau_livraison", "date_enregistrement", "description_bordereau_livraison", "lieu_de_livraison", "numero_bordereau_livraison", "representant_prestataire", "code_section", "matricule_agent", "ninea") VALUES
+INSERT INTO "bordereau_livraison" ("identifiant_b_l", "conformite_b_l", "date_b_l", "date_enregistrement", "description_b_l", "lieu_de_livraison", "numero_b_l", "representant_prestataire", "code_section", "matricule_agent", "ninea") VALUES
 ('BLSA202312011043210', 'OUI',  '2023-12-01',   '2024-03-04 12:18:29.967049',   'DESCRIPTION BL 1', 'LIEU 1',   '001',  'LIVREUR 1',    'SA',   '613693H',  '005177614'),
 ('BLSM202312021143211', 'OUI',  '2023-12-02',   '2024-03-04 12:18:29.967049',   'DESCRIPTION BL 2', 'LIEU 2',   '002',  'LIVREUR 2',    'SM',   '506234B',  '005174222'),
 ('BLSG202312031243213', 'NON',  '2023-12-03',   '2024-03-04 12:18:29.967049',   'DESCRIPTION BL 3', 'LIEU 3',   '003',  'LIVREUR 3',    'SG',   '622543E',  '005192373');
@@ -41,7 +41,7 @@ INSERT INTO "bordereau_livraison" ("identifiant_bordereau_livraison", "conformit
 
 
 
-INSERT INTO "bon_entree" ("identifiant_bon_entree", "date_bon_entree", "libelle_bon_entree", "numero_bon_entree", "observation_bon_entree", "identifiant_bordereau_livraison") VALUES
+INSERT INTO "bon_entree" ("identifiant_b_e", "date_bon_entree", "libelle_bon_entree", "numero_b_e", "observation_bon_entree", "identifiant_b_l") VALUES
 ('BESA202312011043210', '2023-12-01',   'LIBELLE BE 1', '001',  'OBSERVATION 1',    'BLSA202312011043210'),
 ('BESM202312021143211', '2023-12-02',   'LIBELLE BE 2', '002',  'OBSERVATION 2',    'BLSM202312021143211'),
 ('BESG202312031243213', '2023-12-03',   'LIBELLE BE 3', '003',  'OBSERVATION 3',    'BLSG202312031243213');
@@ -59,8 +59,6 @@ INSERT INTO "lieu_stockage_vehicule" ("code_lieu_vh", "libellle_lieu_vh", "nombr
 
 
 
-
-
 INSERT INTO "type_objet" ("code_type_objet", "libelle_type_objet", "code_section") VALUES
 ('ARMES',   'ARMES ET MUNITIONS',   'SA'),
 ('VEHIC',   'VEHICULES ET MATERIELS ROULANTS',  'SG'),
@@ -68,7 +66,7 @@ INSERT INTO "type_objet" ("code_type_objet", "libelle_type_objet", "code_section
 
 
 
-INSERT INTO "article_bon_entree" ("code_article_bon_entree", "date_enregistrement", "libelle_article_bon_entree", "quantite_entree", "identifiant_bon_entree", "code_lieu_vh", "code_type_objet", "matricule_agent") VALUES
+INSERT INTO "article_bon_entree" ("code_article_bon_entree", "date_enregistrement", "libelle_article_bon_entree", "quantite_entree", "identifiant_b_e", "code_lieu_vh", "code_type_objet", "matricule_agent") VALUES
 (1, '2024-03-04 12:37:34.514509',   'TOYOTA-CAMRY-123456',  1,  'BESA202312011043210',  'PKN',  'ARMES',    '613693H'),
 (1, '2024-03-04 12:37:34.51451',    'FORD-MUSTANG-789012',  1,  'BESM202312021143211',  'CLB',  'VEHIC',    '506234B'),
 (2, '2024-03-04 12:37:34.514511',   'FORD-ESCAPE-789013',   1,  'BESM202312021143211',  'LB6',  'VEHIC',    '506234B'),

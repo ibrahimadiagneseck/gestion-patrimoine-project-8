@@ -7,7 +7,7 @@ import { TypeObjet } from "./type-objet.model";
 export class ArticleBonEntree {
 
   public codeArticleBonEntree: number;
-  public identifiantBonEntree: string;
+  public identifiantBE: string;
   public libelleArticleBonEntree: string;
   public codeLieuVH: LieuStockageVehicule;
   public quantiteEntree: number;
@@ -18,17 +18,16 @@ export class ArticleBonEntree {
   
   constructor(
     codeArticleBonEntree = 0,
-    identifiantBonEntree = '',
+    identifiantBE = '',
     libelleArticleBonEntree = '',
     codeLieuVH = new LieuStockageVehicule(),
     quantiteEntree = 0,
     codeTypeObjet = new TypeObjet(),
     matriculeAgent = new Agent(),
-    dateEnregistrement = new MyDate(),
-
+    dateEnregistrement = new MyDate()
   ) {
     this.codeArticleBonEntree = codeArticleBonEntree;
-    this.identifiantBonEntree = identifiantBonEntree;
+    this.identifiantBE = identifiantBE;
     this.libelleArticleBonEntree = libelleArticleBonEntree;
     this.codeLieuVH = codeLieuVH;
     this.quantiteEntree = quantiteEntree;

@@ -126,9 +126,6 @@ export class AgentAjouterComponent implements OnInit, OnDestroy {
 
   public ajouterAgent(AgentForm: NgForm): void {
 
-    console.log(AgentForm.value);
-
-
     this.subscriptions.push(this.agentService.ajouterAgent(AgentForm.value).subscribe({
         next: (response: Agent) => {
           console.log(response);
