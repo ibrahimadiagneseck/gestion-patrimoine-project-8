@@ -56,7 +56,4 @@ public class ArticleBonEntree {
     private Timestamp dateEnregistrement;
 
 
-
-
-
 }

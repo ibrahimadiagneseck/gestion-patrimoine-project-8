@@ -160,16 +160,14 @@ export class AgentDetailComponent implements OnInit, OnDestroy {
     this.clickButton('agent-form')
   }
 
-  public modifierAgent(AgentForm: NgForm): void {
+  public modifierAgent(AgentForm: NgForm): void { 
 
     // BordereauLivraisonForm.value.ninea = this.prestataires.find(prestataire => prestataire.raisonSociale === BordereauLivraisonForm.value.ninea);;
-
 
     AgentForm.value.codeUniteDouaniere = this.uniteDouanieres.find(uniteDouaniere => uniteDouaniere.nomUniteDouaniere === AgentForm.value.codeUniteDouaniere);
     AgentForm.value.codeSection = this.sections.find(section => section.libelleSection === AgentForm.value.codeSection);
 
-    console.log(AgentForm.value);
-
+    // console.log(AgentForm.value);
 
     this.subscriptions.push(this.agentService.modifierAgent(AgentForm.value).subscribe({
         next: (response: Agent) => {

@@ -1,36 +1,37 @@
+-- Adminer 4.8.1 PostgreSQL 16.2 (Debian 16.2-1.pgdg120+2) dump
 
 CREATE TABLE "public"."agent" (
     "matricule_agent" character varying(7) NOT NULL,
+    "code_agent" character varying(5),
     "email_agent" character varying(100),
     "nom_agent" character varying(100),
-    "numero_sommier" character varying(255),
     "numero_telephone_agent" integer,
     "prenom_agent" character varying(255),
     "code_section" character varying(3),
     "code_unite_douaniere" character varying(3),
     CONSTRAINT "agent_pkey" PRIMARY KEY ("matricule_agent"),
-    CONSTRAINT "uk_3wxhmdux23qrn96ic1awd4x3i" UNIQUE ("numero_sommier")
+    CONSTRAINT "uk_5d65n8trvjxmh3b959pe81gdo" UNIQUE ("code_agent")
 );
 
 
 CREATE TABLE "public"."article_bon_entree" (
     "code_article_bon_entree" integer NOT NULL,
+    "identifiant_b_e" character varying(255) NOT NULL,
     "date_enregistrement" timestamp,
     "libelle_article_bon_entree" character varying(255),
     "quantite_entree" integer,
-    "identifiant_bon_entree" character varying(25) NOT NULL,
     "code_lieu_vh" character varying(3),
     "code_type_objet" character varying(5),
     "matricule_agent" character varying(7),
-    CONSTRAINT "article_bon_entree_pkey" PRIMARY KEY ("code_article_bon_entree", "identifiant_bon_entree")
+    CONSTRAINT "article_bon_entree_pkey" PRIMARY KEY ("code_article_bon_entree", "identifiant_b_e")
 );
 
 
 CREATE TABLE "public"."article_bon_pour" (
     "code_article_bon_pour" integer NOT NULL,
+    "identifiant_bon_pour" character varying(255) NOT NULL,
     "libelle_article_bon_pour" character varying(100),
     "quantite_demandee" integer,
-    "identifiant_bon_pour" character varying(25) NOT NULL,
     "code_type_objet" character varying(5),
     "matricule_agent" character varying(7),
     CONSTRAINT "article_bon_pour_pkey" PRIMARY KEY ("code_article_bon_pour", "identifiant_bon_pour")
@@ -39,10 +40,10 @@ CREATE TABLE "public"."article_bon_pour" (
 
 CREATE TABLE "public"."article_bon_sortie" (
     "code_article_bon_sortie" integer NOT NULL,
+    "identifiant_bon_sortie" character varying(255) NOT NULL,
     "libelle_article_bon_sortie" character varying(100),
     "date_article_bon_sortie" date,
     "quantite_accordee" integer,
-    "identifiant_bon_sortie" character varying(255) NOT NULL,
     "matricule_agent" character varying(7),
     CONSTRAINT "article_bon_sortie_pkey" PRIMARY KEY ("code_article_bon_sortie", "identifiant_bon_sortie")
 );
@@ -56,14 +57,14 @@ CREATE TABLE "public"."authorities" (
 
 
 CREATE TABLE "public"."bon_entree" (
-    "identifiant_bon_entree" character varying(25) NOT NULL,
+    "identifiant_b_e" character varying(25) NOT NULL,
     "date_bon_entree" date,
     "libelle_bon_entree" character varying(255),
-    "numero_bon_entree" character varying(255),
+    "numero_b_e" character varying(255),
     "observation_bon_entree" character varying(255),
-    "identifiant_bordereau_livraison" character varying(25),
-    CONSTRAINT "bon_entree_pkey" PRIMARY KEY ("identifiant_bon_entree"),
-    CONSTRAINT "uk_qkkxuqxvakg9kjm0nofvehrtn" UNIQUE ("numero_bon_entree")
+    "identifiant_b_l" character varying(25),
+    CONSTRAINT "bon_entree_pkey" PRIMARY KEY ("identifiant_b_e"),
+    CONSTRAINT "uk_snywq6o1xldkognlpmn20x0tq" UNIQUE ("numero_b_e")
 );
 
 
@@ -103,26 +104,26 @@ CREATE TABLE "public"."bon_sortie" (
 
 
 CREATE TABLE "public"."bordereau_livraison" (
-    "identifiant_bordereau_livraison" character varying(25) NOT NULL,
-    "conformite_bordereau_livraison" character varying(3),
-    "date_bordereau_livraison" date,
+    "identifiant_b_l" character varying(25) NOT NULL,
+    "conformite_b_l" character varying(3),
+    "date_b_l" date,
     "date_enregistrement" timestamp,
-    "description_bordereau_livraison" character varying(512),
+    "description_b_l" character varying(512),
     "lieu_de_livraison" character varying(255),
-    "numero_bordereau_livraison" character varying(100),
+    "numero_b_l" character varying(100),
     "representant_prestataire" character varying(255),
     "code_section" character varying(3),
     "matricule_agent" character varying(7),
     "ninea" character varying(20),
-    CONSTRAINT "bordereau_livraison_pkey" PRIMARY KEY ("identifiant_bordereau_livraison"),
-    CONSTRAINT "uk_h7vqs3aotjd8jbs5jn341qx57" UNIQUE ("numero_bordereau_livraison")
+    CONSTRAINT "bordereau_livraison_pkey" PRIMARY KEY ("identifiant_b_l"),
+    CONSTRAINT "uk_n83owkmrvlxthq773n0juim69" UNIQUE ("numero_b_l")
 );
 
 
 CREATE TABLE "public"."controle" (
     "date_controle" timestamp NOT NULL,
+    "numero_serie" character varying(255) NOT NULL,
     "observation_controle" character varying(255),
-    "numero_serie" character varying(30) NOT NULL,
     CONSTRAINT "controle_pkey" PRIMARY KEY ("date_controle", "numero_serie")
 );
 
@@ -284,7 +285,7 @@ CREATE TABLE "public"."vehicule" (
     "numero_carte_grise" character varying(30),
     "numero_immatriculation" character varying(20),
     "code_article_bon_entree" integer,
-    "identifiant_bon_entree" character varying(25),
+    "identifiant_b_e" character varying(255),
     "code_marque" character varying(25),
     "code_pays" character varying(3),
     "code_type_energie" character varying(25),
@@ -293,22 +294,56 @@ CREATE TABLE "public"."vehicule" (
 );
 
 
+CREATE TABLE "public"."maintenance" (
+    "identifiant_maintenance" character varying(25) NOT NULL, -- exemple : MSG202311121243214 (SG+heure en timestamp)
+    "numero_serie" character varying(30),
+    "date_debut_maintenance" timestamp,
+    "date_fin_maintenance" timestamp,
+    "type_maintenance" character varying(15),
+    "motif_reparation" character varying(15),
+    "rapport_incident" character varying(512),
+    CONSTRAINT "maintenance_pkey" PRIMARY KEY ("identifiant_maintenance")
+);
+
+CREATE TABLE "public"."controle" (
+    "identifiant_maintenance" character varying(25) NOT NULL, -- exemple : MSG202311121243214 (SG+heure en timestamp)
+    "date_controle" date,
+    "observation_controle" character varying(100),
+    CONSTRAINT "maintenance_pkey" PRIMARY KEY ("identifiant_maintenance")
+);
+
+
+CREATE TABLE "public"."changement_piece" (
+    "identifiant_maintenance" character varying(25) NOT NULL, -- exemple : MSG202311121243214 (SG+heure en timestamp)
+    "date_changement_piece" DATE,
+    "nombre_pieces_rechangees" integer,
+    "reference_pieces" character varying(512),
+    "observation_changement" character varying(512),
+    CONSTRAINT "changement_piece_pkey" PRIMARY KEY ("identifiant_maintenance")
+);
+
+CREATE TABLE "public"."vidange" (
+    "identifiant_maintenance" character varying(25) NOT NULL, -- exemple : MSG202311121243214 (SG+heure en timestamp)
+    "date_vidange" timestamp,
+    "libelle_huile" character varying(512),
+    "quantite_mise_vehicule" integer,
+    CONSTRAINT "vidange_pkey" PRIMARY KEY ("identifiant_maintenance")
+);
+
+
 ALTER TABLE ONLY "public"."agent" ADD CONSTRAINT "fk6uo4h7rhn0bs7dr3h81rtj55y" FOREIGN KEY (code_section) REFERENCES sections(code_section) NOT DEFERRABLE;
 ALTER TABLE ONLY "public"."agent" ADD CONSTRAINT "fklsg4dt0dg2au4hrd52jcjee5q" FOREIGN KEY (code_unite_douaniere) REFERENCES unite_douaniere(code_unite_douaniere) NOT DEFERRABLE;
 
 ALTER TABLE ONLY "public"."article_bon_entree" ADD CONSTRAINT "fk1m4mo43nh47custpl6f9sm30h" FOREIGN KEY (matricule_agent) REFERENCES agent(matricule_agent) NOT DEFERRABLE;
 ALTER TABLE ONLY "public"."article_bon_entree" ADD CONSTRAINT "fk3jotbylcitc58mk3vftxp3bki" FOREIGN KEY (code_lieu_vh) REFERENCES lieu_stockage_vehicule(code_lieu_vh) NOT DEFERRABLE;
-ALTER TABLE ONLY "public"."article_bon_entree" ADD CONSTRAINT "fkn7c6bpqnhpxurp8w8vp9t4ivx" FOREIGN KEY (identifiant_bon_entree) REFERENCES bon_entree(identifiant_bon_entree) NOT DEFERRABLE;
 ALTER TABLE ONLY "public"."article_bon_entree" ADD CONSTRAINT "fksajtr4e61rjdg24jijhnfje4b" FOREIGN KEY (code_type_objet) REFERENCES type_objet(code_type_objet) NOT DEFERRABLE;
 
 ALTER TABLE ONLY "public"."article_bon_pour" ADD CONSTRAINT "fkjlpviq6xkvqa50y5kt5sunik4" FOREIGN KEY (matricule_agent) REFERENCES agent(matricule_agent) NOT DEFERRABLE;
-ALTER TABLE ONLY "public"."article_bon_pour" ADD CONSTRAINT "fknsjqt65qf6bekldhg97pixstk" FOREIGN KEY (identifiant_bon_pour) REFERENCES bon_pour(identifiant_bon_pour) NOT DEFERRABLE;
 ALTER TABLE ONLY "public"."article_bon_pour" ADD CONSTRAINT "fkooy7avgbu2t1yhe05wbregrod" FOREIGN KEY (code_type_objet) REFERENCES type_objet(code_type_objet) NOT DEFERRABLE;
 
-ALTER TABLE ONLY "public"."article_bon_sortie" ADD CONSTRAINT "fkc8mlubg4eaybda7va683cbpka" FOREIGN KEY (identifiant_bon_sortie) REFERENCES bon_sortie(identifiant_bon_sorie) NOT DEFERRABLE;
 ALTER TABLE ONLY "public"."article_bon_sortie" ADD CONSTRAINT "fkdu5p9ui862o7e13x2du78d7vl" FOREIGN KEY (matricule_agent) REFERENCES agent(matricule_agent) NOT DEFERRABLE;
 
-ALTER TABLE ONLY "public"."bon_entree" ADD CONSTRAINT "fk4wsyryyphnsyay26ays8th86w" FOREIGN KEY (identifiant_bordereau_livraison) REFERENCES bordereau_livraison(identifiant_bordereau_livraison) NOT DEFERRABLE;
+ALTER TABLE ONLY "public"."bon_entree" ADD CONSTRAINT "fkg6gtmvaum4xew2c7xbqjq9ed8" FOREIGN KEY (identifiant_b_l) REFERENCES bordereau_livraison(identifiant_b_l) NOT DEFERRABLE;
 
 ALTER TABLE ONLY "public"."bon_pour" ADD CONSTRAINT "fk1q1qo11ebff6qmgodxcu4o9st" FOREIGN KEY (code_unite_douaniere) REFERENCES unite_douaniere(code_unite_douaniere) NOT DEFERRABLE;
 ALTER TABLE ONLY "public"."bon_pour" ADD CONSTRAINT "fk43wwfgfqivcje18oyvmwghaxq" FOREIGN KEY (code_section) REFERENCES sections(code_section) NOT DEFERRABLE;
@@ -320,8 +355,6 @@ ALTER TABLE ONLY "public"."bon_sortie" ADD CONSTRAINT "fka1yvddyp3obk77a1fqouvbx
 ALTER TABLE ONLY "public"."bordereau_livraison" ADD CONSTRAINT "fk9nfrqjn6o2cn6f2s0jebjy4rd" FOREIGN KEY (matricule_agent) REFERENCES agent(matricule_agent) NOT DEFERRABLE;
 ALTER TABLE ONLY "public"."bordereau_livraison" ADD CONSTRAINT "fkllyex0gchkfeo1kny1wfiat2i" FOREIGN KEY (ninea) REFERENCES prestataires(ninea) NOT DEFERRABLE;
 ALTER TABLE ONLY "public"."bordereau_livraison" ADD CONSTRAINT "fkmkyijg5tdm42o6emet2cj3cls" FOREIGN KEY (code_section) REFERENCES sections(code_section) NOT DEFERRABLE;
-
-ALTER TABLE ONLY "public"."controle" ADD CONSTRAINT "fkapjurs61sa3o0codfma8wsnuy" FOREIGN KEY (numero_serie) REFERENCES vehicule(numero_serie) NOT DEFERRABLE;
 
 ALTER TABLE ONLY "public"."dotation_vehicule" ADD CONSTRAINT "fk369d727jgd997p8whn8yqv2ds" FOREIGN KEY (code_article_bon_sortie, identifiant_bon_sortie) REFERENCES article_bon_sortie(code_article_bon_sortie, identifiant_bon_sortie) NOT DEFERRABLE;
 ALTER TABLE ONLY "public"."dotation_vehicule" ADD CONSTRAINT "fk78p66iohicuby5m74tvsmiskb" FOREIGN KEY (matricule_agent) REFERENCES agent(matricule_agent) NOT DEFERRABLE;
@@ -343,7 +376,9 @@ ALTER TABLE ONLY "public"."utilisateur_authority" ADD CONSTRAINT "fkfks49eqjrvm6
 ALTER TABLE ONLY "public"."utilisateur_authority" ADD CONSTRAINT "fkm4wyq2kw01dqr7y1ebuxd1c2h" FOREIGN KEY (code_authority) REFERENCES authorities(code_authority) NOT DEFERRABLE;
 
 ALTER TABLE ONLY "public"."vehicule" ADD CONSTRAINT "fk8qtadox10ekwuivfogcmg5a03" FOREIGN KEY (code_marque) REFERENCES marque_vehicule(code_marque_vh) NOT DEFERRABLE;
+ALTER TABLE ONLY "public"."vehicule" ADD CONSTRAINT "fk9ew0gb55oe0nuci8wkmvf3dma" FOREIGN KEY (code_article_bon_entree, identifiant_b_e) REFERENCES article_bon_entree(code_article_bon_entree, identifiant_b_e) NOT DEFERRABLE;
 ALTER TABLE ONLY "public"."vehicule" ADD CONSTRAINT "fkipaic0o0eppetwttr3i51t542" FOREIGN KEY (code_type_energie) REFERENCES type_energie(code_type_energie) NOT DEFERRABLE;
 ALTER TABLE ONLY "public"."vehicule" ADD CONSTRAINT "fkit3tsr2xvg9lsx8a2wpbl9pj" FOREIGN KEY (code_type_vehicule) REFERENCES type_vehicule(code_type_vehicule) NOT DEFERRABLE;
 ALTER TABLE ONLY "public"."vehicule" ADD CONSTRAINT "fkkyvs90njn6tl5nwgpbi867iej" FOREIGN KEY (code_pays) REFERENCES pays(code_pays) NOT DEFERRABLE;
-ALTER TABLE ONLY "public"."vehicule" ADD CONSTRAINT "fks4j4p44da6fjlfc6rsyx1c9vs" FOREIGN KEY (code_article_bon_entree, identifiant_bon_entree) REFERENCES article_bon_entree(code_article_bon_entree, identifiant_bon_entree) NOT DEFERRABLE;
+
+-- 2024-03-21 15:54:29.335097+00

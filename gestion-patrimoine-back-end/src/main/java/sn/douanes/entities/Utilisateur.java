@@ -24,8 +24,6 @@ public class Utilisateur {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY,generator = "native")
-//    @GenericGenerator(name = "native",strategy = "native")
-    // @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "UTILISATEUR_ID", nullable = false, updatable = false, length = 25)
     private Integer utilisateurID;
 
@@ -53,13 +51,6 @@ public class Utilisateur {
     private boolean isNotLocked;
 
 
-//    @Column(name = "ROLE")
-//    private String role;
-
-
-//    @OneToMany(mappedBy = "utilisateurID", fetch = FetchType.EAGER)
-//    private Set<Authorities> authorities;
-
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     @JoinTable(
             name = "UTILISATEUR_AUTHORITY",
@@ -67,6 +58,7 @@ public class Utilisateur {
             inverseJoinColumns = @JoinColumn(name = "CODE_AUTHORITY")
     )
     private Set<Authorities> authorities = new HashSet<>();
+
 
     @OneToOne
     @JoinColumn(name = "CODE_FONCTION")

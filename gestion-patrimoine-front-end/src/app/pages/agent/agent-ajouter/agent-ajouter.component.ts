@@ -126,6 +126,18 @@ export class AgentAjouterComponent implements OnInit, OnDestroy {
 
   public ajouterAgent(AgentForm: NgForm): void {
 
+    const agentValue: Agent = {
+      ...AgentForm.value, // Récupère les autres valeurs de AgentForm.value
+      matriculeAgent: AgentForm.value.matriculeAgent.toUpperCase(),
+      codeAgent: AgentForm.value.codeAgent.toUpperCase(),
+      prenomAgent: AgentForm.value.prenomAgent.toUpperCase(),
+      nomAgent: AgentForm.value.nomAgent.toUpperCase(),
+      emailAgent: AgentForm.value.emailAgent.toUpperCase()
+  };
+
+  // console.log(agentValue);
+  
+
     this.subscriptions.push(this.agentService.ajouterAgent(AgentForm.value).subscribe({
         next: (response: Agent) => {
           console.log(response);
