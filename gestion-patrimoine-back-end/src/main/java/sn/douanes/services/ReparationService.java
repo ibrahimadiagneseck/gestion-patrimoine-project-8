@@ -11,12 +11,12 @@ public interface ReparationService {
     Reparation saveReparation(Reparation r);
     Reparation updateReparation(Reparation r);
     void deleteReparation(Reparation r);
-    void deleteReparationById(String identifiantMaintenance, String identifiantAccident);
-    Reparation getReparationById(String identifiantMaintenance, String identifiantAccident);
+    void deleteReparationById(String identifiantMaintenance);
+    Reparation getReparationById(String identifiantMaintenance);
     List<Reparation> getAllReparations();
 
 
-    Reparation ajouterReparation(String identifiantMaintenance, String identifiantAccident, String motifReparation);
+    Reparation ajouterReparation(String identifiantMaintenance, String motifReparation, Boolean suiteAccident);
 
 
 }

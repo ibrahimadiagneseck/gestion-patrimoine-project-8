@@ -7,6 +7,7 @@ import sn.douanes.repositories.MaintenanceRepository;
 import sn.douanes.services.MaintenanceService;
 
 import java.sql.Timestamp;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
@@ -15,7 +16,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 
     @Autowired
     MaintenanceRepository maintenanceRepository;
-
+    
     @Override
     public Maintenance saveMaintenance(Maintenance m) {
         return maintenanceRepository.save(m);
@@ -51,7 +52,8 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 
         Maintenance maintenance = new Maintenance();
 
-        maintenance.setIdentifiantMaintenance(identifiantMaintenance);
+        maintenance.setIdentifiantMaintenance(genererIdentifiantMaintenance(genererDateEnregistrement(new Timestamp(System.currentTimeMillis()))));
+        // maintenance.setIdentifiantMaintenance(identifiantMaintenance);
         maintenance.setNumeroSerie(numeroSerie);
         maintenance.setDateDebutMaintenance(new Timestamp(System.currentTimeMillis()));
         maintenance.setDateFinMaintenance(null);
@@ -60,4 +62,18 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 
         return maintenanceRepository.save(maintenance);
     }
+
+
+    private String genererIdentifiantMaintenance(String dateDotation) {
+        // Timestamp t = new +Timestamp(System.currentTimeMillis())
+        return "MSG" + dateDotation;
+    }
+
+
+    private String genererDateEnregistrement(Timestamp dateEnregistrement) {
+        // Timestamp t = new Timestamp(System.currentTimeMillis())
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS");
+        return dateEnregistrement.toLocalDateTime().format(formatter);
+    }
+
 }

@@ -14,23 +14,18 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 public class Accident {
 
-
     @Id
-    @Column(name = "IDENTIFIANT_ACCIDENT", length = 25, nullable = false)
-    private String identifiantAccident;
-
+    @Column(name = "IDENTIFIANT_MAINTENANCE", length = 25, nullable = false)
+    private String identifiantMaintenance;
 
     @Column(name = "DATE_INCIDENT")
     private Timestamp dateIncident;
 
-
     @Column(name = "LIEU_INCIDENT", length = 15)
     private String lieuIncident;
 
-
     @Column(name = "COMMENTAIRE_INCIDENT", length = 512)
     private String commentaireIncident;
-
 
     @Column(name = "NOMBRE_DECES")
     private int nombreDeces;

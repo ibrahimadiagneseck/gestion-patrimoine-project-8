@@ -48,7 +48,7 @@ public class AccidentServiceImpl implements AccidentService {
 
     @Override
     public Accident ajouterAccident(
-            String identifiantAccident,
+            String identifiantMaintenance,
             Timestamp dateIncident,
             String lieuIncident,
             String commentaireIncident,
@@ -59,7 +59,7 @@ public class AccidentServiceImpl implements AccidentService {
 
         Accident Accident = new Accident();
 
-        Accident.setIdentifiantAccident(identifiantAccident);
+        Accident.setIdentifiantMaintenance(identifiantMaintenance);
         Accident.setDateIncident(new Timestamp(System.currentTimeMillis()));
         Accident.setLieuIncident(lieuIncident);
         Accident.setCommentaireIncident(commentaireIncident);

@@ -9,12 +9,12 @@ public interface ChangementPieceService {
     ChangementPiece saveChangementPiece(ChangementPiece c);
     ChangementPiece updateChangementPiece(ChangementPiece c);
     void deleteChangementPiece(ChangementPiece c);
-    void deleteChangementPieceById(String identifiantMaintenance, String identifiantAccident);
-    ChangementPiece getChangementPieceById(String identifiantMaintenance, String identifiantAccident);
+    void deleteChangementPieceById(Integer codeChangementPiece, String identifiantMaintenance);
+    ChangementPiece getChangementPieceById(Integer codeChangementPiece, String identifiantMaintenance);
     List<ChangementPiece> getAllChangementPieces();
 
 
-    ChangementPiece ajouterChangementPiece(String identifiantMaintenance, String identifiantAccident, int nombrePiecesRechangees, String referencePieces);
+    ChangementPiece ajouterChangementPiece(Integer codeChangementPiece, String identifiantMaintenance, int nombrePiecesRechangees, String referencePieces);
 
 
 }

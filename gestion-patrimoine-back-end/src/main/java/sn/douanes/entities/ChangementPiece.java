@@ -9,7 +9,7 @@ import javax.persistence.*;
 
 @Entity
 @IdClass(ChangementPieceId.class)
-@Table(name = "ACCIDENT")
+@Table(name = "CHANGEMENT_PIECE")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,12 +17,13 @@ public class ChangementPiece {
 
 
     @Id
-    @Column(name = "IDENTIFIANT_MAINTENANCE", length = 25, nullable = false)
-    private String identifiantMaintenance;
+    @Column(name = "CODE_CHANGEMENT_PIECE", nullable = false)
+    private Integer codeChangementPiece;
+
 
     @Id
-    @Column(name = "IDENTIFIANT_ACCIDENT", length = 25, nullable = false)
-    private String identifiantAccident;
+    @Column(name = "IDENTIFIANT_MAINTENANCE", length = 25, nullable = false)
+    private String identifiantMaintenance;
 
 
     @Column(name = "NOMBRE_PIECES_RECHANGEES")

@@ -15,6 +15,7 @@ import { PrestataireSecteurListeComponent } from './pages/prestataire/prestatair
 import { SectionsListeComponent } from './pages/sections/sections-liste/sections-liste.component';
 import { SecteurActiviteListeComponent } from './pages/secteur-activite/secteur-activite-liste/secteur-activite-liste.component';
 import { TypeUniteDouaniereListeComponent } from './pages/type-unite-douaniere/type-unite-douaniere-liste/type-unite-douaniere-liste.component';
+import { MaintenanceListeComponent } from './pages/maintenance/maintenance-liste/maintenance-liste.component';
 
 
 const routes: Routes = [
@@ -38,12 +39,16 @@ const routes: Routes = [
 
   { path: 'secteur-activite', component: SecteurActiviteListeComponent, canActivate: [AuthActivateRouteGuard]},
   
-
   { path: 'fonction', component: FonctionListeComponent, canActivate: [AuthActivateRouteGuard]},
+
+
+  
+  { path: 'maintenance', component: MaintenanceListeComponent, canActivate: [AuthActivateRouteGuard]},
 
 
   { path: 'ajouter-bon-pour', component: AjouterBonPourListeComponent, canActivate: [AuthActivateRouteGuard]},
   { path: 'ajouter-bon-pour-detail/:identifiantBonPour', component: AjouterBonPourListeDetailComponent, canActivate: [AuthActivateRouteGuard]},
+
 
   { path: 'consultation-bon-pour', component: ConsultationBonPourListeComponent, canActivate: [AuthActivateRouteGuard]},
   

@@ -102,8 +102,8 @@ INSERT INTO article_bon_sortie (identifiant_bon_sortie, code_article_bon_sortie,
 VALUES 
     ('BSSG202311121243214', 1, 'Article BS1', 5, '2024-01-24', '613693H'),
     ('BSSG202311121243215', 1, 'Article BS2', 10, '2024-01-25', '506234B'),
-    ('BSSG202311121243216', 1, 'Article BS3', 15, '2024-01-26', '622543E');
-
+    ('BSSG202311121243216', 1, 'Article BS3', 15, '2024-01-26', '622543E'),
+    ('BSSG202311121243215', 2, 'Article BS4', 3, '2024-01-26', '506234B');
 
 
 INSERT INTO "fonctions" ("code_fonction", "libelle_fonction")
@@ -455,17 +455,19 @@ VALUES ('TV1', 'VP'),
 
 
 
-INSERT INTO "vehicule" ("numero_serie", "date_mise_en_circulation", "libelle_etat_vehicule", "modele", "numero_carte_grise", "numero_immatriculation", "code_article_bon_entree", "identifiant_bon_entree", "code_marque", "code_pays", "code_type_energie", "code_type_vehicule") VALUES
+INSERT INTO "vehicule" ("numero_serie", "date_mise_en_circulation", "libelle_etat_vehicule", "modele", "numero_carte_grise", "numero_immatriculation", "code_article_bon_entree", "identifiant_b_e", "code_marque", "code_pays", "code_type_energie", "code_type_vehicule") VALUES
 ('123456',  '2023-01-01',   'NEUF', 'CAMRY',    'CG123',    'ABC123',   1,  'BESA202312011043210',  'TOY',  'US',   'ESSENCE',  'TV1'),
 ('789012',  '2023-01-02',   'NEUF', 'MUSTANG',    'CG789',    'XYZ789',   1,  'BESM202312021143211',  'FOR',  'JP',   'GASOIL',  'TV2'),
 ('789013',  '2023-01-02',   'NEUF', 'ESCAPE',    'CG789',    'XYZ789',   2,  'BESM202312021143211',  'FOR',  'JP',   'GASOIL',  'TV2'),
-('345678',  '2023-01-03',   'USAGE', 'X5',    'CG345',    'DEF345',   1,  'BESG202312031243213',  'BMW',  'FR',   'HYBRIDE',  'TV3');
+('345678',  '2023-01-03',   'USAGE', 'X5',    'CG345',    'DEF345',   1,  'BESG202312031243213',  'BMW',  'FR',   'HYBRIDE',  'TV3'),
+('345679',  '2023-01-04',   'NEUF', 'X3',    'CG346',    'DEF346',   1,  'BESG202312031243213',  'BMW',  'FR',   'ESSENCE',  'TV3');
 
 
 INSERT INTO "dotation_vehicule" ("identifiant_d_v", "date_dotation", "code_article_bon_sortie", "identifiant_bon_sortie", "matricule_agent", "numero_serie") VALUES
 ('DVSG202311121243214',	'2024-01-24',	1,	'BSSG202311121243214',	'613693H',	'123456'),
 ('DVSG202311121243216',	'2024-01-22',	1,	'BSSG202311121243216',	'622543E',	'789012'),
-('DVSG202311121243215',	'2024-01-23',	1,	'BSSG202311121243215',	'506234B',	'789013');
+('DVSG202311121243215', '2024-01-23',   1,  'BSSG202311121243215',  '506234B',  '345678'),
+('DVSG202311121243213', '2024-01-23',   2,  'BSSG202311121243215',  '506234B',  '789013');
 
 
 INSERT INTO "controle" ("date_controle", "observation_controle", "numero_serie") VALUES
@@ -492,3 +494,39 @@ INSERT INTO "utilisateur_authority" ("utilisateur_id", "code_authority") VALUES
 (1, 1),
 (2, 1),
 (3, 1);
+
+
+
+
+INSERT INTO "maintenance" ("identifiant_maintenance", "date_debut_maintenance", "date_fin_maintenance", "observation_maintenance", "type_maintenance", "numero_serie") 
+VALUES
+    ('MSG202311121243214',  '2024-01-25 16:06:51.51658',    '2024-03-25 16:06:51.51658',    'observation maintenance 1',    'Vidange', '123456'),
+    ('MSG202311121243215',  '2024-01-25 16:06:51.51658',    '2024-03-25 16:06:51.51658',    'observation maintenance 2',    'Reparation', '789012'),
+    ('MSG202311121243216',  '2024-01-25 16:06:51.51658',    '2024-03-25 16:06:51.51658',    'observation maintenance 3',    'Controle', '789013');
+
+
+
+INSERT INTO "vidange" ("identifiant_maintenance", "libelle_huile", "quantite_mise_vehicule") 
+VALUES
+    ('MSG202311121243214',  'Huiles moteur Shell Helix ',   5);
+
+
+
+INSERT INTO "reparation" ("identifiant_maintenance", "nature_reparation", "suite_accident") 
+VALUES
+    ('MSG202311121243215',  'la nature de la reparation 1', true);
+
+
+
+INSERT INTO "accident" ("identifiant_maintenance", "commentaire_incident", "date_incident", "lieu_incident", "nombre_blesse", "nombre_deces", "rapport_incident") 
+VALUES
+    ('MSG202311121243215',  'commentaire incident 1',   '2024-03-25 16:32:01.746919',   'PIKINE',   1,  0,  null);
+
+
+
+INSERT INTO "changement_piece" ("code_changement_piece", "identifiant_maintenance", "nombre_pieces_rechangees", "reference_pieces") 
+VALUES
+    (1, 'MSG202311121243215',  1,  'Bougie d''allumage'),
+    (2, 'MSG202311121243215',  1,  'Relais'),
+    (3, 'MSG202311121243215',  2,  'Contrôle clignotant');
+

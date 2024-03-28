@@ -33,7 +33,7 @@
         </div>
       </li>
 
-      <li class="my-2">
+      <!-- <li class="my-2">
         <button class="collapsible menu-button">
           <mat-icon class="me-4">directions_car</mat-icon> Maintenances <mat-icon
             class="fa-solid fa-chevron-down ms-auto">expand_more</mat-icon>
@@ -46,13 +46,19 @@
             Entretient
           </button>
         </div>
+      </li> -->
+
+
+      <li class="my-2">
+        <button class="menu-button" [routerLink]="'/maintenance'">
+          <mat-icon class="me-4">build</mat-icon> Maintenances
+        </button>
       </li>
 
 
       <li class="my-2">
         <button class="collapsible menu-button">
-          <!-- <mat-icon class="me-4">person</mat-icon> Utilisateur <mat-icon class="fa-solid fa-chevron-down ms-auto">expand_more</mat-icon> -->
-          <mat-icon class="me-4">receipt icon</mat-icon> Bon Pour <mat-icon
+          <mat-icon class="me-4">flight_land icon</mat-icon> Bon Pour <mat-icon
             class="fa-solid fa-chevron-down ms-auto">expand_more</mat-icon>
         </button>
 

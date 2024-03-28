@@ -7,4 +7,5 @@ import sn.douanes.entities.Maintenance;
 @Repository
 public interface MaintenanceRepository extends JpaRepository<Maintenance, String> {
 
+
 }

@@ -3,13 +3,9 @@ package sn.douanes.services.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sn.douanes.entities.*;
-import sn.douanes.entities.keys.ReparationId;
 import sn.douanes.repositories.ReparationRepository;
-import sn.douanes.repositories.ReparationRepository;
-import sn.douanes.services.ReparationService;
 import sn.douanes.services.ReparationService;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 @Service
@@ -34,13 +30,13 @@ public class ReparationServiceImpl implements ReparationService {
     }
 
     @Override
-    public void deleteReparationById(String identifiantMaintenance, String identifiantAccident) {
-        reparationRepository.deleteById(new ReparationId(identifiantMaintenance, identifiantAccident));
+    public void deleteReparationById(String identifiantMaintenance) {
+        reparationRepository.deleteById(identifiantMaintenance);
     }
 
     @Override
-    public Reparation getReparationById(String identifiantMaintenance, String identifiantAccident) {
-        return reparationRepository.findById(new ReparationId(identifiantMaintenance, identifiantAccident)).orElse(null);
+    public Reparation getReparationById(String identifiantMaintenance) {
+        return reparationRepository.findById(identifiantMaintenance).orElse(null);
     }
 
     @Override
@@ -51,15 +47,15 @@ public class ReparationServiceImpl implements ReparationService {
     @Override
     public Reparation ajouterReparation(
             String identifiantMaintenance,
-            String identifiantAccident,
-            String motifReparation
+            String natureReparation,
+            Boolean suiteAccident
     ) {
 
         Reparation reparation = new Reparation();
 
         reparation.setIdentifiantMaintenance(identifiantMaintenance);
-        reparation.setIdentifiantAccident(identifiantAccident);
-        reparation.setMotifReparation(motifReparation);
+        reparation.setNatureReparation(natureReparation);
+        reparation.setSuiteAccident(suiteAccident);
 
         return reparationRepository.save(reparation);
     }

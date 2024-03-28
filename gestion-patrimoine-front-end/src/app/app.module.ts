@@ -58,6 +58,9 @@ import { AgentListeComponent } from './pages/agent/agent-liste/agent-liste.compo
 import { TypeUniteDouaniereListeComponent } from './pages/type-unite-douaniere/type-unite-douaniere-liste/type-unite-douaniere-liste.component';
 import { TypeUniteDouaniereAjouterComponent } from './pages/type-unite-douaniere/type-unite-douaniere-ajouter/type-unite-douaniere-ajouter.component';
 import { TypeUniteDouaniereDetailComponent } from './pages/type-unite-douaniere/type-unite-douaniere-detail/type-unite-douaniere-detail.component';
+import { MaintenanceListeComponent } from './pages/maintenance/maintenance-liste/maintenance-liste.component';
+import { MaintenanceAjouterComponent } from './pages/maintenance/maintenance-ajouter/maintenance-ajouter.component';
+import { MaintenanceDetailComponent } from './pages/maintenance/maintenance-detail/maintenance-detail.component';
 
 // Enregistrer les données de localisation française
 registerLocaleData(localeFr);
@@ -118,6 +121,10 @@ export const MY_DATE_FORMATS = {
     AjouterBonPourAjouterComponent,
     AjouterBonPourListeDetailComponent,
     AjouterBonPourAjouterArticleComponent,
+
+    MaintenanceListeComponent,
+    MaintenanceAjouterComponent,
+    MaintenanceDetailComponent
   ],
   imports: [
     BrowserModule,

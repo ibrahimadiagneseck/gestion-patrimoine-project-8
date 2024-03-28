@@ -20,10 +20,8 @@ public class Vidange {
     @Column(name = "IDENTIFIANT_MAINTENANCE", length = 25, nullable = false)
     private String identifiantMaintenance;
 
-
     @Column(name = "LIBELLE_HUILE", length = 512)
     private String libelleHuile;
-
 
     @Column(name = "QUANTITE_MISE_VEHICULE")
     private int quantiteMiseVehicule;

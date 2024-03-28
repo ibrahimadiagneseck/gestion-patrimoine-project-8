@@ -19,6 +19,7 @@ public class Maintenance {
     @Column(name = "IDENTIFIANT_MAINTENANCE", length = 25, nullable = false)
     private String identifiantMaintenance;
 
+
     @ManyToOne
     @JoinColumn(name = "NUMERO_SERIE")
     private Vehicule numeroSerie;

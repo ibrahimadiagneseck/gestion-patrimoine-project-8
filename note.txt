@@ -1,7 +1,16 @@
-E7C133  aedd71
+CREATE TABLE "DLF_PATRIMOINE"."G2010R"."BORDEREAU_LIVRAISON" 
 
-F5E0A7  aedd71
+BASE=DLF_PATRIMOINE
+SCHEMA=G2010R
+USER=bedisdv
+PASSWORD=bedis002
+PORT=5432
+ADRESSE=10.2.3.203
 
+#spring.datasource.url=jdbc:postgresql://10.2.3.203:5432/DLF_PATRIMOINE
+
+#spring.datasource.username=bedisdv
+#spring.datasource.password=bedis002
 ------------------------------------------------------------------------------------------------------------------------------------------------
 
 

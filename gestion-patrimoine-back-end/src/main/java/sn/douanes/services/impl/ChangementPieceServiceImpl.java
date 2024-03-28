@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import sn.douanes.entities.ChangementPiece;
 import sn.douanes.entities.keys.ChangementPieceId;
 import sn.douanes.repositories.ChangementPieceRepository;
-import sn.douanes.repositories.ChangementPieceRepository;
 import sn.douanes.services.ChangementPieceService;
 
 import java.util.List;
@@ -32,13 +31,13 @@ public class ChangementPieceServiceImpl implements ChangementPieceService {
     }
 
     @Override
-    public void deleteChangementPieceById(String identifiantMaintenance, String identifiantAccident) {
-        changementPieceRepository.deleteById(new ChangementPieceId(identifiantMaintenance, identifiantAccident));
+    public void deleteChangementPieceById(Integer codeChangementPiece, String identifiantMaintenance) {
+        changementPieceRepository.deleteById(new ChangementPieceId(codeChangementPiece, identifiantMaintenance));
     }
 
     @Override
-    public ChangementPiece getChangementPieceById(String identifiantMaintenance, String identifiantAccident) {
-        return changementPieceRepository.findById(new ChangementPieceId(identifiantMaintenance, identifiantAccident)).orElse(null);
+    public ChangementPiece getChangementPieceById(Integer codeChangementPiece, String identifiantMaintenance) {
+        return changementPieceRepository.findById(new ChangementPieceId(codeChangementPiece, identifiantMaintenance)).orElse(null);
     }
 
     @Override
@@ -48,16 +47,16 @@ public class ChangementPieceServiceImpl implements ChangementPieceService {
 
     @Override
     public ChangementPiece ajouterChangementPiece(
+            Integer codeChangementPiece,
             String identifiantMaintenance,
-            String identifiantAccident,
             int nombrePiecesRechangees,
             String referencePieces
     ) {
 
         ChangementPiece ChangementPiece = new ChangementPiece();
 
+        ChangementPiece.setCodeChangementPiece(codeChangementPiece);
         ChangementPiece.setIdentifiantMaintenance(identifiantMaintenance);
-        ChangementPiece.setIdentifiantAccident(identifiantAccident);
         ChangementPiece.setNombrePiecesRechangees(nombrePiecesRechangees);
         ChangementPiece.setReferencePieces(referencePieces);
 

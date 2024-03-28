@@ -15,7 +15,6 @@ public interface VidangeService {
     Vidange getVidangeById(String id);
     List<Vidange> getAllVidanges();
 
-
     Vidange ajouterVidange(String identifiantMaintenance, String libelleHuile, int quantiteMiseVehicule);
 
 

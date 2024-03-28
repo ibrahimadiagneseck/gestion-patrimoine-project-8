@@ -16,8 +16,7 @@ public interface AccidentService {
     Accident getAccidentById(String id);
     List<Accident> getAllAccidents();
 
-
-    Accident ajouterAccident(String identifiantAccident, Timestamp dateIncident, String lieuIncident, String commentaireIncident, int nombreDeces, int nombreBlesse, byte[] rapportIncident);
+    Accident ajouterAccident(String identifiantMaintenance, Timestamp dateIncident, String lieuIncident, String commentaireIncident, int nombreDeces, int nombreBlesse, byte[] rapportIncident);
 
 
 }

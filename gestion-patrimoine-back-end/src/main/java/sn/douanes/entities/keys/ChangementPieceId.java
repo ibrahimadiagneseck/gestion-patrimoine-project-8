@@ -1,18 +1,20 @@
 package sn.douanes.entities.keys;
 
+import javax.persistence.Column;
+import javax.persistence.Id;
 import java.io.Serializable;
 
 public class ChangementPieceId implements Serializable {
 
+    private Integer codeChangementPiece;
     private String identifiantMaintenance;
-    private String identifiantAccident;
 
 
     public ChangementPieceId() {
     }
 
-    public ChangementPieceId(String identifiantMaintenance, String identifiantAccident) {
+    public ChangementPieceId(Integer codeChangementPiece, String identifiantMaintenance) {
+        this.codeChangementPiece = codeChangementPiece;
         this.identifiantMaintenance = identifiantMaintenance;
-        this.identifiantAccident = identifiantAccident;
     }
 }

@@ -7,4 +7,5 @@ import sn.douanes.entities.Vidange;
 @Repository
 public interface VidangeRepository extends JpaRepository<Vidange, String> {
 
+
 }

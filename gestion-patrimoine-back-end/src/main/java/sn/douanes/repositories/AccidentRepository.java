@@ -7,4 +7,5 @@ import sn.douanes.entities.Accident;
 @Repository
 public interface AccidentRepository extends JpaRepository<Accident, String> {
 
+
 }
