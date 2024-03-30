@@ -33,6 +33,7 @@ import { VehiculeService } from 'src/app/services/vehicule.service';
 import { BonPourService } from 'src/app/services/bon-pour.service';
 import { TypeObjet } from 'src/app/model/type-objet.model';
 import { DotationVehiculeAjouterComponent } from '../dotation-vehicule-ajouter/dotation-vehicule-ajouter.component';
+import { ArticleBonSortieService } from 'src/app/services/article-bon-sortie.service';
 
 @Component({
   selector: 'app-dotation-vehicule-detail',
@@ -46,7 +47,9 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
 
 
   rowNumber!: number;
-  rowQuantiteAccorde!: number;
+
+  quantiteAccordeeTotal!: number;
+  //rowQuantiteAccorde!: number;
 
 
 
@@ -56,6 +59,9 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
 
   public articleBonPours: ArticleBonPour[] = [];
   public articleBonPour: ArticleBonPour = new ArticleBonPour();
+
+  public articleBonSorties: ArticleBonSortie[] = [];
+  public articleBonSortie: ArticleBonSortie = new ArticleBonSortie();
 
   public typeObjets: TypeObjet[] = [];
   public typeObjet: TypeObjet = new TypeObjet();
@@ -105,6 +111,7 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
     "libelleArticleBonPour",
     "quantiteDemandee",
     "rowQuantiteAccorde",
+    // "rowQuantiteAccorde",
     "rowCodeTypeObjet"
 
 
@@ -126,6 +133,7 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
     private articleBonPourService: ArticleBonPourService,
     private bonPourService: BonPourService,
     private bonSortieService: BonSortieService,
+    private articleBonSortieService: ArticleBonSortieService,
     private vehiculeService: VehiculeService,
     private dotationVehiculeService: DotationVehiculeService,
     private agentService: AgentService,
@@ -148,37 +156,40 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
 
     // this.listeArticles();
     // this.listeBonDeSorties();
-     this.listeAgents();
+    this.listeAgents();
     // this.listeDotations();
-     this.listeVehicules();
+    this.listeVehicules();
+    this.listeArticleBonSortie();
     // --------------------------------------------------------------------------------
     const id = this.route.snapshot.paramMap.get('identifiantBonPour') ?? '';
     // const codeArticleBonPour = this.route.snapshot.paramMap.get('codeArticleBonPour') ?? '';
-    console.log(id);
+
 
     const decrypt = this.securiteService.decryptUsingAES256(id);
+
     // const decrypt2 = this.securiteService.decryptUsingAES256(codeArticleBonPour);
 
 
-     // --------------------------------------------------------------------------------
+    // --------------------------------------------------------------------------------
     //  const identifiantBP = this.route.snapshot.paramMap.get('identifiantBP') ?? '';
     //  const decrypt = this.securiteService.decryptUsingAES256(identifiantBP);
 
 
 
-    console.log(decrypt);
+    // console.log(decrypt);
 
 
 
     if (decrypt) {
 
+
       this.subscriptions.push(this.bonPourService.recupererBonPourById(decrypt).subscribe({
         next: (response: BonPour) => {
           this.bonPour = response;
-          console.log(this.bonPour);
+
 
           this.listeBonDeSorties();
-          this.listeArticleBonPours();
+          // this.listeArticleBonPours();
         },
         error: (errorResponse: HttpErrorResponse) => {
 
@@ -186,22 +197,6 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
       }));
     }
 
-
-    // if (decrypt) {
-
-    //   this.subscriptions.push(this.bonPourService.recupererBonPourById(decrypt).subscribe({
-    //     next: (response: BonPour) => {
-    //       this.bonPour = response;
-    //       console.log(this.bonPour);
-
-    //       this.listeBonDeSorties();
-    //     },
-    //     error: (errorResponse: HttpErrorResponse) => {
-
-    //     }
-    //   }));
-    // }
-    // --------------------------------------------------------------------------------
   }
 
 
@@ -214,9 +209,10 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
         this.bonSorties = response;
         // this.bonDeSortie = this.filtreBonPourArticleBonSortie(this.articleBonPour.identifiantBP, this.bonDeSorties);
         this.bonSortie = this.AfficherFormBonSortie(this.bonPour, this.bonSorties);
-        console.log(this.bonSortie);
-        console.log(this.bonPour);
+        // console.log(this.bonSortie);
+        // console.log(this.bonPour);
 
+        this.listeArticleBonPours();
 
       },
       error: (errorResponse: HttpErrorResponse) => {
@@ -226,6 +222,24 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
 
     this.subscriptions.push(subscription);
   }
+
+
+  public listeArticleBonSortie(): void {
+
+    const subscription = this.articleBonSortieService.listeArticleBonSorties().subscribe({
+      next: (response: ArticleBonSortie[]) => {
+        this.articleBonSorties = response;
+        // console.log(this.agents);
+
+      },
+      error: (errorResponse: HttpErrorResponse) => {
+        // console.log(errorResponse);
+      },
+    });
+
+    this.subscriptions.push(subscription);
+  }
+
 
   public listeArticleBonPours(): void {
 
@@ -233,29 +247,37 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
       next: (response: ArticleBonPour[]) => {
         //this.articleBonPours = response;
 
-        this.articleBonPours=  this.filtreArticleBonPourByTypeObjet(response)
-         console.log(this.articleBonPours);
+        const nomTypeObjet = "VEHICULES ET MATERIELS ROULANTS";
+        this.articleBonPours =  response.filter(articleBonPour => articleBonPour.codeTypeObjet.libelleTypeObjet === nomTypeObjet)
+
 
         // this.articleBonPours = response.sort((a, b) => Number(a.quantiteDemandee) - Number(b.quantiteDemandee));
 
-        if (this.bonPour) {
+        if (this.bonPour && this.articleBonPours) {
 
+          // this.filtreArticleBonPourByBonPour(this.articleBonPours, this.bonPour);
 
+          let articleBonPoursListe: ArticleBonPour[] | undefined;
 
-           this.filtreArticleBonPourByBonPour(this.articleBonPours, this.bonPour);
+          articleBonPoursListe = this.articleBonPours.filter(articleBonPour => articleBonPour.identifiantBonPour === this.bonPour.identifiantBonPour);
+          this.rowNumber = 1;
 
+          articleBonPoursListe =  articleBonPoursListe.map((item) => ({
+            ...item,
+            rowCodeTypeObjet: item.codeTypeObjet.libelleTypeObjet,
+            rowNumber: this.rowNumber++,
+            rowQuantiteAccorde: this.quantiteAccordeeByIdentifiantBonSortie(item, this.bonSorties, this.articleBonSorties)
+          }));
 
+          this.dataSource = new MatTableDataSource<ArticleBonPour>(articleBonPoursListe.map((item) => ({
+            ...item
+          })));
 
+          this.dataSource.paginator = this.paginator;
 
         } else {
           console.error('articleBonPours is undefined');
         }
-
-        // if (this.typeObjet) {
-        //   this.filtreArticleBonPourByTypeObjet(this.articleBonPours);
-        // } else {
-        //   console.error('articleBonPours is undefined');
-        // }
 
 
       },
@@ -267,60 +289,62 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
     this.subscriptions.push(subscription);
   }
 
-  filtreArticleBonPourByBonPour(articleBonPours: ArticleBonPour[], bonPour: BonPour): void {
+  // filtreArticleBonPourByBonPour(articleBonPours: ArticleBonPour[], bonPour: BonPour): void {
 
-    articleBonPours = articleBonPours.filter((articleBonPour: ArticleBonPour) => {
-      return articleBonPour.identifiantBonPour && bonPour.identifiantBonPour && articleBonPour.identifiantBonPour === bonPour.identifiantBonPour;
-    }).sort((a, b) => Number(a.quantiteDemandee) - Number(b.quantiteDemandee));
+  //   articleBonPours = this.articleBonPours.filter(articleBonPour => articleBonPour.identifiantBonPour === bonPour.identifiantBonPour);
 
-    this.rowNumber = 1;
-    this.rowQuantiteAccorde= 0;
+  //   this.rowNumber = 1;
 
-    // this.dataSource = new MatTableDataSource<IVehicule>(this.vehicules);
-    this.dataSource = new MatTableDataSource<ArticleBonPour>(articleBonPours.map((item) => ({
-      ...item,
-      rowCodeTypeObjet: item.codeTypeObjet.libelleTypeObjet,
-      rowNumber: this.rowNumber++,
-      rowQuantiteAccorde: this.rowQuantiteAccorde,
-    })));
+  //   articleBonPours =  articleBonPours.map((item) => ({
+  //     ...item,
+  //     rowCodeTypeObjet: item.codeTypeObjet.libelleTypeObjet,
+  //     rowNumber: this.rowNumber++,
+  //     rowQuantiteAccorde: this.quantiteAccordeeByIdentifiantBonSortie(item, this.bonSorties, this.articleBonSorties)
+  //   }));
 
 
-    // console.log(this.dataSource.data);
-    this.dataSource.paginator = this.paginator;
-  }
+  //   this.dataSource = new MatTableDataSource<ArticleBonPour>(articleBonPours.map((item) => ({
+  //     ...item
+  //   })));
 
-
-  // filtreArticleBonPourByTypeObjet( articleBonPours: ArticleBonPour[]): string {
-  //   let nomTypeObjet = "VEHICULES ET MATERIELS ROULANTS";
-
-  //   for (const articleBonPour of articleBonPours) {
-  //     // Comparer les bonEntree ici (assurez-vous d'implémenter une méthode de comparaison dans la classe BonEntree)
-  //     if ( articleBonPour.codeTypeObjet.libelleTypeObjet === nomTypeObjet ) {
-  //       nombreArticleBonEntree++;
-  //     }
-  //   }
-
-  //   return nombreArticleBonEntree;
+  //   this.dataSource.paginator = this.paginator;
   // }
 
 
-  filtreArticleBonPourByTypeObjet(articleBonPours: ArticleBonPour[]):ArticleBonPour[] {
-    let nomTypeObjet = "VEHICULES ET MATERIELS ROULANTS";
-    let articlesFiltres = [];
+
+  quantiteAccordeeByIdentifiantBonSortie(articleBonPour: ArticleBonPour, bonSorties: BonSortie[], articleBonSorties: ArticleBonSortie[]): number {
+
+
+    const bonSortie = bonSorties.find(bonSortie => articleBonPour.identifiantBonPour === bonSortie.identifiantBonPour.identifiantBonPour);
+
+    // console.log(bonSortie);
+    // console.log(articleBonPour);
+
+
+    if (bonSortie) {
+
+      // console.log(articleBonSorties[0]?.identifiantBonSortie);
+      // console.log(bonSortie.identifiantBonSortie);
+
+      articleBonSorties = articleBonSorties.filter(articleBonSortie => articleBonSortie.identifiantBonSortie === bonSortie.identifiantBonSortie);
 
 
 
-    for (const articleBonPour of articleBonPours) {
+      // console.log(articleBonSorties);
 
-      console.log(articleBonPour.codeTypeObjet.libelleTypeObjet);
-        if (articleBonPour.codeTypeObjet.libelleTypeObjet === nomTypeObjet) {
 
-            articlesFiltres.push(articleBonPour);
-        }
+
+      this.quantiteAccordeeTotal = articleBonSorties.reduce((total, articleBonSortie) => {
+        return total + (articleBonSortie ? articleBonSortie.quantiteAccordee : 0);
+      }, 0);
+      return this.quantiteAccordeeTotal;
+
+    } else {
+      return 0;
     }
 
-    return articlesFiltres;
-}
+  }
+
 
 
 
@@ -365,7 +389,7 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
       // Comparer les bonEntree ici (assurez-vous d'implémenter une méthode de comparaison dans la classe BonEntree)
       if (bonPour && bonSortie.identifiantBonPour && JSON.stringify(bonPour) === JSON.stringify(bonSortie.identifiantBonPour)) {
 
-       return bonSortie;
+        return bonSortie;
       }
 
     }
@@ -414,7 +438,7 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
 
   goToDetail(bonSortie: BonSortie): void {
     const id = bonSortie.identifiantBonSortie;
-    console.log(id);
+    // console.log(id);
 
     const encrypt = this.securiteService.encryptUsingAES256(id);
     this.router.navigate(['/dotation-vehicule-detail-bon-sortie-detail', encrypt]);
@@ -440,60 +464,41 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
     this.clickButton('bon-sortie-form')
   }
 
+  // recupererBonPourByIdentifiantBonPour(identifiantBonPour: string): BonPour | undefined {
+
+  //   let bonPour: BonPour | undefined;
+
+  //   // console.log(this.bonSorties);
+
+  //   bonPour = this.bonPours.find(bonPour => bonPour.identifiantBonPour === identifiantBonPour);
+
+  //   return bonPour
+  // }
+
 
   public ajouterBonSortie(BonSortieForm: NgForm): void {
-
-    // -------------------------------------------------------------------------- METHODE 1
-    // const formData = this.bordereauLivraisonService.createBordereauLivraisonFormData(BordereauLivraisonForm.value);
-
-    // this.subscriptions.push(this.bordereauLivraisonService.ajouterBordereauLivraisonRequestParam(formData).subscribe({
-    //     next: (response: BordereauLivraison) => {
-    //       console.log(response);
-
-    //     },
-    //     error: (errorResponse: HttpErrorResponse) => {
-
-    //     }
-    //   })
-    // );
-
-    // -------------------------------------------------------------------------- METHODE 2
-    // const dateBS: MyDate = BordereauLivraisonForm.value.dateBS;
-    // const formattedDate = this.bordereauLivraisonService.formatterMyDate(dateBL);
-
-    // const bordereauLivraisonForm1: NgForm = BordereauLivraisonForm;
-    // BordereauLivraisonForm.control.get('dateBL')?.patchValue(formattedDate);
-    // BordereauLivraisonForm.control.get('dateBL')?.setValue(formattedDate);
-
-
-    // if (formattedDate) {
-    //   BordereauLivraisonForm.value.dateBL = formattedDate;
-    // }
-
-
-
 
     //  AGENT
     BonSortieForm.value.numeroBonSortie = 'BS005';
     BonSortieForm.value.matriculeAgent = this.agents[0];
-    BonSortieForm.value.identifiantBonPour = this.bonPour.identifiantBonPour;
+    BonSortieForm.value.identifiantBonPour = this.bonPour;
 
     // CONFORMITE BORDEREAU LIVRAISON
     // BordereauLivraisonForm.value.conformiteBL = 'oui';
 
-     console.log(BonSortieForm.value);
+    console.log(BonSortieForm.value);
 
 
     this.subscriptions.push(this.bonSortieService.ajouterBonSortie(BonSortieForm.value).subscribe({
-        next: (response: BonSortie) => {
-          this.bonSortie = response;
-          console.log(this.bonSortie);
+      next: (response: BonSortie) => {
+        this.bonSortie = response;
+        console.log(this.bonSortie);
 
-        },
-        error: (errorResponse: HttpErrorResponse) => {
+      },
+      error: (errorResponse: HttpErrorResponse) => {
 
-        }
-      })
+      }
+    })
     );
 
   }
@@ -557,7 +562,7 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
         enterAnimationDuration: '100ms',
         exitAnimationDuration: '100ms',
 
-        data:  {
+        data: {
           vehicules: vehicules,
           bonDeSortie: bonSortie,
           vehiculesSelected: vehiculesSelect
@@ -579,14 +584,22 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
   }
 
 
-  popupAjouterDotationVehicule( articleBonPour: ArticleBonPour): void {
+  popupAjouterDotationVehicule(articleBonPour: ArticleBonPour, quantiteAccordeeTotal:number): void {
+
+    console.log(articleBonPour,quantiteAccordeeTotal);
+
     const dialogRef = this.matDialog.open(
       DotationVehiculeAjouterComponent,
       {
         width: '80%',
         enterAnimationDuration: '100ms',
         exitAnimationDuration: '100ms',
-        data: articleBonPour
+        data:  {
+          articleBonPour: articleBonPour,
+          quantiteAccordeeTotal: quantiteAccordeeTotal
+
+        }
+
 
       }
     );

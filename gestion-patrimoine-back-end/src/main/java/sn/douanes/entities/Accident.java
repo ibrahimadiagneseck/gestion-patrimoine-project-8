@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.sql.Timestamp;
 
 @Entity
@@ -19,7 +20,7 @@ public class Accident {
     private String identifiantMaintenance;
 
     @Column(name = "DATE_INCIDENT")
-    private Timestamp dateIncident;
+    private Date dateIncident;
 
     @Column(name = "LIEU_INCIDENT", length = 15)
     private String lieuIncident;
@@ -33,8 +34,17 @@ public class Accident {
     @Column(name = "NOMBRE_BLESSE")
     private int nombreBlesse;
 
-    @Lob // Ajout de cette annotation pour gérer les données volumineuses
-    @Column(name = "RAPPORT_INCIDENT", columnDefinition="BYTEA")
-    private byte[] rapportIncident;
+//    @Lob // Ajout de cette annotation pour gérer les données volumineuses
+//    @Column(name = "RAPPORT_INCIDENT")
+//    private byte[] rapportIncident;
+
+//    @Lob // Ajout de cette annotation pour gérer les données volumineuses
+//    @Column(name = "RAPPORT_INCIDENT", columnDefinition="bytea")
+//    private byte[] rapportIncident;
+
+
+//    @Lob
+//    private byte[] rapportIncident;
+
 
 }

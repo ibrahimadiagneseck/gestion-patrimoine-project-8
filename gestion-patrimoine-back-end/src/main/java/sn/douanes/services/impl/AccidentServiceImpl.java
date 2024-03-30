@@ -6,6 +6,7 @@ import sn.douanes.entities.Accident;
 import sn.douanes.repositories.AccidentRepository;
 import sn.douanes.services.AccidentService;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -49,24 +50,24 @@ public class AccidentServiceImpl implements AccidentService {
     @Override
     public Accident ajouterAccident(
             String identifiantMaintenance,
-            Timestamp dateIncident,
+            Date dateIncident,
             String lieuIncident,
             String commentaireIncident,
             int nombreDeces,
-            int nombreBlesse,
-            byte[] rapportIncident
+            int nombreBlesse
+            //byte[] rapportIncident
     ) {
 
-        Accident Accident = new Accident();
+        Accident accident = new Accident();
 
-        Accident.setIdentifiantMaintenance(identifiantMaintenance);
-        Accident.setDateIncident(new Timestamp(System.currentTimeMillis()));
-        Accident.setLieuIncident(lieuIncident);
-        Accident.setCommentaireIncident(commentaireIncident);
-        Accident.setNombreDeces(nombreDeces);
-        Accident.setNombreBlesse(nombreBlesse);
-        Accident.setRapportIncident(rapportIncident);
+        accident.setIdentifiantMaintenance(identifiantMaintenance);
+        accident.setDateIncident(dateIncident);
+        accident.setLieuIncident(lieuIncident);
+        accident.setCommentaireIncident(commentaireIncident);
+        accident.setNombreDeces(nombreDeces);
+        accident.setNombreBlesse(nombreBlesse);
+        // accident.setRapportIncident(null);
 
-        return accidentRepository.save(Accident);
+        return accidentRepository.save(accident);
     }
 }

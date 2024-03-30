@@ -45,7 +45,12 @@ export class AccidentService {
 
 
 
-  public formatterMyDate(myDate: MyDate): string {
+  public formatterMyDate(myDate: MyDate | string): string {
+    
+    if (typeof myDate === 'string') {
+      return '';
+    }
+
     if (!myDate || !myDate.year || !myDate.month || !myDate.day) {
       return '';
     }

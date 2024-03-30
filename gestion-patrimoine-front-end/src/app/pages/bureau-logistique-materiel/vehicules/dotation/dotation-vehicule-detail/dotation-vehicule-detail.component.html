@@ -53,6 +53,8 @@
                       </div>
 
                   </form>
+
+
               </div>
 
 
@@ -61,9 +63,9 @@
 
 
 
-          <div class="container">
+          <!-- <div class="container">
 
-            <!-- -------------------- Bon de sortie------------------------------------------------------ -->
+
             <div class="container">
                 <ng-container  *ngIf="bonSortie.identifiantBonSortie== ''; else detailFormBonSortie">
 
@@ -120,7 +122,7 @@
 
 
 
-        </div>
+        </div> -->
 
 
           <!-- --------------------FORMULAIRES------------------------------------------------------ -->
@@ -239,6 +241,20 @@
                   </div>
 
                 </form>
+                <div class="container px-3 py-2">
+                  <div class="row">
+                      <div class="col-12 text-end">
+
+
+
+                          <button [routerLink]="'/affectation-vehicule'" type="button"
+                              class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip"
+                              title="cliquer ici pour retourner">
+                              Retour
+                          </button>
+                      </div>
+                  </div>
+              </div>
             </div>
 
 
@@ -247,7 +263,7 @@
 
 
 
-        <div class="container">
+        <!-- <div class="container">
 
 
           <div class="container">
@@ -278,18 +294,7 @@
                   <div class="container px-3 py-2">
                     <div class="row">
                         <div class="col-12 text-end">
-                            <!-- <button type="button" class="btn btn-mybrown me-2" >Désactiver</button>
 
-                            <button (click)="popupAjouter(vehicules, bonDeSortie, vehiculesSelect)" type="button"
-                                class="btn btn-mysecondary fw-bold mx-2"   data-bs-toggle="tooltip"
-                                title="cliquer ici pour ajouter article">
-                                Ajouter article
-                            </button>
-
-                            <button type="button" class="btn btn-myprimary fw-bold mx-2"  data-bs-toggle="tooltip"
-                                title="cliquer ici pour modifier">
-                                Modifier
-                            </button> -->
 
 
                             <button [routerLink]="'/affectation-vehicule'" type="button"
@@ -313,7 +318,7 @@
 
       </div>
 
-
+ -->
 
           <!-- ----------------LISTES--------------------------------------------------------- -->
 
@@ -338,7 +343,7 @@
                                   {{ displayedColumnsCustom[i] }}
                               </th>
 
-                              <td (click)="popupAjouterDotationVehicule(element)" mat-cell *matCellDef="let element"
+                              <td (click)="popupAjouterDotationVehicule(element, quantiteAccordeeTotal)" mat-cell *matCellDef="let element"
                                   style="cursor: pointer;"
                                   [style.display]="columnsToHide.includes(column) ? 'none' : 'table-cell'">
 

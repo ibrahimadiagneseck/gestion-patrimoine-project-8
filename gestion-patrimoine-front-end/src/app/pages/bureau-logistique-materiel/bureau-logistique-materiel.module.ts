@@ -31,6 +31,8 @@ import { ReceptionVehiculeModifierBonEntreeComponent } from './vehicules/recepti
 import { DotationVehiculeListeComponent } from './vehicules/dotation/dotation-vehicule-liste/dotation-vehicule-liste.component';
 import { DotationVehiculeAjouterBonSortieComponent } from './vehicules/dotation/dotation-vehicule-ajouter-bon-sortie/dotation-vehicule-ajouter-bon-sortie.component';
 import { DotationVehiculeDetailBonSortieComponent } from './vehicules/dotation/dotation-vehicule-detail-bon-sortie/dotation-vehicule-detail-bon-sortie.component';
+import { DotationVehiculeAjouterComponent } from './vehicules/dotation/dotation-vehicule-ajouter/dotation-vehicule-ajouter.component';
+import { DotationVehiculeDetailComponent } from './vehicules/dotation/dotation-vehicule-detail/dotation-vehicule-detail.component';
 import { AuthActivateRouteGuard } from 'src/app/routeguards/auth.routeguard';
 import { XhrInterceptor } from 'src/app/interceptors/app.request.interceptor';
 import { NgToastModule } from 'ng-angular-popup';
@@ -41,9 +43,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
-import { DotationVehiculeAjouterComponent } from './vehicules/dotation/dotation-vehicule-ajouter/dotation-vehicule-ajouter.component';
-import { DotationVehiculeDetailComponent } from './vehicules/dotation/dotation-vehicule-detail/dotation-vehicule-detail.component';
-
 // Enregistrer les données de localisation française
 registerLocaleData(localeFr);
 

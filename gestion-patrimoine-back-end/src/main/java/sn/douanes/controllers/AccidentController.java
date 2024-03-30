@@ -10,6 +10,7 @@ import sn.douanes.entities.Accident;
 import sn.douanes.entities.Reparation;
 import sn.douanes.services.AccidentService;
 
+import java.sql.Date;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.OK;
@@ -32,9 +33,10 @@ public class AccidentController {
 
     @PostMapping("/AjouterAccident")
     @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
-    public Accident AjouterAccident(@RequestBody Accident a) {
-        return accidentService.saveAccident(a);
+    public Accident AjouterAccident(@RequestBody Accident accident) {
+        return accidentService.ajouterAccident(accident.getIdentifiantMaintenance(), accident.getDateIncident(), accident.getLieuIncident(), accident.getCommentaireIncident(), accident.getNombreDeces(), accident.getNombreBlesse());
     }
+
 
     @PutMapping("/ModifierAccident")
     @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")

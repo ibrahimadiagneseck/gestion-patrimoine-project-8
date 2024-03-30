@@ -46,6 +46,11 @@ public class ChangementPieceServiceImpl implements ChangementPieceService {
     }
 
     @Override
+    public List<ChangementPiece> getAllChangementPiecesByIdentifiantMaintenance(String identifiantMaintenance) {
+        return changementPieceRepository.findByIdentifiantMaintenance(identifiantMaintenance);
+    }
+
+    @Override
     public ChangementPiece ajouterChangementPiece(
             Integer codeChangementPiece,
             String identifiantMaintenance,

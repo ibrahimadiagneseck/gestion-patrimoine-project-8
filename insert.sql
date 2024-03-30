@@ -35,7 +35,8 @@ INSERT INTO "prestataires" ("ninea", "adresse", "adresse_email", "numero_telepho
 INSERT INTO "bordereau_livraison" ("identifiant_b_l", "conformite_b_l", "date_b_l", "date_enregistrement", "description_b_l", "lieu_de_livraison", "numero_b_l", "representant_prestataire", "code_section", "matricule_agent", "ninea") VALUES
 ('BLSA202312011043210', 'OUI',  '2023-12-01',   '2024-03-04 12:18:29.967049',   'DESCRIPTION BL 1', 'LIEU 1',   '001',  'LIVREUR 1',    'SA',   '613693H',  '005177614'),
 ('BLSM202312021143211', 'OUI',  '2023-12-02',   '2024-03-04 12:18:29.967049',   'DESCRIPTION BL 2', 'LIEU 2',   '002',  'LIVREUR 2',    'SM',   '506234B',  '005174222'),
-('BLSG202312031243213', 'NON',  '2023-12-03',   '2024-03-04 12:18:29.967049',   'DESCRIPTION BL 3', 'LIEU 3',   '003',  'LIVREUR 3',    'SG',   '622543E',  '005192373');
+('BLSG202312031243213', 'NON',  '2023-12-03',   '2024-03-04 12:18:29.967049',   'DESCRIPTION BL 3', 'LIEU 3',   '003',  'LIVREUR 3',    'SG',   '622543E',  '005192373'),
+('BLSG202312031243214', 'OUI',  '2023-12-04',   '2024-03-04 12:18:29.967049',   'DESCRIPTION BL 4', 'LIEU 4',   '004',  'LIVREUR 4',    'SG',   '622543E',  '005192373');
 
 
 
@@ -44,7 +45,8 @@ INSERT INTO "bordereau_livraison" ("identifiant_b_l", "conformite_b_l", "date_b_
 INSERT INTO "bon_entree" ("identifiant_b_e", "date_bon_entree", "libelle_bon_entree", "numero_b_e", "observation_bon_entree", "identifiant_b_l") VALUES
 ('BESA202312011043210', '2023-12-01',   'LIBELLE BE 1', '001',  'OBSERVATION 1',    'BLSA202312011043210'),
 ('BESM202312021143211', '2023-12-02',   'LIBELLE BE 2', '002',  'OBSERVATION 2',    'BLSM202312021143211'),
-('BESG202312031243213', '2023-12-03',   'LIBELLE BE 3', '003',  'OBSERVATION 3',    'BLSG202312031243213');
+('BESG202312031243213', '2023-12-03',   'LIBELLE BE 3', '003',  'OBSERVATION 3',    'BLSG202312031243213'),
+('BESG202312031243214', '2023-12-04',   'LIBELLE BE 4', '004',  'OBSERVATION 4',    'BLSG202312031243214');
 
 
 
@@ -70,8 +72,10 @@ INSERT INTO "article_bon_entree" ("code_article_bon_entree", "date_enregistremen
 (1, '2024-03-04 12:37:34.514509',   'TOYOTA-CAMRY-123456',  1,  'BESA202312011043210',  'PKN',  'ARMES',    '613693H'),
 (1, '2024-03-04 12:37:34.51451',    'FORD-MUSTANG-789012',  1,  'BESM202312021143211',  'CLB',  'VEHIC',    '506234B'),
 (2, '2024-03-04 12:37:34.514511',   'FORD-ESCAPE-789013',   1,  'BESM202312021143211',  'LB6',  'VEHIC',    '506234B'),
-(1, '2024-03-04 12:37:34.514513',   'BMW-X5-345678',    1,  'BESG202312031243213',  'HGY',  'VEHIC',    '622543E');
-
+(1, '2024-03-04 12:37:34.514513',   'BMW-X5-345678',    1,  'BESG202312031243213',  'HGY',  'VEHIC',    '622543E'),
+(1, '2024-03-04 12:37:34.514513',   'BMW-M1-145679',    1,  'BESG202312031243214',  'HGY',  'VEHIC',    '622543E'),
+(2, '2024-03-04 12:37:34.514513',   'BMW-M3-245679',    1,  'BESG202312031243214',  'HGY',  'VEHIC',    '622543E'),
+(3, '2024-03-04 12:37:34.514513',   'BMW-M4-445679',    1,  'BESG202312031243214',  'HGY',  'VEHIC',    '622543E');
 
 
 
@@ -460,7 +464,10 @@ INSERT INTO "vehicule" ("numero_serie", "date_mise_en_circulation", "libelle_eta
 ('789012',  '2023-01-02',   'NEUF', 'MUSTANG',    'CG789',    'XYZ789',   1,  'BESM202312021143211',  'FOR',  'JP',   'GASOIL',  'TV2'),
 ('789013',  '2023-01-02',   'NEUF', 'ESCAPE',    'CG789',    'XYZ789',   2,  'BESM202312021143211',  'FOR',  'JP',   'GASOIL',  'TV2'),
 ('345678',  '2023-01-03',   'USAGE', 'X5',    'CG345',    'DEF345',   1,  'BESG202312031243213',  'BMW',  'FR',   'HYBRIDE',  'TV3'),
-('345679',  '2023-01-04',   'NEUF', 'X3',    'CG346',    'DEF346',   1,  'BESG202312031243213',  'BMW',  'FR',   'ESSENCE',  'TV3');
+('345679',  '2023-01-04',   'NEUF', 'X3',    'CG346',    'DEF346',   1,  'BESG202312031243213',  'BMW',  'FR',   'ESSENCE',  'TV3'),
+('145679',  '2023-01-05',   'NEUF', 'M1',    'AG346',    'AEF346',   1,  'BESG202312031243214',  'BMW',  'FR',   'ESSENCE',  'TV3'),
+('245679',  '2023-01-05',   'NEUF', 'M3',    'BG346',    'BEF346',   2,  'BESG202312031243214',  'BMW',  'FR',   'ESSENCE',  'TV3'),
+('445679',  '2023-01-05',   'NEUF', 'M4',    'DG346',    'CEF346',   3,  'BESG202312031243214',  'BMW',  'FR',   'ESSENCE',  'TV3');
 
 
 INSERT INTO "dotation_vehicule" ("identifiant_d_v", "date_dotation", "code_article_bon_sortie", "identifiant_bon_sortie", "matricule_agent", "numero_serie") VALUES
@@ -518,9 +525,9 @@ VALUES
 
 
 
-INSERT INTO "accident" ("identifiant_maintenance", "commentaire_incident", "date_incident", "lieu_incident", "nombre_blesse", "nombre_deces", "rapport_incident") 
+INSERT INTO "accident" ("identifiant_maintenance", "commentaire_incident", "date_incident", "lieu_incident", "nombre_blesse", "nombre_deces") 
 VALUES
-    ('MSG202311121243215',  'commentaire incident 1',   '2024-03-25 16:32:01.746919',   'PIKINE',   1,  0,  null);
+    ('MSG202311121243215',  'commentaire incident 1',   '2024-03-25 16:32:01.746919',   'PIKINE',   1,  0);
 
 
 

@@ -9,7 +9,7 @@ import { Maintenance } from 'src/app/model/maintenance';
 import { MyDate } from 'src/app/model/my-date.model';
 import { Reparation } from 'src/app/model/reparation';
 import { Vidange } from 'src/app/model/vidange';
-import { ChangementPieceService } from 'src/app/services/ChangementPiece';
+import { ChangementPieceService } from 'src/app/services/changement-piece.service';
 import { AccidentService } from 'src/app/services/accident.service';
 import { MaintenanceService } from 'src/app/services/maintenance.service';
 import { MyDateService } from 'src/app/services/my-date.service';
@@ -59,6 +59,7 @@ export class MaintenanceDetailComponent implements OnInit, OnDestroy  {
   ) {}
 
   ngOnInit(): void {
+    // console.log(this.maintenance);
     
     this.listeChangementPieces(this.maintenance);
     this.recupererVidangeById(this.maintenance.identifiantMaintenance);

@@ -286,7 +286,7 @@ export class DotationVehiculeListeComponent implements OnInit, OnDestroy {
 
 
   popupAjouterDotation(): void {
-    this.router.navigate(['/dotation-vehicule-detail', '', '']);
+    // this.router.navigate(['/dotation-vehicule-detail', '', '']);
   }
 
 
@@ -309,9 +309,11 @@ export class DotationVehiculeListeComponent implements OnInit, OnDestroy {
   // }
 
   goToDetail(bonPour: BonPour): void {
+    // console.log(bonPour);
+
      const id = bonPour.identifiantBonPour;
      const encrypt = this.securiteService.encryptUsingAES256(id);
-    this.router.navigate(['/dotation-vehicule-detail',encrypt]);
+    this.router.navigate(['/dotation-vehicule-detail', encrypt]);
   }
 
 

@@ -4,7 +4,7 @@
     /* overflow: hidden; */
     display: grid;
     height: 100vh; /* La hauteur du conteneur occupe 100% de la hauteur de la fenêtre */
-    grid-template-columns: 1fr 1fr 1fr 1fr; /* Quatre colonnes égales */
+    grid-template-columns: 0.8fr 1.2fr 1fr 1fr; /* Quatre colonnes égales */
     grid-template-rows: 0.4fr 1.2fr 1.2fr 1.2fr; /* Quatre rangées avec des fractions de hauteur */
     grid-template-areas:
       "nav nav nav nav"

@@ -32,8 +32,8 @@ public class MaintenanceController {
 
     @PostMapping("/AjouterMaintenance")
     @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
-    public Maintenance AjouterMaintenance(@RequestBody Maintenance m) {
-        return maintenanceService.saveMaintenance(m);
+    public Maintenance AjouterMaintenance(@RequestBody Maintenance maintenance) {
+        return maintenanceService.ajouterMaintenance(maintenance.getIdentifiantMaintenance(), maintenance.getNumeroSerie(), maintenance.getTypeMaintenance(), maintenance.getObservationMaintenance());
     }
 
     @PutMapping("/ModifierMaintenance")

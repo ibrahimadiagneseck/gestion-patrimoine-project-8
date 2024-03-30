@@ -4,6 +4,7 @@ import sn.douanes.entities.Accident;
 import sn.douanes.entities.Accident;
 import sn.douanes.entities.Vehicule;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -16,7 +17,7 @@ public interface AccidentService {
     Accident getAccidentById(String id);
     List<Accident> getAllAccidents();
 
-    Accident ajouterAccident(String identifiantMaintenance, Timestamp dateIncident, String lieuIncident, String commentaireIncident, int nombreDeces, int nombreBlesse, byte[] rapportIncident);
+    Accident ajouterAccident(String identifiantMaintenance, Date dateIncident, String lieuIncident, String commentaireIncident, int nombreDeces, int nombreBlesse);
 
 
 }

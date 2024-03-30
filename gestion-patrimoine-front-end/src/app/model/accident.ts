@@ -5,7 +5,7 @@ import { MyDate } from "./my-date.model";
 export class Accident {
 
   public identifiantMaintenance: string;
-  public dateIncident: MyDate;
+  public dateIncident: MyDate | string;
   public lieuIncident: string;
   public commentaireIncident: string;
   public nombreDeces: number;

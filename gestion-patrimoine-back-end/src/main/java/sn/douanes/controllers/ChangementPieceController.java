@@ -61,6 +61,14 @@ public class ChangementPieceController {
         return changementPieceService.getChangementPieceById(codeChangementPiece, identifiantMaintenance);
     }
 
+    @GetMapping("recupererChangementPieceByIdentifiantMaintenance/{identifiantMaintenance}")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    public List<ChangementPiece> recupererChangementPieceByIdentifiantMaintenance(
+            @PathVariable("identifiantMaintenance") String identifiantMaintenance
+    ) {
+        return changementPieceService.getAllChangementPiecesByIdentifiantMaintenance(identifiantMaintenance);
+    }
+
 
     private ResponseEntity<HttpResponse> response(HttpStatus httpStatus, String message) {
         return new ResponseEntity<>(

@@ -42,6 +42,10 @@ export class ChangementPieceService {
     return this.httpClient.get<ChangementPiece>(`${this.urlServeur}/RecupererChangementPieceById/${codeChangementPiece}/${identifiantMaintenance}`, { withCredentials: true });
   }
 
+  public recupererChangementPieceByIdentifiantMaintenance(identifiantMaintenance: string): Observable<ChangementPiece[]> {
+    return this.httpClient.get<ChangementPiece[]>(`${this.urlServeur}/recupererChangementPieceByIdentifiantMaintenance/${identifiantMaintenance}`, { withCredentials: true });
+  }
+
 
 
 

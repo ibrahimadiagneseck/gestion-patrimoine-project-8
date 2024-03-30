@@ -15,11 +15,9 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class ChangementPiece {
 
-
     @Id
     @Column(name = "CODE_CHANGEMENT_PIECE", nullable = false)
     private Integer codeChangementPiece;
-
 
     @Id
     @Column(name = "IDENTIFIANT_MAINTENANCE", length = 25, nullable = false)

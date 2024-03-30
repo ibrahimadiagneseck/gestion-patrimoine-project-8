@@ -48,7 +48,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     }
 
     @Override
-    public Maintenance ajouterMaintenance(String identifiantMaintenance, Vehicule numeroSerie, Timestamp dateDebutMaintenance, Timestamp dateFinMaintenance, String typeMaintenance, String observationMaintenance) {
+    public Maintenance ajouterMaintenance(String identifiantMaintenance, Vehicule numeroSerie, String typeMaintenance, String observationMaintenance) {
 
         Maintenance maintenance = new Maintenance();
 

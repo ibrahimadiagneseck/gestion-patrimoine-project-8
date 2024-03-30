@@ -138,7 +138,7 @@
                         <div class="col-3 mx-auto">
                             <span class="fw-bold">Date fin</span>
                             <div class="text-input text-uppercase">
-                                {{ myDateStringFormatter(maintenance.dateFinMaintenance) }}
+                                {{ maintenance.dateFinMaintenance ? myDateStringFormatter(maintenance.dateFinMaintenance) : '---'}}
                             </div>
                         </div>
 
@@ -169,7 +169,7 @@
                         <div class="col-3 mx-auto">
                             <span class="fw-bold">Date fin</span>
                             <div class="text-input text-uppercase">
-                                {{ myDateStringFormatter(maintenance.dateFinMaintenance) }}
+                                {{ maintenance.dateFinMaintenance ? myDateStringFormatter(maintenance.dateFinMaintenance) : '---'}}
                             </div>
                         </div>
 
@@ -229,7 +229,7 @@
                         <div class="col-3 mx-auto">
                             <span class="fw-bold">Date fin</span>
                             <div class="text-input text-uppercase">
-                                {{ myDateStringFormatter(maintenance.dateFinMaintenance) }}
+                                {{ maintenance.dateFinMaintenance ? myDateStringFormatter(maintenance.dateFinMaintenance) : '---'}}
                             </div>
                         </div>
 
@@ -277,7 +277,7 @@
                         <div class="col-3 mx-auto">
                             <span class="fw-bold">Date incident</span>
                             <div class="text-input text-uppercase">
-                                {{ myDateStringFormatter(accident.dateIncident) }}
+                                {{ maintenance.dateFinMaintenance ? myDateStringFormatter(maintenance.dateFinMaintenance) : '---'}}
                             </div>
                         </div>
 

@@ -14,6 +14,7 @@ public interface ChangementPieceService {
     List<ChangementPiece> getAllChangementPieces();
 
 
+    List<ChangementPiece> getAllChangementPiecesByIdentifiantMaintenance(String identifiantMaintenance);
     ChangementPiece ajouterChangementPiece(Integer codeChangementPiece, String identifiantMaintenance, int nombrePiecesRechangees, String referencePieces);
 
 
