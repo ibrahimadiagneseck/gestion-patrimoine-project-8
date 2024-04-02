@@ -1,6 +1,6 @@
 import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable, Subject, Subscription, debounceTime, distinctUntilChanged, of, switchMap } from 'rxjs';
+import { Observable, Subject, Subscription, debounceTime, distinctUntilChanged, map, of, startWith, switchMap } from 'rxjs';
 import { UniteDouaniere } from 'src/app/model/unite-douaniere.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -16,6 +16,7 @@ import { BonPour } from 'src/app/model/bon-pour.model';
 import { ArticleBonPourService } from 'src/app/services/article-bon-pour.service';
 import { BonPourService } from 'src/app/services/bon-pour.service';
 import { DotationVehiculeAjouterComponent } from '../dotation-vehicule-ajouter/dotation-vehicule-ajouter.component';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-dotation-vehicule-liste',
@@ -33,6 +34,12 @@ export class DotationVehiculeListeComponent implements OnInit, OnDestroy {
 
   public bonPours: BonPour[] = [];
   public bonPour: BonPour | undefined;
+
+  public uniteDouanieres: UniteDouaniere[] = [];
+  public uniteDouaniere: UniteDouaniere | undefined;
+
+  public control = new FormControl('');
+  public filteredUniteDouanieres: Observable<UniteDouaniere[]> | undefined;
 
 
 
@@ -108,6 +115,7 @@ export class DotationVehiculeListeComponent implements OnInit, OnDestroy {
     private articleBonPourService: ArticleBonPourService,
     private securiteService: SecuriteService,
     private bonPourService: BonPourService,
+    private uniteDouaniereService: UniteDouaniereService,
     private matDialog: MatDialog
   ) { }
 
@@ -117,7 +125,13 @@ export class DotationVehiculeListeComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
+    this.filteredUniteDouanieres = this.control.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value || '')),
+    );
+
     this.listeBonPours();
+    this.listeUniteDouanieres();
 
     /* ----------------------------------------------------------------------------------------- */
     // rechercher
@@ -140,6 +154,22 @@ export class DotationVehiculeListeComponent implements OnInit, OnDestroy {
       // {.....List(ab)............List(abc)......}
     );
     /* ----------------------------------------------------------------------------------------- */
+  }
+
+  public listeUniteDouanieres(): void {
+
+    const subscription = this.uniteDouaniereService.listeUniteDouanieres().subscribe({
+      next: (response: UniteDouaniere[]) => {
+        this.uniteDouanieres = response;
+        // console.log(this.secteurActivites);
+
+      },
+      error: (errorResponse: HttpErrorResponse) => {
+        // console.log(errorResponse);
+      },
+    });
+
+    this.subscriptions.push(subscription);
   }
 
 
@@ -187,6 +217,21 @@ export class DotationVehiculeListeComponent implements OnInit, OnDestroy {
 
   //   doc.save('bon-entree-liste.pdf');
   // }
+
+
+  private _filter(value: string): UniteDouaniere[] {
+    // const filterValue = this._normalizeValue(value);
+    if (value) {
+      this.dataSource.filter = value.trim().toLowerCase();
+    } else {
+      this.dataSource.filter = '';
+    }
+    return this.uniteDouanieres.filter(uniteDouaniere => this._normalizeValue(uniteDouaniere.nomUniteDouaniere).includes(value));
+  }
+
+  private _normalizeValue(value: string): string {
+    return value.toLowerCase().replace(/\s/g, '');
+  }
 
 
   search(term: string): void {

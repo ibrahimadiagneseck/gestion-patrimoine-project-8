@@ -62,17 +62,27 @@
                     </div>
                 </div>
 
-                <div class="col-3 text-center">
-                    <!-- <select  (change)="filtrerParSecteur($event)" name="codeSecteurActivite" id="codeSecteurActivite" required ngModel class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
-                        <option value=""></option>
-                        <option *ngFor="let secteurActivite of secteurActivites" [value]="secteurActivite.libelleSecteurActivite">
-                            {{ secteurActivite.libelleSecteurActivite }}
-                        </option>
-                    </select> -->
-                </div>
 
-                <div class="col-2 text-center">
-                </div>
+                <div class="col-3 text-center">
+                  <input type="text" placeholder="Rechercher une unité" [formControl]="control"
+                      [matAutocomplete]="auto" id="codeUniteDouaniere" #codeUniteDouaniere #searchBoxCodeUniteDouaniere
+                      (input)="search(searchBoxCodeUniteDouaniere.value)" name="codeUniteDouaniere"
+                      class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+
+                  <mat-autocomplete #auto="matAutocomplete" style="width: 500px;">
+                      <mat-option *ngFor="let uniteDouaniere of (filteredUniteDouanieres | async)?.slice(0, 5)"
+                          [value]="uniteDouaniere.nomUniteDouaniere">
+                          <span style="font-size: 12px;">{{ uniteDouaniere.nomUniteDouaniere }}</span>
+                      </mat-option>
+                  </mat-autocomplete>
+
+
+
+              </div>
+
+              <div class="col-2 text-center">
+
+              </div>
 
                 <div class="col-3 d-flex justify-content-end">
                     <img (click)="popupAjouter()" src="../../../../../assets/add.png" alt="" class="icon-button">

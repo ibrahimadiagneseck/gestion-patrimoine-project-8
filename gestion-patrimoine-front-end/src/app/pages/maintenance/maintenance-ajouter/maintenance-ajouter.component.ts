@@ -22,6 +22,10 @@ import { NotificationService } from 'src/app/services/notification.service';
 import { ReparationService } from 'src/app/services/reparation.service';
 import { VehiculeService } from 'src/app/services/vehicule.service';
 import { VidangeService } from 'src/app/services/vidange.service';
+import { DotationVehicule } from 'src/app/model/dotation-vehicule.model';
+import { DotationVehiculeService } from 'src/app/services/dotation-vehicule.service';
+import { BonSortieService } from 'src/app/services/bon-sortie.service';
+import { BonSortie } from 'src/app/model/bon-sortie.model';
 
 @Component({
   selector: 'app-maintenance-ajouter',
@@ -65,7 +69,7 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
   // ----------------------------------------------------------------
   // selectedMatricule: string = "";
   control = new FormControl('');
-  filteredVehicules: Observable<Vehicule[]> | undefined;
+  filteredDotationVehicules: Observable<DotationVehicule[]> | undefined;
 
   // -----------------------------------------------------------------------
 
@@ -83,11 +87,14 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
   public changementPieces: ChangementPiece[] = [];
   public changementPiece: ChangementPiece = new ChangementPiece();
 
-  public vehicules: Vehicule[] = [];
-  public vehicule: Vehicule = new Vehicule();
+  public dotationVehicules: DotationVehicule[] = [];
+  public dotationVehicule: DotationVehicule = new DotationVehicule();
 
   public maintenances: Maintenance[] = [];
   public maintenance: Maintenance = new Maintenance();
+
+  public bonSorties: BonSortie[] = [];
+  public bonSortie: BonSortie = new BonSortie();
 
   private subscriptions: Subscription[] = [];
 
@@ -97,9 +104,10 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
     private reparationService: ReparationService,
     private accidentService: AccidentService,
     private vidangeService: VidangeService,
-    private vehiculeService: VehiculeService,
+    private dotationVehiculeService: DotationVehiculeService,
     private maintenanceService: MaintenanceService,
     private changementPieceService: ChangementPieceService,
+    private bonSortieService: BonSortieService,
     private notificationService: NotificationService,
     private myDateService: MyDateService,
   ) { }
@@ -119,10 +127,11 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
 
     this.currentDateFormatted = this.myDateStringFormatter(new Date().toString());
 
-    this.listeVehicules();
+    this.listeDotationVehicules();
     this.listeChangementPieces();
+    
 
-    this.filteredVehicules = this.control.valueChanges.pipe(
+    this.filteredDotationVehicules = this.control.valueChanges.pipe(
       startWith(''),
       map(value => this._filter(value || '')),
     );
@@ -130,27 +139,28 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
 
   // -------------------------------------------------------------------------------------------
   // -------------------------------------------------------------------------------------------
-  private _filter(value: string): Vehicule[] {
+  private _filter(value: string): DotationVehicule[] {
 
     if (value == "") {
-      this.vehicule = new Vehicule();
+      this.dotationVehicule = new DotationVehicule();
     }
 
     // Trouver le vehicule ayant exactement le même numeroSerie que la valeur donnée
-    let vehiculeTrouve = this.vehicules.find(vehicule => this._normalizeValue(vehicule.numeroSerie) === value.toLocaleLowerCase());
-    if (vehiculeTrouve) {
-      this.vehicule = vehiculeTrouve;
+    let dotationVehiculeTrouve = this.dotationVehicules.find(dotationVehicule => this._normalizeValue(dotationVehicule.numeroSerie.numeroSerie) === value.toLocaleLowerCase());
+    if (dotationVehiculeTrouve) {
+      this.dotationVehicule = dotationVehiculeTrouve;
+      this.recupererBonsortieById(this.dotationVehicule.codeArticleBonSortie.identifiantBonSortie)
     } else {
-      this.vehicule = new Vehicule();
+      this.dotationVehicule = new DotationVehicule();
     }
 
     // la liste des vehicules trouvé ou vehicule trouvé en fonction du mot a rechercher
-    let listeVehicules = this.vehicules.filter(vehicule => this._normalizeValue(vehicule.numeroSerie).includes(value.toLocaleLowerCase()));
+    let listeDotationVehicules = this.dotationVehicules.filter(dotationVehicule => this._normalizeValue(dotationVehicule.numeroSerie.numeroSerie).includes(value.toLocaleLowerCase()));
     // Trouver l'agent automatique au premier indice sans avoir saisie le matricule au complet 
     // if (listeAgents.length == 1) {
     //   this.agent = this.agents.find(agent => agent.matriculeAgent === listeAgents[0].matriculeAgent) ?? new Agent();
     // }
-    return listeVehicules;
+    return listeDotationVehicules;
   }
 
   private _normalizeValue(value: string): string {
@@ -160,7 +170,7 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
 
   onOptionSelected(event: MatAutocompleteSelectedEvent) {
     const selectedNumeroSerie = event.option.value;
-    this.vehicule = this.vehicules.find(vehicule => vehicule.numeroSerie === selectedNumeroSerie) ?? new Vehicule();
+    this.dotationVehicule = this.dotationVehicules.find(dotationVehicule => dotationVehicule.numeroSerie.numeroSerie === selectedNumeroSerie) ?? new DotationVehicule();
   }
 
   // -------------------------------------------------------------------------------------------
@@ -196,13 +206,33 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
-  // ---------------------------------------------------------------------------------------------------------------------
-  // ---------------------------------------------------------------------------------------------------------------------
-  public listeVehicules(): void {
 
-    const subscription = this.vehiculeService.listeVehicules().subscribe({
-      next: (response: Vehicule[]) => {
-        this.vehicules = response;
+  // ---------------------------------------------------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------------------------------------------------
+  public recupererBonsortieById(idIdentifiantBonSortie: string): void {
+
+    this.subscriptions.push(this.bonSortieService.recupererBonSortieById(idIdentifiantBonSortie).subscribe({
+      next: (response: BonSortie) => {
+        this.bonSortie = response;
+      },
+      error: (errorResponse: HttpErrorResponse) => {
+
+      }
+    }));
+
+  }
+  // ---------------------------------------------------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------------------------------------------------
+
+
+
+  // ---------------------------------------------------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------------------------------------------------
+  public listeDotationVehicules(): void {
+
+    const subscription = this.dotationVehiculeService.listeDotationVehicules().subscribe({
+      next: (response: DotationVehicule[]) => {
+        this.dotationVehicules = response;
       },
       error: (errorResponse: HttpErrorResponse) => {
         // console.log(errorResponse);
@@ -299,13 +329,13 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
     // this.condition = true;
     this.maintenance = new Maintenance();
 
-    if (this.vehicule.numeroSerie == '') {
+    if (this.dotationVehicule.numeroSerie.numeroSerie == '') {
       // this.condition = false;
       this.sendNotification(NotificationType.ERROR, `Ce vehicule n'existe pas`);
       return;
     }
 
-    this.maintenance.numeroSerie = this.vehicule;
+    this.maintenance.numeroSerie = this.dotationVehicule.numeroSerie;
     this.maintenance.dateDebutMaintenance = null;
     this.maintenance.dateFinMaintenance = null;
     this.maintenance.observationMaintenance = MaintenanceForm.value.observationMaintenance;

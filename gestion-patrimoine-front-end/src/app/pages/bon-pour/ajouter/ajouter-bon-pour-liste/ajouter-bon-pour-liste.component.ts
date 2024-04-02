@@ -4,7 +4,7 @@ import { BonPour } from 'src/app/model/bon-pour.model';
 import { UniteDouaniere } from 'src/app/model/unite-douaniere.model';
 import { Sections } from 'src/app/model/sections.model';
 import { Agent } from 'src/app/model/agent.model';
-import { Observable, Subject, Subscription, debounceTime, distinctUntilChanged, of, switchMap } from 'rxjs';
+import { Observable, Subject, Subscription, debounceTime, distinctUntilChanged, map, of, startWith, switchMap } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { Router } from '@angular/router';
@@ -20,6 +20,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { AjouterBonPourAjouterComponent } from '../ajouter-bon-pour-ajouter/ajouter-bon-pour-ajouter.component';
 import { ArticleBonPour } from 'src/app/model/article-bon-pour.model';
 import { ArticleBonPourService } from 'src/app/services/article-bon-pour.service';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-ajouter-bon-pour-liste',
@@ -44,6 +45,10 @@ export class AjouterBonPourListeComponent implements OnInit, OnDestroy {
 
   public agents: Agent[] = [];
   public agent: Agent | undefined;
+
+
+  public control = new FormControl('');
+  public filteredUniteDouanieres: Observable<UniteDouaniere[]> | undefined;
 
   private subscriptions: Subscription[] = [];
 
@@ -161,6 +166,14 @@ export class AjouterBonPourListeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+
+    this.filteredUniteDouanieres = this.control.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value || '')),
+    );
+
+    this.listeUniteDouanieres();
+
     this.listeArticleBonPours();
 
     /* ----------------------------------------------------------------------------------------- */
@@ -184,6 +197,37 @@ export class AjouterBonPourListeComponent implements OnInit, OnDestroy {
       // {.....List(ab)............List(abc)......}
     );
     /* ----------------------------------------------------------------------------------------- */
+  }
+
+
+  private _filter(value: string): UniteDouaniere[] {
+    // const filterValue = this._normalizeValue(value);
+    if (value) {
+      this.dataSource.filter = value.trim().toLowerCase();
+    } else {
+      this.dataSource.filter = '';
+    }
+    return this.uniteDouanieres.filter(uniteDouaniere => this._normalizeValue(uniteDouaniere.nomUniteDouaniere).includes(value));
+  }
+
+  private _normalizeValue(value: string): string {
+    return value.toLowerCase().replace(/\s/g, '');
+  }
+
+  public listeUniteDouanieres(): void {
+
+    const subscription = this.uniteDouaniereService.listeUniteDouanieres().subscribe({
+      next: (response: UniteDouaniere[]) => {
+        this.uniteDouanieres = response;
+        // console.log(this.secteurActivites);
+
+      },
+      error: (errorResponse: HttpErrorResponse) => {
+        // console.log(errorResponse);
+      },
+    });
+
+    this.subscriptions.push(subscription);
   }
 
 

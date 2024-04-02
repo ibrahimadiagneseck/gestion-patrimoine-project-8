@@ -63,31 +63,31 @@
                             </ng-template>
                         </ng-container>
 
-                        <!-- <ng-container *ngFor="let vehicle of vehiculeFilterDoubleNumeroBELibelleBonEntree$ | async;" style="cursor: pointer; display: block; color: gray; background-color: #fff; margin: 5px; text-decoration: none;">
-                            <ng-container *ngIf="isNumber(termeRechercheNumeroBELibelleBonEntree); else nonNumeric">
-                                <ng-container *ngIf="vehicle?.numeroMatricule as matricule;">
-                                    <a (click)="FilterDoubleNumeroBELibelleBonEntree(matricule.toString())"
-                                        style="cursor: pointer; display: block; color: gray; background-color: #fff; margin: 5px; text-decoration: none;">
-                                        {{ matricule }}
-                                    </a>
-                                </ng-container>
-                            </ng-container>
-                            <ng-template #nonNumeric>
-                                <ng-container *ngIf="vehicle?.marque as marque;">
-                                    <a (click)="FilterDoubleNumeroBELibelleBonEntree(marque)"
-                                        style="cursor: pointer; display: block; color: gray; background-color: #fff; margin: 5px; text-decoration: none;">
-                                        {{ marque }}
-                                    </a>
-                                </ng-container>
-                            </ng-template>
-                        </ng-container> -->
+
 
                     </div>
                 </div>
 
-                <div class="col-5 text-center">
+                <div class="col-3 text-center">
+                  <input type="text" placeholder="Rechercher une unité" [formControl]="control"
+                      [matAutocomplete]="auto" id="codeUniteDouaniere" #codeUniteDouaniere #searchBoxCodeUniteDouaniere
+                      (input)="search(searchBoxCodeUniteDouaniere.value)" name="codeUniteDouaniere"
+                      class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
 
-                </div>
+                  <mat-autocomplete #auto="matAutocomplete" style="width: 500px;">
+                      <mat-option *ngFor="let uniteDouaniere of (filteredUniteDouanieres | async)?.slice(0, 5)"
+                          [value]="uniteDouaniere.nomUniteDouaniere">
+                          <span style="font-size: 12px;">{{ uniteDouaniere.nomUniteDouaniere }}</span>
+                      </mat-option>
+                  </mat-autocomplete>
+
+
+
+              </div>
+
+              <div class="col-2 text-center">
+
+              </div>
 
                 <div class="col-3 d-flex justify-content-end">
                     <!-- <img (click)="popupAjouterDotation()" src="../../../../../assets/add.png" alt="" class="icon-button"> -->

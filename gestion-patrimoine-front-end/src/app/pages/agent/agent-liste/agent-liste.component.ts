@@ -5,7 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import { Observable, Subject, Subscription, debounceTime, distinctUntilChanged, of, switchMap } from 'rxjs';
+import { Observable, Subject, Subscription, debounceTime, distinctUntilChanged, map, of, startWith, switchMap } from 'rxjs';
 import { Agent } from 'src/app/model/agent.model';
 import { Sections } from 'src/app/model/sections.model';
 import { UniteDouaniere } from 'src/app/model/unite-douaniere.model';
@@ -14,6 +14,7 @@ import { SectionsService } from 'src/app/services/sections.service';
 import { UniteDouaniereService } from 'src/app/services/unite-douaniere.service';
 import { AgentAjouterComponent } from '../agent-ajouter/agent-ajouter.component';
 import { AgentDetailComponent } from '../agent-detail/agent-detail.component';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-agent-liste',
@@ -32,6 +33,9 @@ export class AgentListeComponent implements OnInit, OnDestroy {
 
   public sections: Sections[] = [];
   public section: Sections = new Sections();
+
+  public control = new FormControl('');
+  public filteredUniteDouanieres: Observable<UniteDouaniere[]> | undefined;
 
 
   private subscriptions: Subscription[] = [];
@@ -80,7 +84,8 @@ export class AgentListeComponent implements OnInit, OnDestroy {
   ];
   columnsToHide: string[] = [
     "codeAgent",
-    "codeUniteDouaniere",
+    "emailAgent",
+    "numeroTelephoneAgent",
     "codeSection"
   ];
   dataSource = new MatTableDataSource<Agent>();
@@ -92,7 +97,7 @@ export class AgentListeComponent implements OnInit, OnDestroy {
     "prenomAgent",
     "numeroTelephoneAgent",
     "emailAgent",
-    "codeUniteDouaniere",
+    "rowNomUniteDouaniere",
     "codeSection"
   ];
   displayedColumnsCustom: string[] = [
@@ -119,6 +124,11 @@ export class AgentListeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+
+    this.filteredUniteDouanieres = this.control.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value || '')),
+    );
     this.listeAgents();
     this.listeUniteDouanieres();
     this.listeSections();
@@ -145,6 +155,20 @@ export class AgentListeComponent implements OnInit, OnDestroy {
       // {.....List(ab)............List(abc)......}
     );
     /* ----------------------------------------------------------------------------------------- */
+  }
+
+  private _filter(value: string): UniteDouaniere[] {
+    // const filterValue = this._normalizeValue(value);
+    if (value) {
+      this.dataSource.filter = value.trim().toLowerCase();
+    } else {
+      this.dataSource.filter = '';
+    }
+    return this.uniteDouanieres.filter(uniteDouaniere => this._normalizeValue(uniteDouaniere.nomUniteDouaniere).includes(value));
+  }
+
+  private _normalizeValue(value: string): string {
+    return value.toLowerCase().replace(/\s/g, '');
   }
 
 
@@ -245,37 +269,18 @@ export class AgentListeComponent implements OnInit, OnDestroy {
         // ---------------------------------------------
         this.rowNumber = 1;
 
-        this.dataSource = new MatTableDataSource<Agent>(this.agents);
+        this.dataSource = new MatTableDataSource<Agent>(this.agents.map((item) => ({
+          ...item,
 
-        // this.dataSource = new MatTableDataSource<Agent>(this.agents.map((item) => {
-        //   // Copie les propriétés de l'objet Prestataires
-        //   const newItem: any = { ...item };
 
-        //   // Vérifie si secteurActivite existe et n'est pas vide
-        //   if (item.secteurActivite && item.secteurActivite.length > 0) {
-        //     // Initialise une variable pour stocker les libellés des secteurs d'activité
-        //     let secteurActiviteLabels = '';
+          rowNomUniteDouaniere: item.codeUniteDouaniere.nomUniteDouaniere,
 
-        //     // Parcours chaque élément du tableau secteurActivite et concatène les libellés
-        //     for (const secteur of item.secteurActivite) {
-        //       secteurActiviteLabels += secteur.libelleSecteurActivite + ', ';
-        //     }
+        })));
 
-        //     // Supprime la virgule et l'espace en trop à la fin
-        //     newItem.rowSecteurActivite = secteurActiviteLabels.slice(0, -2);
-        //   } else {
-        //     newItem.rowSecteurActivite = ''; // Gérer le cas où il n'y a pas de secteur d'activité
-        //   }
 
-        //   // Autres propriétés que vous pouvez copier ou modifier si nécessaire
-        //   // newItem.rowPays = item.codePays.libellePays;
 
-        //   return newItem;
-        // }));
-
-        // console.log(this.dataSource.data);
         this.dataSource.paginator = this.paginator;
-        // ---------------------------------------------
+
 
       },
       error: (errorResponse: HttpErrorResponse) => {
