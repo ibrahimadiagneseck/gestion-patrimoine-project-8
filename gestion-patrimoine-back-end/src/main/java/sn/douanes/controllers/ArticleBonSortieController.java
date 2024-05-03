@@ -27,28 +27,28 @@ public class ArticleBonSortieController {
 
 
     @GetMapping("/ArticleBonSorties")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ResponseEntity<List<ArticleBonSortie>> getAllArticleBonSorties() {
         List<ArticleBonSortie> articleBonSortie = articleBonSortieService.getAllArticleBonSorties();
         return new ResponseEntity<>(articleBonSortie, OK);
     }
 
     @PostMapping("/AjouterArticleBonSortie")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ArticleBonSortie  AjouterArticleBonEntree(@RequestBody ArticleBonSortie articleBonSortie) {
 
-        return articleBonSortieService.ajouterArticleBonSortie(articleBonSortie.getIdentifiantBonSortie(), articleBonSortie.getCodeArticleBonSortie(), articleBonSortie.getLibelleArticleBonSortie(), articleBonSortie.getQuantiteAccordee(),  articleBonSortie.getMatriculeAgent());
+        return articleBonSortieService.ajouterArticleBonSortie(articleBonSortie.getIdentifiantBonSortie(), articleBonSortie.getCodeArticleBonSortie(), articleBonSortie.getLibelleArticleBonSortie(), articleBonSortie.getQuantiteAccordeeSection(), articleBonSortie.getQuantiteAccordeeBLM(), articleBonSortie.getQuantiteAccordeeDLF(), articleBonSortie.getQuantiteAccordeeDefinitive(),  articleBonSortie.getMatriculeAgent());
     }
 
 
     @PutMapping("/ModifierArticleBonSortie")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ArticleBonSortie ModifierArticleBonSortie(@RequestBody ArticleBonSortie a) {
         return articleBonSortieService.updateArticleBonSortie(a);
     }
 
     @DeleteMapping("SupprimerArticleBonSortieById/{codeArticleBonSortie}/{identifiantBonSortie}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public void SupprimerArticleBonSortie(
             @PathVariable("codeArticleBonSorties") Integer codeArticleBonSortie,
             @PathVariable("identifiantBonSortie") String identifiantBonSortie

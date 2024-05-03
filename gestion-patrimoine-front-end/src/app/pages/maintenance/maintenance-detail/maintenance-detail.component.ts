@@ -15,6 +15,11 @@ import { MaintenanceService } from 'src/app/services/maintenance.service';
 import { MyDateService } from 'src/app/services/my-date.service';
 import { ReparationService } from 'src/app/services/reparation.service';
 import { VidangeService } from 'src/app/services/vidange.service';
+import { NotificationType } from 'src/app/enum/notification-type.enum';
+import { NotificationService } from 'src/app/services/notification.service';
+import { EtatMaintenance } from 'src/app/enum/etat-maintenance.enum';
+import { ValidationComponent } from 'src/app/composants/validation/validation.component';
+import { NatureReparation } from 'src/app/enum/nature-reparation.enum';
 
 @Component({
   selector: 'app-maintenance-detail',
@@ -25,9 +30,18 @@ import { VidangeService } from 'src/app/services/vidange.service';
 })
 export class MaintenanceDetailComponent implements OnInit, OnDestroy  {
 
+  reponseValidation: boolean = false;
+
+  // ---------------------------------------------------
+
   public maintenances: Maintenance[] = [];
   // public maintenance: Maintenance = new Maintenance();
 
+
+  // -----------------------------------------------------------------------------------
+  SUITEACCIDENT: string = NatureReparation.SUITEACCIDENT;
+  REPARETIONSIMPLE: string = NatureReparation.REPARETIONSIMPLE;
+  // -----------------------------------------------------------------------------------
 
   public vidanges: Vidange[] = [];
   public vidange: Vidange = new Vidange();
@@ -54,20 +68,31 @@ export class MaintenanceDetailComponent implements OnInit, OnDestroy  {
     private reparationService: ReparationService,
     private accidentService: AccidentService,
     private changementPieceService: ChangementPieceService,
+    private maintenancesService: MaintenanceService,
+    private notificationService: NotificationService,
+
     // private maintenanceService: MaintenanceService,
     @Inject(MAT_DIALOG_DATA) public maintenance: Maintenance,
   ) {}
 
   ngOnInit(): void {
     // console.log(this.maintenance);
-    
+
     this.listeChangementPieces(this.maintenance);
     this.recupererVidangeById(this.maintenance.identifiantMaintenance);
     this.recupererReparationById(this.maintenance.identifiantMaintenance);
     this.recupererAccidentById(this.maintenance.identifiantMaintenance);
-    
+
   }
-  
+
+  private sendNotification(type: NotificationType, message: string, titre?: string): void {
+    if (message) {
+      this.notificationService.showAlert(type, message, titre);
+    } else {
+      this.notificationService.showAlert(type, 'Une erreur s\'est produite. Veuillez réessayer.', titre);
+    }
+  }
+
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(sub => sub.unsubscribe());
@@ -96,8 +121,8 @@ export class MaintenanceDetailComponent implements OnInit, OnDestroy  {
   // ---------------------------------------------------------------------------------------------------------------------
 
 
-  
-  
+
+
   // ---------------------------------------------------------------------------------------------------------------------
   // ---------------------------------------------------------------------------------------------------------------------
   public recupererVidangeById(identifiantMaintenance: string): void {
@@ -115,7 +140,7 @@ export class MaintenanceDetailComponent implements OnInit, OnDestroy  {
   // ---------------------------------------------------------------------------------------------------------------------
   // ---------------------------------------------------------------------------------------------------------------------
 
-  
+
 
   // ---------------------------------------------------------------------------------------------------------------------
   // ---------------------------------------------------------------------------------------------------------------------
@@ -143,10 +168,10 @@ export class MaintenanceDetailComponent implements OnInit, OnDestroy  {
       next: (response: Accident) => {
         this.accident = response;
         // console.log(response);
-        
+
       },
       error: (errorResponse: HttpErrorResponse) => {
-        
+
       }
     }));
 
@@ -185,7 +210,7 @@ export class MaintenanceDetailComponent implements OnInit, OnDestroy  {
 
 
 
-  supprimerMaintenanceById(identifiantMaintenance: String): void {  
+  supprimerMaintenanceById(identifiantMaintenance: String): void {
 
     const dialogRef = this.matDialog.open(
       PopupConfirmationSupprimerComponent,
@@ -206,6 +231,47 @@ export class MaintenanceDetailComponent implements OnInit, OnDestroy  {
     });
   }
 
+  popupValiderTerminerMaintenance(maintenance: Maintenance): void {
+    const dialogRef = this.matDialog.open(
+      ValidationComponent,
+      {
+        width: '40%',
+        // height: '80%',
+        enterAnimationDuration: '100ms',
+        exitAnimationDuration: '100ms'
+      }
+    );
+
+    dialogRef.afterClosed().subscribe(() => {
+      // ----------------------------------
+      if (dialogRef.componentInstance instanceof ValidationComponent) {
+        this.reponseValidation = dialogRef.componentInstance.reponseValidation;
+        if (this.reponseValidation) {
+          this.terminerMaintenance(maintenance);
+        }
+      }
+      // ----------------------------------
+      // this.ngOnInit();
+    });
+  }
+
+  public terminerMaintenance(maintenance: Maintenance): void {
+
+    maintenance.dateFinMaintenance = null;
+    maintenance.etatMaintenance = EtatMaintenance.TERMINER;
+
+    this.subscriptions.push(this.maintenancesService.terminerMaintenance(maintenance).subscribe({
+      next: (response: Maintenance) => {
+        this.maintenance = response;
+        // this.popupFermer();
+        this.sendNotification(NotificationType.SUCCESS, `Maintenance véhicule terminé`);
+      },
+      error: (errorResponse: HttpErrorResponse) => {
+        // Gérer les erreurs ici
+      }
+    }));
+  }
+
   popupFermer(): void {
     this.dialogRef.close();
   }
@@ -214,7 +280,7 @@ export class MaintenanceDetailComponent implements OnInit, OnDestroy  {
     if (!date) {
       return '';
     }
-  
+
     if (typeof date === 'string') {
       return this.myDateService.formatterMyDateFromString(date);
     } else {
@@ -222,11 +288,11 @@ export class MaintenanceDetailComponent implements OnInit, OnDestroy  {
     }
   }
 
-  numberToString(terme: string | number): string {
-    if (typeof terme === 'number') {
-        return terme.toString().toLowerCase();
-    }
-    return terme.toLowerCase(); // assuming terme is already a string
-  }
+  // numberToString(terme: string | number): string {
+  //   if (typeof terme === 'number') {
+  //       return terme.toString().toLowerCase();
+  //   }
+  //   return terme.toLowerCase(); // assuming terme is already a string
+  // }
 
 }

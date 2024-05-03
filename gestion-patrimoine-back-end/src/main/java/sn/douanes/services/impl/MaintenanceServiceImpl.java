@@ -16,7 +16,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 
     @Autowired
     MaintenanceRepository maintenanceRepository;
-    
+
     @Override
     public Maintenance saveMaintenance(Maintenance m) {
         return maintenanceRepository.save(m);
@@ -24,6 +24,13 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 
     @Override
     public Maintenance updateMaintenance(Maintenance m) {
+
+        return maintenanceRepository.save(m);
+    }
+
+    @Override
+    public Maintenance terminerMaintenance(Maintenance m) {
+        m.setDateFinMaintenance(new Timestamp(System.currentTimeMillis()));
         return maintenanceRepository.save(m);
     }
 
@@ -48,13 +55,14 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     }
 
     @Override
-    public Maintenance ajouterMaintenance(String identifiantMaintenance, Vehicule numeroSerie, String typeMaintenance, String observationMaintenance) {
+    public Maintenance ajouterMaintenance(String identifiantMaintenance, Vehicule numeroSerie, String etatMaintenance, String typeMaintenance, String observationMaintenance) {
 
         Maintenance maintenance = new Maintenance();
 
         maintenance.setIdentifiantMaintenance(genererIdentifiantMaintenance(genererDateEnregistrement(new Timestamp(System.currentTimeMillis()))));
         // maintenance.setIdentifiantMaintenance(identifiantMaintenance);
         maintenance.setNumeroSerie(numeroSerie);
+        maintenance.setEtatMaintenance(etatMaintenance);
         maintenance.setDateDebutMaintenance(new Timestamp(System.currentTimeMillis()));
         maintenance.setDateFinMaintenance(null);
         maintenance.setTypeMaintenance(typeMaintenance);

@@ -80,7 +80,7 @@ export class MaintenanceListeComponent implements OnInit, OnDestroy {
   // tableau
   columnsDateFormat: string[] = [
     "dateDebutMaintenance",
-    "dateFinMaintenance"
+    //"dateFinMaintenance"
   ];
   columnsToHide: string[] = [
     // "nombreArme",
@@ -93,21 +93,21 @@ export class MaintenanceListeComponent implements OnInit, OnDestroy {
     // "identifiantMaintenance",
     "rowNumeroSerie",
     "dateDebutMaintenance",
-    "dateFinMaintenance",
+    "etatMaintenance",
     "typeMaintenance",
-    "observationMaintenance"
+    //"observationMaintenance"
   ];
   displayedColumnsCustom: string[] = [
     // "identifiantMaintenance",
     "N° série",
-    "Date début",
-    "Date fin",
+    "Date prise en charge",
+    "Etat maintenance",
     "Type maintenance",
-    "Observation"
+   // "Observation"
   ];
   /* ----------------------------------------------------------------------------------------- */
 
-  
+
 
   constructor(
     private router: Router,
@@ -149,53 +149,53 @@ export class MaintenanceListeComponent implements OnInit, OnDestroy {
   }
 
 
-  generatePDF(): void {
+  // generatePDF(): void {
 
-    const data: Maintenance[] = this.dataSource.filteredData;
-    // console.log(data);
+  //   const data: Maintenance[] = this.dataSource.filteredData;
+  //   // console.log(data);
 
 
-    const months = ['JANV.', 'FÉVR.', 'MARS', 'AVR.', 'MAI', 'JUIN', 'JUIL.', 'AOÛT', 'SEPT.', 'OCT.', 'NOV.', 'DÉC.'];
+  //   const months = ['JANV.', 'FÉVR.', 'MARS', 'AVR.', 'MAI', 'JUIN', 'JUIL.', 'AOÛT', 'SEPT.', 'OCT.', 'NOV.', 'DÉC.'];
 
-    const doc = new jsPDF();
+  //   const doc = new jsPDF();
 
-    // Créez un tableau de données pour autoTable
-    const tableData = data.map((item: Maintenance) => [
-      // item.identifiantMaintenance,
-      item.numeroSerie.numeroSerie,
-      `${item.dateDebutMaintenance ? new Date(item.dateDebutMaintenance.toString()).getDate() + ' ' + months[new Date(item.dateDebutMaintenance.toString()).getMonth()] + ' ' + new Date(item.dateDebutMaintenance.toString()).getFullYear() % 100 : ''}`,
-      `${item.dateFinMaintenance ? new Date(item.dateFinMaintenance.toString()).getDate() + ' ' + months[new Date(item.dateFinMaintenance.toString()).getMonth()] + ' ' + new Date(item.dateFinMaintenance.toString()).getFullYear() % 100 : ''}`,
-      // `${new Date(item.dateDebutMaintenance.toString()).getDate()} ${months[new Date(item.dateDebutMaintenance.toString()).getMonth()]} ${new Date(item.dateDebutMaintenance.toString()).getFullYear() % 100}`,
-      // `${new Date(item.dateFinMaintenance.toString()).getDate()} ${months[new Date(item.dateFinMaintenance.toString()).getMonth()]} ${new Date(item.dateFinMaintenance.toString()).getFullYear() % 100}`,
-      item.typeMaintenance,
+  //   // Créez un tableau de données pour autoTable
+  //   const tableData = data.map((item: Maintenance) => [
+  //     // item.identifiantMaintenance,
+  //     item.numeroSerie.numeroSerie,
+  //     `${item.dateDebutMaintenance ? new Date(item.dateDebutMaintenance.toString()).getDate() + ' ' + months[new Date(item.dateDebutMaintenance.toString()).getMonth()] + ' ' + new Date(item.dateDebutMaintenance.toString()).getFullYear() % 100 : ''}`,
+  //     `${item.dateFinMaintenance ? new Date(item.dateFinMaintenance.toString()).getDate() + ' ' + months[new Date(item.dateFinMaintenance.toString()).getMonth()] + ' ' + new Date(item.dateFinMaintenance.toString()).getFullYear() % 100 : ''}`,
+  //     // `${new Date(item.dateDebutMaintenance.toString()).getDate()} ${months[new Date(item.dateDebutMaintenance.toString()).getMonth()]} ${new Date(item.dateDebutMaintenance.toString()).getFullYear() % 100}`,
+  //     // `${new Date(item.dateFinMaintenance.toString()).getDate()} ${months[new Date(item.dateFinMaintenance.toString()).getMonth()]} ${new Date(item.dateFinMaintenance.toString()).getFullYear() % 100}`,
+  //     item.typeMaintenance,
 
-    ]);
+  //   ]);
 
-    // Configuration pour le PDF avec une taille de page personnalisée
+  //   // Configuration pour le PDF avec une taille de page personnalisée
 
-    const marginLeft = 10;
-    const marginTop = 10;
-    const marginRight = 10;
-    const marginBottom = 10;
+  //   const marginLeft = 10;
+  //   const marginTop = 10;
+  //   const marginRight = 10;
+  //   const marginBottom = 10;
 
-    // Générer le tableau dans le PDF avec des styles de texte personnalisés
-    autoTable(doc, {
-      head: [
-        [
-          { content: 'N° série', styles: { fontSize: 6 } },
-          { content: 'Date début', styles: { fontSize: 6 } },
-          { content: 'Date fin', styles: { fontSize: 6 } },
-          { content: 'Type maintenance', styles: { fontSize: 6 } },
-          // { content: 'Articles', styles: { fontSize: 6 } }
-        ]
-      ],
-      body: tableData.map(row => row.map(cell => ({ content: cell.toString(), styles: { fontSize: 6 } }))),
-      margin: { top: marginTop, right: marginRight, bottom: marginBottom, left: marginLeft },
-      theme: 'plain'
-    });
+  //   // Générer le tableau dans le PDF avec des styles de texte personnalisés
+  //   autoTable(doc, {
+  //     head: [
+  //       [
+  //         { content: 'N° série', styles: { fontSize: 6 } },
+  //         { content: 'Date début', styles: { fontSize: 6 } },
+  //         { content: 'Date fin', styles: { fontSize: 6 } },
+  //         { content: 'Type maintenance', styles: { fontSize: 6 } },
+  //         // { content: 'Articles', styles: { fontSize: 6 } }
+  //       ]
+  //     ],
+  //     body: tableData.map(row => row.map(cell => ({ content: cell.toString(), styles: { fontSize: 6 } }))),
+  //     margin: { top: marginTop, right: marginRight, bottom: marginBottom, left: marginLeft },
+  //     theme: 'plain'
+  //   });
 
-    doc.save('maintenance-liste.pdf');
-  }
+  //   doc.save('maintenance-liste.pdf');
+  // }
 
 
   search(term: string): void {
@@ -222,6 +222,18 @@ export class MaintenanceListeComponent implements OnInit, OnDestroy {
     return !isNaN(Number(termeRechercheNumeroBELibelleBonEntree))
   }
 
+  filtrerParValeur(event: any) {
+    const value: string = event.target.value;
+    this.dataSource.filter = '';
+
+    if (value) {
+      this.dataSource.filter = value.trim().toLowerCase();
+    } else {
+      this.dataSource.filter = '';
+    }
+
+  }
+
 
   public listeMaintenances(): void {
 
@@ -232,7 +244,6 @@ export class MaintenanceListeComponent implements OnInit, OnDestroy {
         this.dataSource = new MatTableDataSource<Maintenance>(this.maintenances.map((item) => ({
           ...item,
           rowNumeroSerie: item.numeroSerie.numeroSerie
-
         })));
 
         // console.log(this.dataSource.data);

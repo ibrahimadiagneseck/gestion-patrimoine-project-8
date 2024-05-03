@@ -9,7 +9,10 @@ export class ArticleBonSortie {
   public identifiantBonSortie: string;
   public libelleArticleBonSortie: string;
   public dateArticleBonSortie: MyDate | null;
-  public quantiteAccordee: number;
+  public quantiteAccordeeSection: number | null;
+  public quantiteAccordeeBLM: number | null;
+  public quantiteAccordeeDLF: number | null;
+  public quantiteAccordeeDefinitive: number | null;
   public matriculeAgent: Agent;
 
 
@@ -18,14 +21,20 @@ export class ArticleBonSortie {
     identifiantBonSortie = '',
     libelleArticleBonSortie = '',
     dateArticleBonSortie = new MyDate(),
-    quantiteAccordee = 0,
+    quantiteAccordeeSection = 0,
+    quantiteAccordeeBLM = 0,
+    quantiteAccordeeDLF = 0,
+    quantiteAccordeeDefinitive = 0,
     matriculeAgent = new Agent()
   ) {
     this.codeArticleBonSortie = codeArticleBonSortie;
     this.identifiantBonSortie = identifiantBonSortie;
     this.libelleArticleBonSortie = libelleArticleBonSortie;
     this.dateArticleBonSortie = dateArticleBonSortie || null;
-    this.quantiteAccordee = quantiteAccordee;
+    this.quantiteAccordeeSection = quantiteAccordeeSection || null;
+    this.quantiteAccordeeBLM = quantiteAccordeeBLM || null;
+    this.quantiteAccordeeDLF = quantiteAccordeeDLF || null;
+    this.quantiteAccordeeDefinitive = quantiteAccordeeDefinitive || null;
     this.matriculeAgent = matriculeAgent;
   }
 
